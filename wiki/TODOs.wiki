@@ -1,0 +1,8 @@
+#labels TODOs
+= TODOs =
+
+* Clean Config/custom parameters
+* Move rendering to a seperate, configurable module
+* Configuration of ContentRepository class (custom repositories)
+* Clean code
+* Documentation
