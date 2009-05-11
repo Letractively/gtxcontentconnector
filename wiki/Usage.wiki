@@ -1,0 +1,73 @@
+#labels Usage
+This page is only available in german and will be translated soon.
+
+= Einleitung =
+
+Eine Anfrage an eine Content Connecter Komponente
+Grundsätzlich ist eine Anfrage an eine Content Connector Komponente mittels drei Methoden möglich:
+
+    * Über eine Contentid
+    * Über Filterrule
+    * Über eine beautiful URL
+
+
+== Über Contentid ==
+Ermittelt das Ergebnis mittels einer Contentid. Diese ist eindeutig und liefert daher immer nur ein Objekt zurück.
+
+Folgender Aufruf liefert das Objekt mit der Contentid 90033.305 zurück.
+
+?contentid=90033.305
+
+
+
+== Über eine Filterrule ==
+Solle eine größere Ergebnismenge abgefragt werden, so kann dies mittels einer Filterrule geschehen.
+
+Wie eine solche Rule zusammengebaut wird und welche Operatoren verfügbar sind, können Sie auf folgenden Seiten nachlesen:
+» Gentics Hilfe zum Expression Parser
+» Gentics Hilfe zu Rules
+
+Folgender Aufruf liefert alle Objekte des Typs 90033 zurück.
+
+?filter=object.obj_type==90033
+
+
+Wird die Komponente in Portal.Node als GenticsPortlet eingesetzt, so stehen in den Rules auch alle Portalvariablen zur Verfügung.
+
+Mit folgender Rule könnte der Content für einen Portalbenutzer personalisiert werden.
+
+((object.public == 1) || (object.permissions CONTAINSONEOF portal.user.systemrole))
+
+
+== Über eine beautiful URL ==
+Bei einer Anfrage über eine beautiful URL wird der Publizierungspfad eines Objektes dazu verwendet, es über die Anfrage zu finden.
+
+Bei folgender Anfrage würde das Content Connector Servlet mit dem Namen cc_servlet den Publizierungspfad /home/bilder/ verwenden um die Datei start.jpg zu finden.
+
+http://yourserver.com/cc_servlet/home/bilder/start.jpg
+
+
+
+== Zusätzliche Parameter == 
+*start*
+Der Eintrag an dem eine anfrage mit Paging beginnt. Beispiel start=0 (Optional)
+*count*
+Die Anzahl der zurückgelieferten Datensätze. Beispiel count=20 (Optional)
+*sorting*
+Die ein Object nachd dem sortiert wird und eine Sortierrichtung. Ex. sorting=obj_type:desc,firstname:asc (Optional)
+*attributes*
+Die Attribute, die geliefert werden sollten. Beispiel attributes=content&attributes=filename (Optional)
+*mimetypeattribute*
+Attribut, mittels dessen der Mimetyp des Objektes ermittelt wird. Beispiel mimetypeattribute=mimetype (Optional)
+
+== Abrufen von Content-Objekten == 
+
+== Abrufen von Content ===
+
+== Abrufen von Hierarchien ==
+
+== Die verschiedenen Renderer == 
+
+
+Sollten bei der Anwendung Fehler auftauchen, so konsultieren Sie bitte die Seite » Bekannte Fehler
+Wenn Sie dort keine Lösung finden, schicken Sie bitte eine E-Mail mit einer genauen Fehlerbeschreibung an solution@gentics.com. 
