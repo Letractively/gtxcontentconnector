@@ -24,8 +24,11 @@ Folgender Aufruf liefert das Objekt mit der Contentid 90033.305 zurück.
 Solle eine größere Ergebnismenge abgefragt werden, so kann dies mittels einer Filterrule geschehen.
 
 Wie eine solche Rule zusammengebaut wird und welche Operatoren verfügbar sind, können Sie auf folgenden Seiten nachlesen:
-» Gentics Hilfe zum Expression Parser
-» Gentics Hilfe zu Rules
+
+» [http://www.gentics.com/help/topic/com.gentics.portalnode.sdk.doc/misc/doc/reference/xhtml/ch04s10.html?resultof=%22%45%78%70%72%65%73%73%69%6f%6e%70%61%72%73%65%72%22%20%22%65%78%70%72%65%73%73%69%6f%6e%70%61%72%22%20 GenticsHelpExpressionParser]
+http://www.gentics.com/help/topic/com.gentics.portalnode.sdk.doc/misc/doc/reference/xhtml/ch04s10.html?resultof=%22%45%78%70%72%65%73%73%69%6f%6e%70%61%72%73%65%72%22%20%22%65%78%70%72%65%73%73%69%6f%6e%70%61%72%22%20
+» [http://www.gentics.com/help/topic/com.gentics.portalnode.sdk.doc/misc/doc/reference/xhtml/ref-implementation-rules.html GenticsHelpRules]
+http://www.gentics.com/help/topic/com.gentics.portalnode.sdk.doc/misc/doc/reference/xhtml/ref-implementation-rules.html
 
 Folgender Aufruf liefert alle Objekte des Typs 90033 zurück.
 
