@@ -75,6 +75,8 @@ Parameter: type
 
 Mögliche Werte: XML, PHP, JSON, JavaXML
 
+e.g.: ?filter=object.obj_type==90033&type=PHP
+
 
 Sollten bei der Anwendung Fehler auftauchen, so konsultieren Sie bitte die Seite » Bekannte Fehler
 Wenn Sie dort keine Lösung finden, schicken Sie bitte eine E-Mail mit einer genauen Fehlerbeschreibung an solution@gentics.com. 
