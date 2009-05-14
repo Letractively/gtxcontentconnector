@@ -26,6 +26,7 @@ Solle eine größere Ergebnismenge abgefragt werden, so kann dies mittels einer 
 Wie eine solche Rule zusammengebaut wird und welche Operatoren verfügbar sind, können Sie auf folgenden Seiten nachlesen:
 
 » [http://www.gentics.com/help/topic/com.gentics.portalnode.sdk.doc/misc/doc/reference/xhtml/ch04s10.html?resultof=%22%45%78%70%72%65%73%73%69%6f%6e%70%61%72%73%65%72%22%20%22%65%78%70%72%65%73%73%69%6f%6e%70%61%72%22%20 GenticsHelpExpressionParser]
+
 » [http://www.gentics.com/help/topic/com.gentics.portalnode.sdk.doc/misc/doc/reference/xhtml/ref-implementation-rules.html GenticsHelpRules]
 
 Folgender Aufruf liefert alle Objekte des Typs 90033 zurück.
@@ -52,24 +53,37 @@ http://yourserver.com/cc_servlet/home/bilder/start.jpg
 == Zusätzliche Parameter == 
 *start*
 Der Eintrag an dem eine anfrage mit Paging beginnt. Beispiel start=0 (Optional)
+
 *count*
 Die Anzahl der zurückgelieferten Datensätze. Beispiel count=20 (Optional)
+
 *sorting*
 Die ein Object nachd dem sortiert wird und eine Sortierrichtung. Ex. sorting=obj_type:desc,firstname:asc (Optional)
+
 *attributes*
 Die Attribute, die geliefert werden sollten. Beispiel attributes=content&attributes=filename (Optional)
+
 *mimetypeattribute*
 Attribut, mittels dessen der Mimetyp des Objektes ermittelt wird. Beispiel mimetypeattribute=mimetype (Optional)
 
 == Abrufen von Content-Objekten == 
 
+Um eine liste von Content-Objekten abzurufen wird die getObjects() Funktion des RequestProcessors so ausgeführt, dass alle Elemente, die der angeführten Rule entsprechen geladen werden. Diese können mit einem beliebigen Renderer geladen werden => Siehe Renderer.
+Diese Funktionalität ist im Simplecontainer abgebildet.
+
 == Abrufen von Content ===
+
+Um Content abzurufen wird die getContent() Funktion des RequestProcessors ausgeführt
+Diese Funktionalität ist im Binarycontainer abgebildet.
 
 == Abrufen von Hierarchien ==
 
+Um Hierarchien abzurufen wird die getObjects() Funktion des RequestProcessors so ausgeführt, dass alle Kindelemente und wiederum dessen Kindelemente usw. geladen werden.
+Diese Funktionalität ist im Nagivationscontainer abgebildet.
+
 == Die verschiedenen Renderer == 
 
-Derzeit werden 4 Renderer unterstützt, diese rendern je nach Typ die entsprechenden Antworten und können über den Parameter type selektiert werden.
+Derzeit werden 4 Renderer unterstützt, diese rendern je nach Typ die entsprechenden Antworten und können über den Parameter type selektiert werden. Wenn kein Wert für type angegeben wird, werden die Content-Objekte als XML gerendert.
 
 Parameter: type
 
