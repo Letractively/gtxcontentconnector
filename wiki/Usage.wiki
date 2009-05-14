@@ -69,6 +69,12 @@ Attribut, mittels dessen der Mimetyp des Objektes ermittelt wird. Beispiel mimet
 
 == Die verschiedenen Renderer == 
 
+Derzeit werden 4 Renderer unterstützt, diese rendern je nach Typ die entsprechenden Antworten und können über den Parameter type selektiert werden.
+
+Parameter: type
+
+Mögliche Werte: XML, PHP, JSON, JavaXML
+
 
 Sollten bei der Anwendung Fehler auftauchen, so konsultieren Sie bitte die Seite » Bekannte Fehler
 Wenn Sie dort keine Lösung finden, schicken Sie bitte eine E-Mail mit einer genauen Fehlerbeschreibung an solution@gentics.com. 
