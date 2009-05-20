@@ -1,0 +1,17 @@
+#labels Installation
+# Download and Install Gentics Portal.Node SDK
+	http://www.gentics.com
+
+   Or use the newes Version of Eclipse instead
+	http://www.eclipse.org/downloads/
+	Eclipse IDE for Java EE Developers
+
+# Download SubClipse and install 
+	http://subclipse.tigris.org/install.html
+
+
+
+# Checkout the projects you want to use
+	http://code.google.com/p/gtxcontentconnector/source/checkout
+
+Get in touch with your Gentics Customer Contact and request the Portal Connector API for the ContentConnector Suite.
