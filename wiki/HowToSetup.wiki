@@ -10,8 +10,7 @@
 	http://subclipse.tigris.org/install.html
 
 
-
 3. Checkout the projects you want to use
 	http://code.google.com/p/gtxcontentconnector/source/checkout
 
-Get in touch with your Gentics Customer Contact and request the Portal Connector API for the ContentConnector Suite.
+Get in touch with your Gentics Customer Contact and request the Portal Connector API and the required libs for the ContentConnector Suite. If you are in a Gentics Portal.Node SDK the libraries are located in GPN_LIBs (Variable).
