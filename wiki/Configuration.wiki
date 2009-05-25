@@ -8,10 +8,10 @@ Place a property file with the name of the instance in the {com.gentics.portalno
 
 The configuration file could look like this:
 
-`#RequestProcessor2 gets the elements from Contentrepository`
-`rp.1.rpClass=com.gentics.cr.CRRequestProcessor`
-`#Datasource`
-`rp.1.ds-handle.type=jdbc`
+{{{#RequestProcessor2 gets the elements from Contentrepository
+rp.1.rpClass=com.gentics.cr.CRRequestProcessor
+#Datasource
+rp.1.ds-handle.type=jdbc}}}
 
 `rp.1.ds-handle.driverClass=com.mysql.jdbc.Driver`
 
