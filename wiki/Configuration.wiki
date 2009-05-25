@@ -1,0 +1,37 @@
+#labels Configuration,Config,Repository,Database,db
+=Configuration=
+The following page describes how to configure an instance of the Content Connector Suite.
+
+== Property File ==
+
+Place a property file with the name of the instance in the {com.gentics.portalnode.confpath}/rest
+
+The configuration file could look like this:
+
+`#RequestProcessor2 gets the elements from Contentrepository`
+
+`rp.1.rpClass=com.gentics.cr.CRRequestProcessor`
+
+`#Datasource`
+
+`rp.1.ds-handle.type=jdbc`
+
+`rp.1.ds-handle.driverClass=com.mysql.jdbc.Driver`
+
+`rp.1.ds-handle.url=jdbc:mysql://127.0.0.1:42006/demoportal_ccr?user=node`
+
+`rp.1.ds.cache=true`
+
+`rp.1.ds.cache.foreignlinkattributes=true`
+
+`rp.1.ds.cache.syncchecking=true`
+
+`#RequestProcessor`
+
+`rp.1.response-charset=UTF-8`
+
+`rp.1.binarytype=10008`
+
+`rp.1.foldertype=10002`
+
+`rp.1.pagetype=10007`
