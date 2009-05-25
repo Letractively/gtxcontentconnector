@@ -1,0 +1,4 @@
+#labels Presentation,Barcamp
+= Content Connector @ Gentics BarCamp =
+
+[http://docs.google.com/EmbedSlideshow?docid=dhcpjbbp_0hkr62phm Presentation]
