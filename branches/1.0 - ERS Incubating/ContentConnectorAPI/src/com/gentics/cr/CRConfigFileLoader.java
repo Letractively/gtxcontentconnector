@@ -79,10 +79,16 @@ public class CRConfigFileLoader extends CRConfigUtil {
 			
 		} catch (FileNotFoundException e1) {
 			log.error("Could not load configuration file at: "+CRUtil.resolveSystemProperties("${com.gentics.portalnode.confpath}/rest/"+this.getName()+".properties")+"!");
+			System.out.println(e1.getMessage());
+			e1.printStackTrace();
+			
 		} catch (IOException e1) {
 			log.error("Could not load configuration file at: "+CRUtil.resolveSystemProperties("${com.gentics.portalnode.confpath}/rest/"+this.getName()+".properties")+"!");
+			System.out.println(e1.getMessage());
+			e1.printStackTrace();
 		}catch(NullPointerException e){
 			log.error("Could not load configuration file at: "+CRUtil.resolveSystemProperties("${com.gentics.portalnode.confpath}/rest/"+this.getName()+".properties")+"!\r\n");
+			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
 	}
