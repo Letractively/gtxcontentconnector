@@ -26,6 +26,8 @@ public class ContentRenderer implements IContentRenderer{
 	 * configuration
 	 */
 	protected CRConfig config = null;
+	
+	//private static Logger log = Logger.getLogger(ContentRenderer.class);
 
 	/**
 	 * Create an instance of the renderer with given configuration
@@ -99,7 +101,7 @@ public class ContentRenderer implements IContentRenderer{
 			}
 
 			if (doRenderVelocity && !config.getPortalNodeCompMode()) {
-
+				
 				// Initialize Velocity Context
 				ITemplateManager myTemplateManager = config
 						.getTemplateManager();

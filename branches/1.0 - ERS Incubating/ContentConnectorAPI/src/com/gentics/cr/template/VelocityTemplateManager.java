@@ -4,6 +4,7 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.apache.log4j.Logger;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -22,7 +23,7 @@ import com.gentics.cr.CRException;
  *
  */
 public class VelocityTemplateManager implements ITemplateManager {
-
+	private static Logger log = Logger.getLogger(VelocityTemplateManager.class);
 	private String encoding;
 	private HashMap<String, Object> objectstoput;
 	
@@ -53,6 +54,7 @@ public class VelocityTemplateManager implements ITemplateManager {
 	 */
 	public String render(String templateName, String templateSource) throws CRException {
 		String renderedTemplate=null;
+		long s1 = System.currentTimeMillis();
 		StringResourceRepository rep = StringResourceLoader.getRepository();
 		rep.setEncoding(this.encoding);
 		try {
@@ -85,6 +87,7 @@ public class VelocityTemplateManager implements ITemplateManager {
 		}finally{
 			this.objectstoput = new HashMap<String,Object>();
 		}
+		log.debug("Velocity has been rendered in "+(System.currentTimeMillis()-s1)+"ms");
 		return renderedTemplate;
 	}
 

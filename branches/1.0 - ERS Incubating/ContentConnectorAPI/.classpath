@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="GPN_LIBS/gentics-portalnode-api.jar"/>
 	<classpathentry kind="var" path="GPN_LIBS/portlet_20_Java14compliant.jar"/>
 	<classpathentry kind="var" path="GPN_LIBS/jcs-1.2.7.9.jar"/>
@@ -31,5 +30,6 @@
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="lib/standard.jar"/>
 	<classpathentry kind="lib" path="lib/Tidy.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_14"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -124,14 +124,16 @@ public class RESTBinaryContainer{
 				// set mimetype.
 				if(crBean.getMimetype()==null)
 				{
-					if(crBean.getObj_type().equals(crConf.getPageType()))
+					
+					CRConfigUtil rpConf = crConf.getRequestProcessorConfig(1);
+					if(crBean.getObj_type().equals(rpConf.getPageType()))
 					{
 						this.contenttype="text/html; charset="+this.response_encoding;
 						log.info("Responding with mimetype: text/html");
 					}
 					else
 					{
-						log.info("Mimetype has not been set, using standard instead.");
+						log.info("Mimetype has not been set, using standard instead. ("+crBean.getObj_type()+"!="+rpConf.getPageType()+")");
 					}
 				}
 				else
