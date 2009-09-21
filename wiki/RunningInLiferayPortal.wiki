@@ -1,7 +1,7 @@
 #labels content,liferay,portlet,gentics
 #Describes how a gentics content portlet can be deployed in a liferay portal.
 
-  # Download Liferay Portal
+  # Download Liferay Portal 5.2.3 (comes with tomcat 6.0.18)
   # Edit the setenv.sh or setenv.bat (depending on your platform) and add
     {{{
       -Dcom.gentics.portalnode.confpath="%CATALINA_HOME%/conf/gentics"
