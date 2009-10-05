@@ -79,6 +79,8 @@ returns cc-xml without attributes
 parameter: count, start
 see above
 
+configuration: highlighter
+
 
 === navigation structure ===
 requires Nav-Servlet, configure for CR.
@@ -119,8 +121,25 @@ contentportlet, navigationportlet.
 
 == contentportlet ==
 parameters: contentid, p.maxwidth, p.maxheight
+listens to "GENTICS_CONTENT" event, stores contentid to portletsession and displays content.
+
+== navigationportlet ==
+see Java API, NavObject
+
+fires "GENTICS_CONTENT" event when navigation element was clicked.
 
 
 
 = Indexer =
 servlet to (start, stop) manage indexing.
+
+== configuration ==
+indexpath, datasource, rule, indexedAttributes, containedAttributes (required for highlighting)
+
+transformer:
+to index html, pdf, word, etc.
+ignore no comment sections.
+languageidentifier.
+
+== methods ==
+add index job for CRs.
