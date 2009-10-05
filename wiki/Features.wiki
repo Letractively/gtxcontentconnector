@@ -1,11 +1,20 @@
-#summary One-sentence summary of this page.
+#summary List of user features
 
-= Introduction =
 
-Add your content here.
-
+= General Functionality =
+retrieve objects and attributes, get contents (html, css, binaries).
+search.
 
 = REST API =
-retrieve content in xml, php serialized array, json, java xml, java binary
+get content in xml, php serialized array, json, java xml, java binary
+retrieve navigation structure (tree)
+search
 
-= 
+= Java API =
+present content and navigation for servlets or portlets
+retrieve objects and attributes
+search
+
+= JSR-286 Portlets =
+including jboss, liferay and gentics deployment descriptor.
+contentportlet, navigationportlet.
