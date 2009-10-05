@@ -11,7 +11,7 @@ retrieve navigation structure (tree)
 search
 == details ==
 === load specific contents ===
-REST-Servlet, configured for CR.
+requires a REST-Servlet, configured for CR.
 
 parameter: contentid
 returns xml without attributes
@@ -32,6 +32,8 @@ parameter: count, start
 for paging
 
 === search via lucene ===
+requires a REST-Servlet, configured for Lucene.
+
 paramter: filter=lucene rule
 returns cc-xml without attributes
 
