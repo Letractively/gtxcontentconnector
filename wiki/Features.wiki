@@ -9,6 +9,18 @@ search.
 get content in xml, php serialized array, json, java xml, java binary
 retrieve navigation structure (tree)
 search
+== details ==
+parameter: contentid
+returns xml without attributes
+
+parameter: attributes=name
+returns xml with given attributes
+
+parameter: type=php|xml|javaxml|javabin|
+javaxml: returns vector of CRResolvableBeans
+javabin: see javaxml
+
+
 
 = Java API =
 present content and navigation for servlets or portlets
