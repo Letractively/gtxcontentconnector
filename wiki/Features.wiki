@@ -14,6 +14,10 @@
 
 == methods ==
 
+=== configuration ===
+applicationsrule: rule
+rule to filter (e.g. apply permissions) in CR based servlet.
+
 === load specific objects and attributes ===
 requires a REST-Servlet, configured for CR.
 
@@ -65,8 +69,17 @@ parameter: count, start
 see above
 
 
+=== navigation structure ===
+requires Nav-Servlet, configure for CR.
 
+parameter: filter
+see above
 
+parameter: childrule
+will be appended to filter to determine children
+
+returns:
+hierarchical structure of the objects instead of list.
 
 
 = Java API =
