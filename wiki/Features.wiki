@@ -42,8 +42,14 @@ a velocity template to replace plink (url placeholder)
 configuration: velocity
 content can be rendered in velocity after fetching
 
-parameter: contentid|filter
+parameter: contentid
 returns content (for pages), binary (for files). optional.
+
+paramter: filter
+returns objects filtered by given rule.
+
+parameter: sort=key:order
+sort by attribute "key", order "asc" or "desc"
 
 pathinfo:
 pathinfo will be used to load contents by path. optional.
@@ -58,6 +64,10 @@ returns cc-xml without attributes
 
 parameter: count, start
 for paging
+
+parameter: sort
+see above
+
 
 === search via lucene ===
 requires a REST-Servlet, configured for Lucene.
