@@ -6,19 +6,40 @@ retrieve objects and attributes, get contents (html, css, binaries).
 search.
 
 = REST API =
-get content in xml, php serialized array, json, java xml, java binary
+get content in cc-xml, php serialized array, json, java xml, java binary
 retrieve navigation structure (tree)
 search
 == details ==
+=== load specific contents ===
+REST-Servlet, configured for CR.
+
 parameter: contentid
 returns xml without attributes
 
 parameter: attributes=name
-returns xml with given attributes
+returns cc-xml with given attributes
 
-parameter: type=php|xml|javaxml|javabin|
+parameter: type=php|xml|javaxml|javabin|json
 javaxml: returns vector of CRResolvableBeans
 javabin: see javaxml
+json: structure see cc-xml
+
+=== search in cr ===
+parameter: filter=rule
+returns cc-xml without attributes
+
+parameter: count, start
+for paging
+
+=== search via lucene ===
+paramter: filter=lucene rule
+returns cc-xml without attributes
+
+parameter: count, start
+see above
+
+
+
 
 
 
