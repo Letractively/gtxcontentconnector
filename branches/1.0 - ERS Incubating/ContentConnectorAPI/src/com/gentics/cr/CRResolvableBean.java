@@ -28,9 +28,10 @@ import com.gentics.api.lib.resolving.Resolvable;
  * This class also provides various methods to access attributes
  * 
  * Last changed: $Date$
+ * 
  * @version $Revision$
  * @author $Author$
- *
+ * 
  */
 public class CRResolvableBean implements Serializable, Resolvable{
 
