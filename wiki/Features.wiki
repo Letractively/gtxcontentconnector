@@ -2,10 +2,10 @@
 
 
 = General Functionality =
-retrieve objects and attributes.
-get contents (html, css, binaries).
-get navigation structures.
-search.
+ * retrieve objects and attributes.
+ * get contents (html, css, binaries).
+ * get navigation structures.
+ * search.
 
 = REST API =
 get content in cc-xml, php serialized array, json, java xml, java binary
