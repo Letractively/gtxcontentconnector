@@ -8,9 +8,9 @@
  * search.
 
 = REST API =
-get content in cc-xml, php serialized array, json, java xml, java binary
-retrieve navigation structure (tree)
-search
+ * get content in cc-xml, php serialized array, json, java xml, java binary
+ * retrieve navigation structure (tree)
+ * search
 
 == details ==
 
