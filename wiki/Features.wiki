@@ -11,7 +11,9 @@
 get content in cc-xml, php serialized array, json, java xml, java binary
 retrieve navigation structure (tree)
 search
+
 == details ==
+
 === load specific objects and attributes ===
 requires a REST-Servlet, configured for CR.
 
