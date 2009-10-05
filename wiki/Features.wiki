@@ -12,7 +12,7 @@ get content in cc-xml, php serialized array, json, java xml, java binary
 retrieve navigation structure (tree)
 search
 == details ==
-=== load specific contents ===
+=== load specific objects and attributes ===
 requires a REST-Servlet, configured for CR.
 
 parameter: contentid
@@ -26,7 +26,24 @@ javaxml: returns vector of CRResolvableBeans
 javabin: see javaxml
 json: structure see cc-xml
 
+
+=== load contents ===
+requires CRServlet, configured for CR.
+
+configuration: urltemplate
+a velocity template to replace plink (url placeholder)
+
+configuration: velocity
+content can be rendered in velocity after fetching
+
+parameter: contentid|filter
+returns content (for pages), binary (for files)
+
+
+
 === search in cr ===
+requires a REST-Servlet, configured for CR.
+
 parameter: filter=rule
 returns cc-xml without attributes
 
