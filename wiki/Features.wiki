@@ -16,7 +16,7 @@
 
 === configuration ===
 applicationsrule: rule
-rule to filter (e.g. apply permissions) in CR based servlet.
+rule to filter queries and loading in CR based servlet.
 
 === load specific objects and attributes ===
 requires a REST-Servlet, configured for CR.
