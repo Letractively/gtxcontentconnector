@@ -28,7 +28,7 @@ parameter: attributes=name
 returns cc-xml with given attributes
 
 parameter: type=php|xml|javaxml|javabin|json
-javaxml: returns vector of CRResolvableBeans
+javaxml: returns vector of CRResolvableBeans, requires client lib.
 javabin: see javaxml
 json: structure see cc-xml
 
@@ -96,6 +96,17 @@ hierarchical structure of the objects instead of list.
 present content and navigation for servlets or portlets
 retrieve objects and attributes
 search
+requires client library.
+
+== methods ==
+NavObject
+
+
+== configuration ==
+requestprocessormerger:
+enrich lucene search result with attributes from a CR.
+
+
 
 = JSR-286 Portlets =
 including jboss, liferay and gentics deployment descriptor.
