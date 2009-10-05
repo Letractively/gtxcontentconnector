@@ -1,0 +1,9 @@
+#summary CS/LH/NOP Incubator Plan
+
+= Introduction =
+
+Plan for CC cleanup, API and use case simplification.
+
+
+= Usacases =
+define usecases, based on current [Features]
