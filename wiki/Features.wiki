@@ -39,7 +39,10 @@ configuration: velocity
 content can be rendered in velocity after fetching
 
 parameter: contentid|filter
-returns content (for pages), binary (for files)
+returns content (for pages), binary (for files). optional.
+
+pathinfo:
+pathinfo will be used to load contents by path. optional.
 
 
 
