@@ -37,6 +37,10 @@ public class CRConfigFileLoader extends CRConfigUtil {
 	 * @param webapproot root directory of application (config read fallback)
 	 */
 	public CRConfigFileLoader(String name, String webapproot) {
+		this(name, webapproot, "");
+	}
+	
+	public CRConfigFileLoader(String name, String webapproot, String subdir) {
 
 		super();
 		this.instancename = name;
@@ -48,13 +52,13 @@ public class CRConfigFileLoader extends CRConfigUtil {
 		this.setName(this.instancename);
 		
 		//LOAD DEFAULT CONFIGURATION
-		loadConfigFile("${com.gentics.portalnode.confpath}/rest/"+this.getName()+".properties");
+		loadConfigFile("${com.gentics.portalnode.confpath}/rest/"+subdir+this.getName()+".properties");
 		
 		//LOAD ENVIRONMENT SPECIFIC CONFIGURATION
 		String modePath = ConfigurationSettings.getConfigurationPath();
 		if(modePath!=null && !"".equals(modePath))
 		{
-			loadConfigFile("${com.gentics.portalnode.confpath}/rest/"+modePath+this.getName()+".properties");
+			loadConfigFile("${com.gentics.portalnode.confpath}/rest/"+subdir+modePath+this.getName()+".properties");
 		}
 		
 		// INITIALIZE DATASOURCE WITH HANDLE_PROPS AND DSPROPS

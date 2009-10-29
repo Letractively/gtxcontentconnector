@@ -559,42 +559,56 @@ public class CRIndexJob {
 			Collection<Resolvable> objectsToIndex = (Collection<Resolvable>)ds.getResult(ds.createDatasourceFilter(ExpressionParser.getInstance().parse(rule)), null, 0, -1, CRUtil.convertSorting("contentid:asc"));
 			
 			Iterator<Resolvable> resoIT = objectsToIndex.iterator();
-			
-			Resolvable CRlem = resoIT.next();
-			String crElemID =(String) CRlem.get(idAttribute);
-			
-			//solange index id kleiner cr id delete from index
-			boolean finish=!termDocs.next();
-			
-			while(!finish)
+			if(resoIT.hasNext())
 			{
-				Document doc = reader.document(termDocs.doc());
-				String docID = doc.get(idAttribute);
-				if(docID!=null && docID.compareTo(crElemID) == 0)
+				Resolvable CRlem = resoIT.next();
+				String crElemID =(String) CRlem.get(idAttribute);
+				
+				//solange index id kleiner cr id delete from index
+				boolean finish=!termDocs.next();
+				
+				while(!finish)
 				{
-					//step both
-					finish = !termDocs.next();
-					if(resoIT.hasNext())
+					Document doc = reader.document(termDocs.doc());
+					String docID = doc.get(idAttribute);
+					if(docID!=null && docID.compareTo(crElemID) == 0)
 					{
+						//step both
+						finish = !termDocs.next();
+						if(resoIT.hasNext())
+						{
+							CRlem = resoIT.next();
+							crElemID =(String) CRlem.get(idAttribute);
+						}
+					}
+					else if(docID!=null && docID.compareTo(crElemID) > 0 && resoIT.hasNext())
+					{
+						//step cr
 						CRlem = resoIT.next();
 						crElemID =(String) CRlem.get(idAttribute);
+						
 					}
-				}
-				else if(docID!=null && docID.compareTo(crElemID) > 0 && resoIT.hasNext())
-				{
-					//step cr
-					CRlem = resoIT.next();
-					crElemID =(String) CRlem.get(idAttribute);
+					else
+					{
+						//delete Document
+						reader.deleteDocument(termDocs.doc());
+						
+						finish = !termDocs.next();
+					}
 					
 				}
-				else
+			}
+			else
+			{
+				//DELETE ALL FROM INDEX
+				boolean finish=!termDocs.next();
+				
+				while(!finish)
 				{
-					//delete Document
 					reader.deleteDocument(termDocs.doc());
 					
 					finish = !termDocs.next();
 				}
-				
 			}
 			termDocs.close();  // close docs iterator
 		    

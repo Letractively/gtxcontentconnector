@@ -558,14 +558,14 @@ class DefaultIndexAccessor implements IndexAccessor {
       pool.execute(new Runnable() {
         public void run() {
           synchronized (DefaultIndexAccessor.this) {
-            System.err.println("dfo");
+            logger.log(Level.WARNING, "dfo");
             if(numReopening > 5) {
-              System.err.println("Too many reopens");
+              logger.log(Level.WARNING,"Too many reopens");
             }
             waitForReadersAndReopenCached();
             numReopening--;
             DefaultIndexAccessor.this.notifyAll();
-            System.err.println("dfc");
+            logger.log(Level.WARNING,"dfc");
           }
         }
       });

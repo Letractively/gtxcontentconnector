@@ -23,13 +23,16 @@ public class StaticConfigurationContainer {
 	 * @param webapproot
 	 * @return
 	 */
-	public static CRConfigFileLoader getConfig(String key, String webapproot)
+	public static CRConfigFileLoader getConfig(String key, String webapproot){
+		return StaticConfigurationContainer.getConfig(key, webapproot, "");
+	}
+	public static CRConfigFileLoader getConfig(String key, String webapproot, String subdir)
 	{
 		CRConfigFileLoader config = configmap.get(key);
 		if(config==null)
 		{
 			log.debug("Config not found, will create new config instance.");
-			config = new CRConfigFileLoader(key,webapproot);
+			config = new CRConfigFileLoader(key,webapproot,subdir);
 			if(config!=null)
 			{
 				configmap.put(key, config);

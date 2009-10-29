@@ -136,6 +136,19 @@ public class IndexAccessorFactory {
     return indexAccessor;
 
   }
+  
+  /**
+   * Check if an Accessor is already created for that directory
+   * @param indexDir directory in which contains the index file
+   * @return boolean true if present, false if not
+   */
+  public boolean hasAccessor(Directory indexDir) {
+	  IndexAccessor indexAccessor = indexAccessors.get(indexDir);
+	  if(indexAccessor == null){
+		  return false;
+	  }
+	  return true;
+  }
 
   /**
    * @return

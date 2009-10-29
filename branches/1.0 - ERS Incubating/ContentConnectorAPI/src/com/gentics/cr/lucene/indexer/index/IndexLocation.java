@@ -115,15 +115,19 @@ public class IndexLocation {
 		}
 		//Create index accessor
 		IndexAccessorFactory IAFactory = IndexAccessorFactory.getInstance();
-		try
-		{
-			IAFactory.createAccessor(dir, getConfiguredAnalyzer());
+		if(!IAFactory.hasAccessor(dir)){
+			try
+			{
+				IAFactory.createAccessor(dir, getConfiguredAnalyzer());
+			}
+			catch(IOException ex)
+			{
+				log.fatal("COULD NOT CREATE INDEX ACCESSOR"+ex.getMessage());
+			}
 		}
-		catch(IOException ex)
-		{
-			log.fatal("COULD NOT CREATE INDEX ACCESSOR"+ex.getMessage());
+		else{
+			log.debug("Accessor already present. we will not create a new one.");
 		}
-		
 		if(periodical)
 		{
 			Thread d = new Thread(new Runnable(){
