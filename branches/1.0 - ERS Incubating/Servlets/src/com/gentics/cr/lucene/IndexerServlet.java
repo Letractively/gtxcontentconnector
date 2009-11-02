@@ -79,6 +79,12 @@ public class IndexerServlet extends HttpServlet {
 		}
 		
 		response.setContentType("text/html");
+		response.getWriter().write("<html>\r\n"+
+				"<head>\r\n" +
+				"<title>IndexerServlet for Lucene by Gentics</title>\r\n" +
+				"<meta http-equiv=\"refresh\" content=\"5; URL=\"?ts="+(new Date().getTime())+"\" />" +
+				"</head>\r\n" +
+				"<body>\r\n");
 		IndexerStatus status  = this.indexer.getStatus(); 
 		response.getWriter().write("Last run in ms: "+status.getLastRunDuration()+"<br/>\n");
 		response.getWriter().write("Periodical run: "+this.indexer.isPeriodicalRun()+"<br/>\n");
@@ -109,6 +115,7 @@ public class IndexerServlet extends HttpServlet {
 			
 		}
 		response.getWriter().write("<a href=\"?action=show\">Refresh status</a><br/>\n");
+		response.getWriter().write("</body></html>");
 		response.getWriter().flush();
 		response.getWriter().close();
 		// endtime
