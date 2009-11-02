@@ -19,7 +19,8 @@ public class IndexJobQueue{
 	private Thread d;
 	private boolean stop=false;
 	private int interval = 5; // Default 5 sec interval for checking
-	private CRIndexJob currentJob;
+	private Thread currentJob;
+	private CRIndexJob currentJI;
 	private ArrayList<CRIndexJob> lastJobs;
 	
 	/**
@@ -80,6 +81,15 @@ public class IndexJobQueue{
 	}
 	
 	/**
+	 * Returns current Index job or null if none is being processed at the moment
+	 * @return
+	 */
+	public CRIndexJob getCurrentJob()
+	{
+		return this.currentJI;
+	}
+	
+	/**
 	 * Check the queue for new jobs each <interval> seconds
 	 */
 	private void workQueue()
@@ -91,19 +101,60 @@ public class IndexJobQueue{
 				CRIndexJob j = this.queue.poll();
 				if(j!=null)
 				{
-					currentJob = j;
-					j.process();
+					currentJI = j;
+					currentJob = new Thread(j);
+					currentJob.setName("Current Index Job");
+					currentJob.start();
+					currentJob.join();
 					addToLastJobs(j);
 					currentJob = null;
+					currentJI = null;
 				}
 				// Wait for next cycle
-				Thread.sleep(interval * 1000);
+				if(!Thread.currentThread().isInterrupted())
+					Thread.sleep(interval * 1000);
+				else
+					interrupted = true;
 			} catch (InterruptedException e) {
 				interrupted = true;
 				e.printStackTrace();
 			}
 		}
 		this.stop=true;
+	}
+	
+	/**
+	 * Stops all working Jobs and ends the worker queue
+	 * This method has to be called before program can exit
+	 */
+	public void finalize()
+	{
+		//END CURRENT JOB
+		if(currentJob!=null)
+		{
+			if(currentJob.isAlive())
+			{
+				currentJob.interrupt();
+				try {
+					currentJob.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		//END WORKER THREAD
+		if(d!=null)
+		{ 
+			if(d.isAlive())
+			{
+				d.interrupt();
+				try {
+					d.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	/**
@@ -152,15 +203,7 @@ public class IndexJobQueue{
 		return this.queue.size();
 	}
 	
-	/**
-	 * Returns current job or null
-	 * @return
-	 */
-	public CRIndexJob getCurrentJob()
-	{
-		return this.currentJob;
-	}
-	
+		
 	/**
 	 * Returns configured interval for checking the queue for new jobs
 	 * @return
