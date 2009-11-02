@@ -40,6 +40,12 @@ public class CRConfigFileLoader extends CRConfigUtil {
 		this(name, webapproot, "");
 	}
 	
+	/**
+	 * Load config from String with subdir
+	 * @param name
+	 * @param webapproot
+	 * @param subdir
+	 */
 	public CRConfigFileLoader(String name, String webapproot, String subdir) {
 
 		super();
