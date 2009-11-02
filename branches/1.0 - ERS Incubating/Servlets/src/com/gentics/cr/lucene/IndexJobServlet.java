@@ -43,6 +43,12 @@ public class IndexJobServlet extends HttpServlet {
 		this.indexer = new IndexController(config.getServletName());
 		
 	}
+	
+	@Override
+	public void destroy()
+	{
+		
+	}
 
 	/**
 	 * Wrapper Method for the doGet and doPost Methods
