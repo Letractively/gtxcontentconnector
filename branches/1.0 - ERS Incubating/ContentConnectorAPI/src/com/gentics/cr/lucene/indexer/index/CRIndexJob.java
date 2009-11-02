@@ -412,8 +412,16 @@ public class CRIndexJob implements Runnable{
 			//TODO This could be optimized for multicore servers with a map/reduce algorithm
 			for(ContentTransformer transformer:transformerlist)
 			{
+				try{
 				if(transformer.match(bean))
 					transformer.processBean(bean);
+				}
+				catch(Exception e)
+				{
+					//TODO Remember broken files
+					log.error("ERROR WHILE TRANSFORMING CONTENTBEAN. ID: "+bean.get(idAttribute));
+					e.printStackTrace();
+				}
 			}
 			
 			if(!create)
