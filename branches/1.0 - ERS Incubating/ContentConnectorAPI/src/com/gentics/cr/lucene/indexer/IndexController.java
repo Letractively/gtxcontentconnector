@@ -64,4 +64,20 @@ public class IndexController {
 		}
 		return indexes;
 	}
+	
+	
+	/**
+	 * Finalizes all index Locations
+	 */
+	public void finalize()
+	{
+		if(this.indextable!=null)
+		{
+			for(Entry<String,IndexLocation> e:this.indextable.entrySet())
+			{
+				IndexLocation il = e.getValue();
+				il.finalize();
+			}
+		}
+	}
 }
