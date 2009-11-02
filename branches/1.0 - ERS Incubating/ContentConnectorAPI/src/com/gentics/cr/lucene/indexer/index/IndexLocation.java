@@ -44,6 +44,7 @@ public class IndexLocation {
 	private CRConfig config;
 	private boolean periodical = false;
 	private int periodical_interval = 60; //60 seconds
+	private Thread periodical_thread;
 	
 	private static final String STEMMING_KEY = "STEMMING";
 	private static final String STEMMER_NAME_KEY = "STEMMERNAME";
@@ -130,15 +131,16 @@ public class IndexLocation {
 		}
 		if(periodical)
 		{
-			Thread d = new Thread(new Runnable(){
+			periodical_thread = new Thread(new Runnable(){
 				public void run()
 				{
 					boolean interrupted = false;
-					while(periodical && !interrupted)
+					while(periodical && !interrupted && !Thread.currentThread().isInterrupted())
 					{
 						try
 						{
 							createAllCRIndexJobs();
+							
 							Thread.sleep(periodical_interval*1000);
 						}catch(InterruptedException ex)
 						{
@@ -147,8 +149,8 @@ public class IndexLocation {
 					}
 				}
 			});
-			d.setName("PeriodicIndexJobCreator");
-			d.start();
+			periodical_thread.setName("PeriodicIndexJobCreator");
+			periodical_thread.start();
 			
 		}
 		this.queue.startWorker();
@@ -324,5 +326,24 @@ public class IndexLocation {
 		return this.periodical;
 	}
 	
+	/**
+	 * Stops all Index workers
+	 */
+	public void finalize()
+	{
+		if(this.periodical_thread!=null && this.periodical_thread.isAlive())
+		{
+			this.periodical_thread.interrupt();
+			try {
+				this.periodical_thread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		if(this.queue!=null)
+		{
+			this.queue.finalize();
+		}
+	}
 	
 }
