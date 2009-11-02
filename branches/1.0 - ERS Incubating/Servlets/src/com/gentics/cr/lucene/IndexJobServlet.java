@@ -47,7 +47,10 @@ public class IndexJobServlet extends HttpServlet {
 	@Override
 	public void destroy()
 	{
-		
+		if(indexer!=null)
+		{
+			indexer.finalize();
+		}
 	}
 
 	/**
