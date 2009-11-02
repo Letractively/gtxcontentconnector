@@ -2,8 +2,11 @@ package com.gentics.cr.configuration;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Map.Entry;
+
+import com.gentics.cr.CRConfigUtil;
+import com.gentics.cr.util.CRUtil;
 
 
 /**
@@ -13,7 +16,7 @@ import java.util.Properties;
  * @author $Author: supnig@constantinopel.at $
  *
  */
-public class StringConfigurationLoader extends GenericConfiguration{
+public class StringConfigurationLoader  extends CRConfigUtil {
 
 	/**
 	 * 
@@ -34,7 +37,8 @@ public class StringConfigurationLoader extends GenericConfiguration{
 			props.load(sr);
 			for(Entry<Object,Object> e : props.entrySet())
 			{
-				this.set((String)e.getKey(),(String)e.getValue());
+				String value = CRUtil.resolveSystemProperties((String)e.getValue());
+				this.set((String)e.getKey(),value);
 			}
 		}
 	}

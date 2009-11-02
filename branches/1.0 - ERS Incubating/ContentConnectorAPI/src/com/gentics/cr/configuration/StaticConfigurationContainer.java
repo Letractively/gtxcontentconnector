@@ -26,6 +26,14 @@ public class StaticConfigurationContainer {
 	public static CRConfigFileLoader getConfig(String key, String webapproot){
 		return StaticConfigurationContainer.getConfig(key, webapproot, "");
 	}
+	
+	/**
+	 * Gets configuration
+	 * @param key
+	 * @param webapproot
+	 * @param subdir
+	 * @return
+	 */
 	public static CRConfigFileLoader getConfig(String key, String webapproot, String subdir)
 	{
 		CRConfigFileLoader config = configmap.get(key);
