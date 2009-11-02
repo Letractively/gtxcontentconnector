@@ -43,7 +43,7 @@ import com.gentics.cr.util.CRUtil;
  * @author $Author: supnig@constantinopel.at $
  *
  */
-public class CRIndexJob {
+public class CRIndexJob implements Runnable{
 	protected static Logger log = Logger.getLogger(CRIndexJob.class);
 	private String identifyer;
 	private IndexLocation indexLocation;
@@ -125,7 +125,7 @@ public class CRIndexJob {
 	/**
 	 * Executes the index process
 	 */
-	public void process()
+	public void run()
 	{
 		long start = System.currentTimeMillis();
 		try{
@@ -139,6 +139,7 @@ public class CRIndexJob {
 		long end = System.currentTimeMillis();
 		this.duration = end-start;
 	}
+	
 	/**
 	 * Key to be used for saving state to contentstatus
 	 */
@@ -277,9 +278,7 @@ public class CRIndexJob {
 			resetStatusValues();
 		}
 		
-		//UPDATE CONTENT STATUS FOR DIFFERENTIAL INDEXING
-		ds.setContentStatus(crID + "."+ PARAM_LASTINDEXRULE, rule);
-		ds.setContentStatus(crID + "."+ PARAM_LASTINDEXRUN, timestamp);
+		
 		
 		
 		
@@ -334,12 +333,17 @@ public class CRIndexJob {
 		IndexWriter indexWriter = indexAccessor.getWriter();
 		try
 		{
+			boolean interrupted = Thread.currentThread().isInterrupted();
 			for (Iterator<Resolvable> iterator = objectsToIndex.iterator(); iterator.hasNext();) {
 				Resolvable obj = iterator.next();
 				slice.add(obj);
 				iterator.remove();
 				sliceCounter++;
-
+				if(Thread.currentThread().isInterrupted())
+				{
+					interrupted = true;
+					break;
+				}
 				if (sliceCounter == CRBatchSize) {
 					// index the current slice
 					log.debug("Indexing slice with "+slice.size()+" objects.");
@@ -356,7 +360,16 @@ public class CRIndexJob {
 				indexSlice(indexWriter, slice, attributes, ds, create,config, transformerlist);
 				status.setObjectsDone(status.getObjectsDone()+slice.size());
 			}
+			if(!interrupted)
+			{
+				//UPDATE CONTENT STATUS FOR DIFFERENTIAL INDEXING
+				//Only update status if indexing has been finished and no interrupt occured during indexing
+				ds.setContentStatus(crID + "."+ PARAM_LASTINDEXRULE, rule);
+				ds.setContentStatus(crID + "."+ PARAM_LASTINDEXRUN, timestamp);
+			}
+			//Finally Optimize the Index
 			indexWriter.optimize();
+			
 		}catch(Exception ex)
 		{
 			
@@ -411,6 +424,8 @@ public class CRIndexJob {
 			{
 				indexWriter.addDocument(getDocument(bean, attributes, config));
 			}
+			//Stop Indexing when thread has been interrupted
+			if(Thread.currentThread().isInterrupted())break;
 		}
 	}
 	
@@ -619,5 +634,7 @@ public class CRIndexJob {
 		}
 			
 	}
+
+	
 }
 
