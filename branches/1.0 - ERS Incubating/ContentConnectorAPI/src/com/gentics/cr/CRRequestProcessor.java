@@ -104,6 +104,9 @@ public class CRRequestProcessor extends RequestProcessor{
 			} catch (DatasourceException e) {
 				e.printStackTrace();
 				throw new CRException("DatasourceException",e.getMessage());
+			} finally
+			{
+				CRDatabaseFactory.releaseDatasource(ds);
 			}
 		}
 		return collection;

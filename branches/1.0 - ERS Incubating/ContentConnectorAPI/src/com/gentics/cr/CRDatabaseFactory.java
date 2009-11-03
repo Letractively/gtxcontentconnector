@@ -15,7 +15,63 @@ import com.gentics.cr.portalnode.PortalNodeInteractor;
  *
  */
 public class CRDatabaseFactory {
+	//Static Members
 	private static Logger log = Logger.getLogger(CRDatabaseFactory.class);
+	private static CRDatabaseFactory instance;
+	
+	//Instance Members
+	private long dbcount = 0;
+	
+	private static CRDatabaseFactory getInstance()
+	{
+		if(instance==null)instance=new CRDatabaseFactory();
+		return instance;
+	}
+	
+	/**
+	 * Release Datasource instance
+	 * @param ds
+	 */
+	public static void releaseDatasource(Datasource ds)
+	{
+		if(ds!=null)
+		{
+			getInstance().releaseDS();
+			ds = null;
+		}
+	}
+	
+	private synchronized void releaseDS()
+	{
+		dbcount--;
+	}
+	
+	private synchronized void accquireDS()
+	{
+		dbcount++;
+	}
+	
+	private synchronized boolean destroyFactory()
+	{
+		if(dbcount<=0)
+		{
+			PortalConnectorFactory.destroy();
+			log.debug("Factory, resources and threads have been closed.");
+			return true;
+		}
+		log.debug("There are still unreleased datasources => could not destroy the factory");
+		return false;
+	}
+	
+	/**
+	 * Destroys the Factory and releases all resources and stops threads if there are no more datasources that were not released
+	 * @return true if there were no unreleased datasources and the factory was destroyed
+	 */
+	public static boolean destroy()
+	{
+		return getInstance().destroyFactory();
+	}
+	
 	/**
 	 * Gets a Datasource instance that ins configured within the given requestProcessorConfig
 	 * @param requestProcessorConfig containing the datasource config
@@ -42,12 +98,15 @@ public class CRDatabaseFactory {
 				ds = PortalConnectorFactory.createWriteableDatasource(ds_handle);
 			}	
 			log.debug("Datasource created for "+requestProcessorConfig.getName());
+			if(ds!=null)
+			{
+				getInstance().accquireDS();
+			}
 		}
 		else
 		{
 			log.debug("No Datasource created for"+requestProcessorConfig.getName());
 		}
-		
 		return(ds);
 	}
 }
