@@ -11,6 +11,7 @@ import com.gentics.api.lib.expressionparser.Expression;
 import com.gentics.api.lib.expressionparser.ExpressionEvaluator;
 import com.gentics.api.lib.expressionparser.ExpressionParser;
 import com.gentics.api.lib.expressionparser.ExpressionParserException;
+import com.gentics.cr.CRException;
 import com.gentics.cr.CRResolvableBean;
 import com.gentics.cr.configuration.GenericConfiguration;
 
@@ -44,8 +45,9 @@ public abstract class ContentTransformer {
 	/**
 	 * Processes the specified bean
 	 * @param bean
+	 * @throws CRException throws exception if bean could not be processed
 	 */
-	public abstract void processBean(CRResolvableBean bean);
+	public abstract void processBean(CRResolvableBean bean)throws CRException;
 	
 	/**
 	 * Tests if the specified CRResolvableBean should be processed by the transformer
