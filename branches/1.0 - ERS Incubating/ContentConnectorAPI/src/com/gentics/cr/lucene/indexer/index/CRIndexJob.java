@@ -29,6 +29,7 @@ import com.gentics.contentnode.content.GenticsContentFactory;
 import com.gentics.contentnode.datasource.CNWriteableDatasource;
 import com.gentics.cr.CRConfig;
 import com.gentics.cr.CRConfigUtil;
+import com.gentics.cr.CRDatabaseFactory;
 import com.gentics.cr.CRException;
 import com.gentics.cr.CRResolvableBean;
 import com.gentics.cr.lucene.indexaccessor.IndexAccessor;
@@ -366,9 +367,14 @@ public class CRIndexJob implements Runnable{
 				//Only update status if indexing has been finished and no interrupt occured during indexing
 				ds.setContentStatus(crID + "."+ PARAM_LASTINDEXRULE, rule);
 				ds.setContentStatus(crID + "."+ PARAM_LASTINDEXRUN, timestamp);
+				//Only Optimize the Index if the thread has not been interrupted
+				indexWriter.optimize();
 			}
-			//Finally Optimize the Index
-			indexWriter.optimize();
+			else
+			{
+				log.debug("Job has been interrupted and will now be closed. Objects will be reindexed next run.");
+			}
+			
 			
 		}catch(Exception ex)
 		{
@@ -378,6 +384,7 @@ public class CRIndexJob implements Runnable{
 		}finally{
 			log.debug("Indexed "+status.getObjectsDone()+" objects...");
 			indexAccessor.release(indexWriter);
+			CRDatabaseFactory.releaseDatasource(ds);
 		}
 		
 		
@@ -413,8 +420,8 @@ public class CRIndexJob implements Runnable{
 			for(ContentTransformer transformer:transformerlist)
 			{
 				try{
-				if(transformer.match(bean))
-					transformer.processBean(bean);
+					if(transformer.match(bean))
+						transformer.processBean(bean);
 				}
 				catch(Exception e)
 				{

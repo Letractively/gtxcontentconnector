@@ -140,8 +140,8 @@ public class IndexLocation {
 						try
 						{
 							createAllCRIndexJobs();
-							
 							Thread.sleep(periodical_interval*1000);
+							
 						}catch(InterruptedException ex)
 						{
 							interrupted = true;
@@ -329,21 +329,22 @@ public class IndexLocation {
 	/**
 	 * Stops all Index workers
 	 */
-	public void finalize()
+	public void stop()
 	{
 		if(this.periodical_thread!=null && this.periodical_thread.isAlive())
 		{
 			this.periodical_thread.interrupt();
 			try {
 				this.periodical_thread.join();
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		if(this.queue!=null)
 		{
-			this.queue.finalize();
+			this.queue.stop();
 		}
+		IndexAccessorFactory.getInstance().close();
 	}
 	
 }

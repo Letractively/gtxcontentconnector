@@ -101,14 +101,26 @@ public class IndexJobQueue{
 				CRIndexJob j = this.queue.poll();
 				if(j!=null)
 				{
-					currentJI = j;
-					currentJob = new Thread(j);
-					currentJob.setName("Current Index Job");
-					currentJob.start();
-					currentJob.join();
-					addToLastJobs(j);
-					currentJob = null;
-					currentJI = null;
+					synchronized(this)
+					{
+						currentJI = j;
+						currentJob = new Thread(j);
+						currentJob.setName("Current Index Job");
+						currentJob.start();
+					}
+					synchronized(currentJob)
+					{
+						if(currentJob.isAlive())
+						{
+							currentJob.join();
+						}
+						addToLastJobs(j);
+					}
+					synchronized(this)
+					{
+						currentJob = null;
+						currentJI = null;
+					}
 				}
 				// Wait for next cycle
 				if(!Thread.currentThread().isInterrupted())
@@ -117,7 +129,7 @@ public class IndexJobQueue{
 					interrupted = true;
 			} catch (InterruptedException e) {
 				interrupted = true;
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 		this.stop=true;
@@ -127,21 +139,30 @@ public class IndexJobQueue{
 	 * Stops all working Jobs and ends the worker queue
 	 * This method has to be called before program can exit
 	 */
-	public void finalize()
+	public void stop()
 	{
 		//END CURRENT JOB
-		if(currentJob!=null)
+		synchronized(this)
 		{
-			if(currentJob.isAlive())
+			if(currentJob!=null)
 			{
-				currentJob.interrupt();
-				try {
-					currentJob.join();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				if(currentJob.isAlive())
+				{
+					currentJob.interrupt();
+					synchronized(currentJob)
+					{
+						try {
+							if(currentJob.isAlive())
+								currentJob.join();
+							
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
 				}
 			}
 		}
+		
 		//END WORKER THREAD
 		if(d!=null)
 		{ 
