@@ -456,8 +456,15 @@ public class CRIndexer {
 				//CALL PRE INDEX PROCESSORS
 				for(ContentTransformer transformer:transformerlist)
 				{
-					if(transformer.match(objectToIndex))
-						transformer.processBean(objectToIndex);
+					try
+					{
+						if(transformer.match(objectToIndex))
+							transformer.processBean(objectToIndex);
+					}
+					catch(Exception x)
+					{
+						x.printStackTrace();
+					}
 				}
 				if(!create)
 				{

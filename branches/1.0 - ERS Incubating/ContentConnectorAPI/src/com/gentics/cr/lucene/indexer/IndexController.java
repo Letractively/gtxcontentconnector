@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import com.gentics.cr.CRConfigFileLoader;
 import com.gentics.cr.CRConfigUtil;
+import com.gentics.cr.CRDatabaseFactory;
 import com.gentics.cr.configuration.GenericConfiguration;
 import com.gentics.cr.lucene.indexer.index.IndexLocation;
 /**
@@ -69,15 +70,16 @@ public class IndexController {
 	/**
 	 * Finalizes all index Locations
 	 */
-	public void finalize()
+	public void stop()
 	{
 		if(this.indextable!=null)
 		{
 			for(Entry<String,IndexLocation> e:this.indextable.entrySet())
 			{
 				IndexLocation il = e.getValue();
-				il.finalize();
+				il.stop();
 			}
 		}
+		CRDatabaseFactory.destroy();
 	}
 }
