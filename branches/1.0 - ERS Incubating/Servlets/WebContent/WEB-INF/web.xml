@@ -24,7 +24,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 		</taglib>
 	</jsp-config>
 
-	<servlet>
+	<!-- servlet>
 		<description>
 			Gentics .Node REST API for a Contnet Content Repository
 		</description>
@@ -37,7 +37,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 	<servlet-mapping>
 		<servlet-name>sample</servlet-name>
 		<url-pattern>/sample/*</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping-->
 	
 	<servlet>
 		<description>
@@ -67,7 +67,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 		<url-pattern>/search/*</url-pattern>
 	</servlet-mapping>
 	
-	<servlet>
+	<!-- servlet>
 		<description>
 			Gentics .Node REST API for a Navigation Repository
 		</description>
@@ -151,6 +151,12 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 		<servlet-class>com.gentics.cr.rest.RESTServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>ccr</servlet-name>
+		<url-pattern>/ccr/*</url-pattern>
+	</servlet-mapping>
+	
 	<servlet>
 		<display-name>
 		Apache-Axis Servlet</display-name>
@@ -167,10 +173,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 		<load-on-startup>100</load-on-startup>
 	</servlet>
 
-	<servlet-mapping>
-		<servlet-name>ccr</servlet-name>
-		<url-pattern>/ccr/*</url-pattern>
-	</servlet-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>AxisServlet</servlet-name>
 		<url-pattern>/servlet/AxisServlet</url-pattern>
@@ -186,7 +189,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 	<servlet-mapping>
 		<servlet-name>AdminServlet</servlet-name>
 		<url-pattern>/servlet/AdminServlet</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping-->
 	
 
 </web-app>

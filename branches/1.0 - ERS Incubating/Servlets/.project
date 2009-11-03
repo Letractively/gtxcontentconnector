@@ -3,6 +3,7 @@
 	<name>CCServlets</name>
 	<comment></comment>
 	<projects>
+		<project>ContentConnectorAPI 1.0 ERS</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

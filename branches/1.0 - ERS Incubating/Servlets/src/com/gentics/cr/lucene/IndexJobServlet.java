@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.gentics.api.portalnode.connector.PortalConnectorFactory;
 import com.gentics.cr.CRConfigUtil;
 import com.gentics.cr.lucene.indexer.IndexController;
 import com.gentics.cr.lucene.indexer.index.CRIndexJob;
@@ -49,8 +50,9 @@ public class IndexJobServlet extends HttpServlet {
 	{
 		if(indexer!=null)
 		{
-			indexer.finalize();
+			indexer.stop();
 		}
+		PortalConnectorFactory.destroy();
 	}
 
 	/**
@@ -65,7 +67,20 @@ public class IndexJobServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		this.log.debug("Request:" + request.getQueryString());
-		
+		String debug = request.getParameter("debug");
+		if("start".equals(debug) && indexer==null)
+		{
+			indexer = new IndexController(getServletConfig().getServletName());
+			response.getWriter().write("started indexcontroller");
+			return;
+		}
+		if("stop".equals(debug) && indexer!=null)
+		{
+			indexer.stop();
+			indexer = null;
+			response.getWriter().write("stopped indexcontroller");
+			return;
+		}
 		// starttime
 		long s = new Date().getTime();
 		// get the objects
