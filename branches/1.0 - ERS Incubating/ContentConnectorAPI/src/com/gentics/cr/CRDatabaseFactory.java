@@ -59,7 +59,7 @@ public class CRDatabaseFactory {
 			log.debug("Factory, resources and threads have been closed.");
 			return true;
 		}
-		log.debug("There are still unreleased datasources => could not destroy the factory");
+		log.error("There are still unreleased datasources => could not destroy the factory");
 		return false;
 	}
 	
