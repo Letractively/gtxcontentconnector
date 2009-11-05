@@ -52,7 +52,6 @@ public class IndexJobServlet extends HttpServlet {
 		{
 			indexer.stop();
 		}
-		PortalConnectorFactory.destroy();
 	}
 
 	/**
