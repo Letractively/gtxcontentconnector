@@ -195,6 +195,7 @@ public class CRIndexJob implements Runnable{
 		String crID = config.getName();
 		if(crID ==null)crID = this.identifyer;
 		int timestamp = (int)(System.currentTimeMillis()/1000);
+		String configuredRule="";
 		// get the datasource
 		CNWriteableDatasource ds = (CNWriteableDatasource)config.getDatasource();
 		if(ds==null)
@@ -256,7 +257,7 @@ public class CRIndexJob implements Runnable{
 		} else {
 			rule = "(" + rule + ")";
 		}
-		
+		configuredRule = rule;
 		boolean doFullIndexRun = lastIndexRun <= 0 || !lastIndexRule.equals(rule);
 		
 		
@@ -365,7 +366,7 @@ public class CRIndexJob implements Runnable{
 			{
 				//UPDATE CONTENT STATUS FOR DIFFERENTIAL INDEXING
 				//Only update status if indexing has been finished and no interrupt occured during indexing
-				ds.setContentStatus(crID + "."+ PARAM_LASTINDEXRULE, rule);
+				ds.setContentStatus(crID + "."+ PARAM_LASTINDEXRULE, configuredRule);
 				ds.setContentStatus(crID + "."+ PARAM_LASTINDEXRUN, timestamp);
 				//Only Optimize the Index if the thread has not been interrupted
 				indexWriter.optimize();
