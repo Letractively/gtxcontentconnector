@@ -24,12 +24,20 @@
 	<classpathentry kind="lib" path="lib/lucene-snowball-2.4.1.jar"/>
 	<classpathentry kind="lib" path="lib/nutch-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/pdfbox-0.8.0-incubating.jar"/>
-	<classpathentry kind="lib" path="lib/poi-3.2-FINAL-20081019.jar"/>
-	<classpathentry kind="lib" path="lib/poi-scratchpad-3.2-FINAL-20081019.jar"/>
 	<classpathentry kind="lib" path="lib/rome-1.0RC2.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="lib/standard.jar"/>
 	<classpathentry kind="lib" path="lib/Tidy.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_14"/>
+	<classpathentry kind="lib" path="lib/poi-3.5-FINAL-20090928.jar"/>
+	<classpathentry kind="lib" path="lib/poi-contrib-3.5-FINAL-20090928.jar"/>
+	<classpathentry kind="lib" path="lib/poi-ooxml-3.5-FINAL-20090928.jar"/>
+	<classpathentry kind="lib" path="lib/poi-scratchpad-3.5-FINAL-20090928.jar"/>
+	<classpathentry kind="lib" path="lib/jsr173_1.0_api.jar"/>
+	<classpathentry kind="lib" path="lib/resolver.jar"/>
+	<classpathentry kind="lib" path="lib/xbean_xpath.jar"/>
+	<classpathentry kind="lib" path="lib/xbean.jar"/>
+	<classpathentry kind="lib" path="lib/xmlbeans-qname.jar"/>
+	<classpathentry kind="lib" path="lib/xmlpublic.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

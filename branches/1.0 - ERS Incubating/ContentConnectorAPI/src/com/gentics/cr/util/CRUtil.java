@@ -203,5 +203,26 @@ public class CRUtil {
 	    }
 	    return out.toString();
 	}
+    
+    /**
+     * Slurps a Reader into a String and strips the character 0
+     * @param in
+     * @return
+     * @throws IOException
+     */
+    public static String readerToPrintableCharString(Reader in)throws IOException
+    {
+    	StringBuffer out = new StringBuffer();
+	    int n;
+	    while((n = in.read())!=-1)
+	    {
+	    	if(n!=0)
+	    	{
+	    		char c = (char)n;
+	    		out.append(c);
+	    	}
+	    }
+	    return out.toString();
+    }
 
 }

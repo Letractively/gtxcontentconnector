@@ -44,6 +44,11 @@ public class POIContentTransformer extends ContentTransformer{
 		{
 			is= new ByteArrayInputStream((byte[])obj);
 		}
+		else if(obj instanceof String)
+		{
+			String str = (String)obj;
+			is = new ByteArrayInputStream(str.getBytes());
+		}
 		else
 		{
 			throw new IllegalArgumentException("Parameter must be instance of byte[]");

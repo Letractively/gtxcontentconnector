@@ -709,7 +709,7 @@ private static final int EOF=-1;
     // <![ CDATA [ unescaped markup ]]>
     if (numWhitespace > 0){
       numWhitespace--;
-      return ' ';
+      return 0;
     }
     //do not limit this one by the READAHEAD
     while(true) {

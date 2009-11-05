@@ -46,7 +46,7 @@ public class HTMLContentTransformer extends ContentTransformer{
 		{
 			if(sr!=null)
 			{
-				ret = CRUtil.readerToString(sr);
+				ret = CRUtil.readerToPrintableCharString(sr);
 			}
 			sr.close();
 		}catch(Exception ex)
