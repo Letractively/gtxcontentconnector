@@ -11,6 +11,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
+import com.gentics.cr.CRException;
 import com.gentics.cr.CRResolvableBean;
 import com.gentics.cr.configuration.GenericConfiguration;
 import com.gentics.cr.lucene.indexer.transformer.ContentTransformer;
@@ -41,7 +42,7 @@ public class XLSContentTransformer extends ContentTransformer{
 	 * @param obj
 	 * @return
 	 */
-	private String getStringContents(Object obj)
+	private String getStringContents(Object obj) throws CRException
 	{
 		String contents = "";
 		ByteArrayInputStream is;
@@ -111,12 +112,10 @@ public class XLSContentTransformer extends ContentTransformer{
 			}
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new CRException(e);
 		} catch (Exception e)
 		{
-			//Catch all exceptions to not disturb the indexer
-			e.printStackTrace();
+			throw new CRException(e);
 		}
 		
 		return(contents);
@@ -124,7 +123,7 @@ public class XLSContentTransformer extends ContentTransformer{
 	
 
 	@Override
-	public void processBean(CRResolvableBean bean) {
+	public void processBean(CRResolvableBean bean) throws CRException{
 		if(this.attribute!=null)
 		{
 			Object obj = bean.get(this.attribute);

@@ -169,14 +169,19 @@ public class CRIndexJob implements Runnable{
 			CRConfigUtil crC = e.getValue();
 			String crid = crC.getName();
 			CNWriteableDatasource ds = (CNWriteableDatasource)crC.getDatasource();
-			if(ds==null)
+			try
 			{
-				throw new CRException("FATAL ERROR","Datasource not available");
+				if(ds==null)
+				{
+					throw new CRException("FATAL ERROR","Datasource not available");
+				}
+				ds.setContentStatus(crid + "."+ PARAM_LASTINDEXRULE, "");
+				ds.setContentStatus(crid + "."+ PARAM_LASTINDEXRUN, 0);
+				log.debug("Resetting status for "+crid);
 			}
-			ds.setContentStatus(crid + "."+ PARAM_LASTINDEXRULE, "");
-			ds.setContentStatus(crid + "."+ PARAM_LASTINDEXRUN, 0);
-			log.debug("Resetting status for "+crid);
-			
+			finally{
+				CRDatabaseFactory.releaseDatasource(ds);
+			}
 		}
 	}
 	

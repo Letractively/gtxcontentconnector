@@ -2,6 +2,7 @@ package com.gentics.cr.lucene.indexer.transformer.html;
 import java.io.StringReader;
 
 import com.gentics.api.portalnode.connector.PortalConnectorHelper;
+import com.gentics.cr.CRException;
 import com.gentics.cr.CRResolvableBean;
 import com.gentics.cr.configuration.GenericConfiguration;
 import com.gentics.cr.lucene.indexer.transformer.ContentTransformer;
@@ -38,7 +39,7 @@ public class HTMLContentTransformer extends ContentTransformer{
 	 * @param obj
 	 * @return
 	 */
-	private String getStringContents(Object obj)
+	private String getStringContents(Object obj)throws CRException
 	{
 		String ret = null;
 		HTMLStripReader sr = getContents(obj);
@@ -51,8 +52,7 @@ public class HTMLContentTransformer extends ContentTransformer{
 			sr.close();
 		}catch(Exception ex)
 		{
-			//Catch all exceptions here to not disturb the indexer
-			ex.printStackTrace();
+			throw new CRException(ex);
 		}
 		return(ret);
 	}
@@ -76,7 +76,7 @@ public class HTMLContentTransformer extends ContentTransformer{
     }
 
 	@Override
-	public void processBean(CRResolvableBean bean) {
+	public void processBean(CRResolvableBean bean)throws CRException {
 		if(this.attribute!=null)
 		{
 			Object obj = bean.get(this.attribute);
