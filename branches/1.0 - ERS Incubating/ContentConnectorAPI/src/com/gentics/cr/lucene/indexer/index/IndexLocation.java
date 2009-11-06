@@ -10,8 +10,10 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.snowball.SnowballAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.LockObtainFailedException;
 import org.apache.lucene.store.RAMDirectory;
 
 import com.gentics.cr.CRConfig;
@@ -89,6 +91,27 @@ public class IndexLocation {
 			}
 		}
 		return analyzer;
+	}
+	
+	/**
+	 * Checks Lock and throws Exception if Lock exists
+	 * @throws LockedIndexException 
+	 * @throws IOException 
+	 */
+	public void checkLock() throws LockedIndexException
+	{
+		IndexAccessor indexAccessor = getAccessor();
+		IndexWriter indexWriter;
+		try {
+			indexWriter = indexAccessor.getWriter();
+			indexAccessor.release(indexWriter);
+		}catch (LockObtainFailedException e)
+		{
+			throw new LockedIndexException(e);
+		} catch (IOException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 	
 	

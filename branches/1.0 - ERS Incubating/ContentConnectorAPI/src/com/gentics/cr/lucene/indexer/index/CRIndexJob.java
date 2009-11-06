@@ -20,7 +20,6 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TermDocs;
 import org.apache.lucene.index.TermEnum;
-import org.apache.lucene.store.LockObtainFailedException;
 
 import com.gentics.api.lib.datasource.DatasourceException;
 import com.gentics.api.lib.exception.NodeException;
@@ -142,7 +141,7 @@ public class CRIndexJob implements Runnable{
 		try{
 			indexCR(this.indexLocation,(CRConfigUtil)this.config);
 		}
-		catch(LockObtainFailedException ex)
+		catch(LockedIndexException ex)
 		{
 			log.debug("LOCKED INDEX DETECTED. TRYING AGAIN IN NEXT JOB.");
 			if(this.indexLocation!=null && !this.indexLocation.hasLockDetection())
@@ -212,17 +211,19 @@ public class CRIndexJob implements Runnable{
 	 * @throws CorruptIndexException
 	 * @throws IOException
 	 * @throws CRException
+	 * @throws LockedIndexException 
 	 */
 	@SuppressWarnings("unchecked")
 	private void indexCR(IndexLocation indexLocation, CRConfigUtil config)
-			throws NodeException, CorruptIndexException, IOException, CRException{
+			throws NodeException, CorruptIndexException, IOException, CRException, LockedIndexException{
 		String crID = config.getName();
 		if(crID ==null)crID = this.identifyer;
 		int timestamp = (int)(System.currentTimeMillis()/1000);
 		String configuredRule="";
 		//IndexWriter indexWriter = new IndexWriter(indexLocation.getDirectory(),analyzer, create,IndexWriter.MaxFieldLength.LIMITED);
-		IndexAccessor indexAccessor = indexLocation.getAccessor();
-		IndexWriter indexWriter = indexAccessor.getWriter();
+		IndexAccessor indexAccessor = null;
+		IndexWriter indexWriter = null;
+		indexLocation.checkLock();
 		// get the datasource
 		CNWriteableDatasource ds=null;
 		try
@@ -307,14 +308,16 @@ public class CRIndexJob implements Runnable{
 				}
 				
 			}
-			else
+			
+			if(create)
 			{
 				log.debug("Will do full index.");
 				resetStatusValues();
 			}
 			
-			
-			
+			//Obtain accessor and writer after clean
+			indexAccessor = indexLocation.getAccessor();
+			indexWriter = indexAccessor.getWriter();
 			
 			
 			
