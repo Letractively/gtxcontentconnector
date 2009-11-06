@@ -189,7 +189,11 @@ public class IndexLocation {
 	{
 		IndexLocation dir = null;
 		String key = (String)config.get(INDEX_LOCATION_KEY);
-		
+		if(key==null)
+		{
+			log.error("COULD NOT FIND CONFIG FOR INDEXLOCATION. check config @ "+config.getName());
+			return null;
+		}
 		if(indexmap==null)
 		{
 			indexmap = new Hashtable<String,IndexLocation>();
