@@ -210,6 +210,30 @@ public class IndexLocation {
 	}
 	
 	/**
+	 * Get number of documents in Index
+	 * @return doccount
+	 */
+	public int getDocCount()
+	{
+		IndexAccessor indexAccessor = this.getAccessor();
+		IndexReader reader  = null;
+		int count = 0;
+		try
+		{
+			reader = indexAccessor.getReader(false);
+			count = reader.numDocs();
+		}catch(IOException ex)
+		{
+			log.error("IOX happened during test of index. "+ex.getMessage());
+		}
+		finally{
+			indexAccessor.release(reader, false);
+		}
+		
+		return count;
+	}
+	
+	/**
 	 * Returns an index Accessor, which can be used to share access to an index over multiple threads
 	 * @return
 	 */
@@ -224,22 +248,7 @@ public class IndexLocation {
 	 */
 	public boolean isContainingIndex() {
 		
-		IndexAccessor indexAccessor = this.getAccessor();
-		IndexReader reader  = null;
-		boolean index = false;
-		try
-		{
-			reader = indexAccessor.getReader(false);
-			if(reader.numDocs()>0) index = true;
-		}catch(IOException ex)
-		{
-			log.error("IOX happened during test of index. "+ex.getMessage());
-		}
-		finally{
-			indexAccessor.release(reader, false);
-		}
-		
-		return index;
+		return getDocCount()>0;
 	}
 	
 	/**
