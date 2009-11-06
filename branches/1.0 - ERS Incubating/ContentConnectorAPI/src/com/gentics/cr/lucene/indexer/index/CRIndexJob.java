@@ -20,6 +20,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TermDocs;
 import org.apache.lucene.index.TermEnum;
+import org.apache.lucene.store.LockObtainFailedException;
 
 import com.gentics.api.lib.datasource.DatasourceException;
 import com.gentics.api.lib.exception.NodeException;
@@ -46,13 +47,13 @@ import com.gentics.cr.util.CRUtil;
  */
 public class CRIndexJob implements Runnable{
 	protected static Logger log = Logger.getLogger(CRIndexJob.class);
+	
 	private String identifyer;
 	private IndexLocation indexLocation;
 	private IndexerStatus status;
 	private CRConfig config;
 	private long duration = 0;
 	private Hashtable<String,CRConfigUtil> configmap;
-	
 	/**
 	 * Create new instance of IndexJob
 	 * @param config
@@ -131,6 +132,15 @@ public class CRIndexJob implements Runnable{
 		long start = System.currentTimeMillis();
 		try{
 			indexCR(this.indexLocation,(CRConfigUtil)this.config);
+		}
+		catch(LockObtainFailedException ex)
+		{
+			log.debug("LOCKED INDEX DETECTED. TRYING AGAIN IN NEXT JOB.");
+			if(this.indexLocation!=null && !this.indexLocation.hasLockDetection())
+			{
+				log.error("IT SEEMS THAT THE INDEX HAS UNEXPECTEDLY BEEN LOCKED. PLEASE REMOVE LOCK");
+				ex.printStackTrace();
+			}
 		}
 		catch(Exception ex)
 		{

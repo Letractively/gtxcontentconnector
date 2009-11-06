@@ -32,12 +32,19 @@ import com.gentics.cr.lucene.indexer.IndexerUtil;
  */
 
 public class IndexLocation {
-	protected static Logger log = Logger.getLogger(IndexLocation.class);
+	//STATIC MEMBERS
+	protected static final Logger log = Logger.getLogger(IndexLocation.class);
 	private static final String INDEX_LOCATION_KEY = "indexLocation";
 	private static final String RAM_IDENTIFICATION_KEY = "RAM";
 	private static final String PERIODICAL_KEY = "PERIODICAL";
 	private static Hashtable<String,IndexLocation> indexmap;
+	private static final String STEMMING_KEY = "STEMMING";
+	private static final String STEMMER_NAME_KEY = "STEMMERNAME";
+	private static final String STOP_WORD_FILE_KEY = "STOPWORDFILE";
+	private static final String LOCK_DETECTION_KEY = "LOCKDETECTION";
 	
+	
+	//Instance Members
 	private Directory dir=null;
 	private String name = null;
 	private IndexJobQueue queue = null;
@@ -45,10 +52,7 @@ public class IndexLocation {
 	private boolean periodical = false;
 	private int periodical_interval = 60; //60 seconds
 	private Thread periodical_thread;
-	
-	private static final String STEMMING_KEY = "STEMMING";
-	private static final String STEMMER_NAME_KEY = "STEMMERNAME";
-	private static final String STOP_WORD_FILE_KEY = "STOPWORDFILE";
+	private boolean lockdetection = false;
 	
 	private Analyzer getConfiguredAnalyzer() 
 	{
@@ -96,6 +100,11 @@ public class IndexLocation {
 		queue = new IndexJobQueue(config);
 		String per = (String)config.get(PERIODICAL_KEY);
 		periodical = Boolean.parseBoolean(per);
+		String s_lockdetect = (String)config.get(LOCK_DETECTION_KEY);
+		if(s_lockdetect!=null)
+		{
+			lockdetection = Boolean.parseBoolean(s_lockdetect);
+		}
 		if(RAM_IDENTIFICATION_KEY.equalsIgnoreCase(indexLocation) || indexLocation==null || indexLocation.startsWith(RAM_IDENTIFICATION_KEY))
 		{
 			dir = new RAMDirectory();
@@ -168,6 +177,15 @@ public class IndexLocation {
 		Directory dir = FSDirectory.getDirectory(indexLoc);
 		log.debug("Creating FS Directory for Index ["+name+"]");
 		return(dir);
+	}
+	
+	/**
+	 * Returns if the users has configured lockdetection for the index location
+	 * @return
+	 */
+	public boolean hasLockDetection()
+	{
+		return(this.lockdetection);
 	}
 	
 	/**
