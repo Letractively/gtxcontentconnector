@@ -173,6 +173,7 @@ public class IndexJobServlet extends HttpServlet {
 				{
 					response.getWriter().write("<hr><br/>\n");
 					response.getWriter().write("Current Job "+j.getIdentifyer()+"<br/>\n");
+					response.getWriter().write("Current Status: "+j.getStatusString()+"<br/>\n");
 					response.getWriter().write("Objects to index "+j.getObjectsToIndex()+"<br/>\n");
 					response.getWriter().write("Objects done "+j.getObjectsDone()+"<br/>\n");
 					response.getWriter().write("<hr><br/>\n");
