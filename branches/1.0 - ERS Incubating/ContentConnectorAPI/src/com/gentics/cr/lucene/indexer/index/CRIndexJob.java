@@ -211,145 +211,148 @@ public class CRIndexJob implements Runnable{
 		if(crID ==null)crID = this.identifyer;
 		int timestamp = (int)(System.currentTimeMillis()/1000);
 		String configuredRule="";
-		// get the datasource
-		CNWriteableDatasource ds = (CNWriteableDatasource)config.getDatasource();
-		if(ds==null)
-		{
-			throw new CRException("FATAL ERROR","Datasource not available");
-		}
-		
-		log.debug("Loading status for "+crID);
-		
-		// get the last index timestamp
-		int lastIndexRun = ds.getIntContentStatus(crID + "."
-				+ PARAM_LASTINDEXRUN);
-
-		// get the last index rule
-		String lastIndexRule = ds.getStringContentStatus(crID + "."
-				+ PARAM_LASTINDEXRULE);
-
-		if (lastIndexRule == null) {
-			lastIndexRule = "";
-		}
-		
-		String bsString = (String)config.get(BATCH_SIZE_KEY);
-		
-		int CRBatchSize = batchSize;
-		
-		if(bsString!=null)
-		{
-			try
-			{
-				CRBatchSize = Integer.parseInt(bsString);
-			}
-			catch(NumberFormatException nfx)
-			{
-				log.error("The configured "+BATCH_SIZE_KEY+" for the Current CR did not contain a parsable integer. "+nfx.getMessage());
-			}
-			
-		}
-		
-		// and get the current rule
-		String rule = (String)config.get(RULE_KEY);
-
-		if (rule == null) {
-			rule = "";
-		}
-		
-		List<ContentTransformer> transformerlist = ContentTransformer.getTransformerList(config);
-		
-		boolean create = true;
-		
-		if(indexLocation.isContainingIndex())
-		{
-			create=false;
-			log.debug("Index already exists.");
-		}
-		// check whether the rule has changed, if yes, do a full index run
-		
-		if (rule.length() == 0) {
-			rule = "(1 == 1)";
-		} else {
-			rule = "(" + rule + ")";
-		}
-		configuredRule = rule;
-		boolean doFullIndexRun = lastIndexRun <= 0 || !lastIndexRule.equals(rule);
-		
-		
-		
-		//Clear Index and remove stale Documents
-		if(!create)
-		{
-			log.debug("Will do differential index.");
-			try {
-				cleanCRIndex(ds,rule,indexLocation,config);
-			} catch (Exception e) {
-				log.error("ERROR while cleaning index");
-				e.printStackTrace();
-			}
-			
-		}
-		else
-		{
-			log.debug("Will do full index.");
-			resetStatusValues();
-		}
-		
-		
-		
-		
-		
-		
-		if (!doFullIndexRun && !create) {
-			// do a differential index run, so just get the objects modified since the last index run
-			rule += " AND (object.updatetimestamp > " + lastIndexRun
-					+ " AND object.updatetimestamp <= " + timestamp + ")";
-		}
-		
-		log.debug("Using rule: "+rule);
-		
-
-		// prepare the map of indexed/stored attributes
-		Map<String,Boolean> attributes = new HashMap<String,Boolean>();
-		List<String> containedAttributes = IndexerUtil.getListFromString((String)config.get(CONTAINED_ATTRIBUTES_KEY), ",");
-		List<String> indexedAttributes = IndexerUtil.getListFromString((String)config.get(INDEXED_ATTRIBUTES_KEY), ",");
-
-		// first put all indexed attributes into the map
-		for (String name:indexedAttributes) {
-			attributes.put(name, Boolean.FALSE);
-		}
-
-		// now put all contained attributes
-		for (String name:containedAttributes) {
-			attributes.put(name, Boolean.TRUE);
-		}
-
-		String idAttribute = (String)config.get(ID_ATTRIBUTE_KEY);
-		// finally, put the "contentid" (always contained)
-		attributes.put(idAttribute, Boolean.TRUE);
-
-		// get all objects to index
-		Collection<Resolvable> objectsToIndex = (Collection<Resolvable>) ds.getResult(ds
-				.createDatasourceFilter(ExpressionParser.getInstance()
-						.parse(rule)), null);
-		if(objectsToIndex==null)
-		{
-			log.debug("Rule returned no objects to index. Skipping run");
-			return;
-		}
-		
-		status.setObjectCount(objectsToIndex.size());
-		log.debug("Starting index job with "+objectsToIndex.size()+" objects to index.");
-		// now get the first batch of objects from the collection
-		// (remove them from the original collection) and index them
-		Collection<Resolvable> slice = new Vector(CRBatchSize);
-		int sliceCounter = 0;
-		
 		//IndexWriter indexWriter = new IndexWriter(indexLocation.getDirectory(),analyzer, create,IndexWriter.MaxFieldLength.LIMITED);
 		IndexAccessor indexAccessor = indexLocation.getAccessor();
 		IndexWriter indexWriter = indexAccessor.getWriter();
+		// get the datasource
+		CNWriteableDatasource ds=null;
 		try
-		{
+		{ 
+			ds = (CNWriteableDatasource)config.getDatasource();
+		
+			if(ds==null)
+			{
+				throw new CRException("FATAL ERROR","Datasource not available");
+			}
+			
+			log.debug("Loading status for "+crID);
+			
+			// get the last index timestamp
+			int lastIndexRun = ds.getIntContentStatus(crID + "."
+					+ PARAM_LASTINDEXRUN);
+	
+			// get the last index rule
+			String lastIndexRule = ds.getStringContentStatus(crID + "."
+					+ PARAM_LASTINDEXRULE);
+	
+			if (lastIndexRule == null) {
+				lastIndexRule = "";
+			}
+			
+			String bsString = (String)config.get(BATCH_SIZE_KEY);
+			
+			int CRBatchSize = batchSize;
+			
+			if(bsString!=null)
+			{
+				try
+				{
+					CRBatchSize = Integer.parseInt(bsString);
+				}
+				catch(NumberFormatException nfx)
+				{
+					log.error("The configured "+BATCH_SIZE_KEY+" for the Current CR did not contain a parsable integer. "+nfx.getMessage());
+				}
+				
+			}
+			
+			// and get the current rule
+			String rule = (String)config.get(RULE_KEY);
+	
+			if (rule == null) {
+				rule = "";
+			}
+			
+			List<ContentTransformer> transformerlist = ContentTransformer.getTransformerList(config);
+			
+			boolean create = true;
+			
+			if(indexLocation.isContainingIndex())
+			{
+				create=false;
+				log.debug("Index already exists.");
+			}
+			// check whether the rule has changed, if yes, do a full index run
+			
+			if (rule.length() == 0) {
+				rule = "(1 == 1)";
+			} else {
+				rule = "(" + rule + ")";
+			}
+			configuredRule = rule;
+			boolean doFullIndexRun = lastIndexRun <= 0 || !lastIndexRule.equals(rule);
+			
+			
+			
+			//Clear Index and remove stale Documents
+			if(!create)
+			{
+				log.debug("Will do differential index.");
+				try {
+					cleanCRIndex(ds,rule,indexLocation,config);
+				} catch (Exception e) {
+					log.error("ERROR while cleaning index");
+					e.printStackTrace();
+				}
+				
+			}
+			else
+			{
+				log.debug("Will do full index.");
+				resetStatusValues();
+			}
+			
+			
+			
+			
+			
+			
+			if (!doFullIndexRun && !create) {
+				// do a differential index run, so just get the objects modified since the last index run
+				rule += " AND (object.updatetimestamp > " + lastIndexRun
+						+ " AND object.updatetimestamp <= " + timestamp + ")";
+			}
+			
+			log.debug("Using rule: "+rule);
+			
+	
+			// prepare the map of indexed/stored attributes
+			Map<String,Boolean> attributes = new HashMap<String,Boolean>();
+			List<String> containedAttributes = IndexerUtil.getListFromString((String)config.get(CONTAINED_ATTRIBUTES_KEY), ",");
+			List<String> indexedAttributes = IndexerUtil.getListFromString((String)config.get(INDEXED_ATTRIBUTES_KEY), ",");
+	
+			// first put all indexed attributes into the map
+			for (String name:indexedAttributes) {
+				attributes.put(name, Boolean.FALSE);
+			}
+	
+			// now put all contained attributes
+			for (String name:containedAttributes) {
+				attributes.put(name, Boolean.TRUE);
+			}
+	
+			String idAttribute = (String)config.get(ID_ATTRIBUTE_KEY);
+			// finally, put the "contentid" (always contained)
+			attributes.put(idAttribute, Boolean.TRUE);
+	
+			// get all objects to index
+			Collection<Resolvable> objectsToIndex = (Collection<Resolvable>) ds.getResult(ds
+					.createDatasourceFilter(ExpressionParser.getInstance()
+							.parse(rule)), null);
+			if(objectsToIndex==null)
+			{
+				log.debug("Rule returned no objects to index. Skipping run");
+				return;
+			}
+			
+			status.setObjectCount(objectsToIndex.size());
+			log.debug("Starting index job with "+objectsToIndex.size()+" objects to index.");
+			// now get the first batch of objects from the collection
+			// (remove them from the original collection) and index them
+			Collection<Resolvable> slice = new Vector(CRBatchSize);
+			int sliceCounter = 0;
+			
+			
 			boolean interrupted = Thread.currentThread().isInterrupted();
 			for (Iterator<Resolvable> iterator = objectsToIndex.iterator(); iterator.hasNext();) {
 				Resolvable obj = iterator.next();
@@ -394,7 +397,6 @@ public class CRIndexJob implements Runnable{
 			
 		}catch(Exception ex)
 		{
-			
 			log.error("Could not complete index run... indexed Objects: "+status.getObjectsDone()+", trying to close index and remove lock.");
 			ex.printStackTrace();
 		}finally{
