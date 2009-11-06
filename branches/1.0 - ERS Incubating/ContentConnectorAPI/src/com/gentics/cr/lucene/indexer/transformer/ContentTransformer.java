@@ -30,6 +30,21 @@ public abstract class ContentTransformer {
 	private String rule;
 	
 	private static final String TRANSFORMER_RULE_KEY="rule";
+	private String transformerkey="";
+	
+	/**
+	 * Gets the Transformerkey of current Transformer
+	 * @return
+	 */
+	public String getTransformerKey()
+	{
+		return transformerkey;
+	}
+	
+	protected void setTransformerkey(String key)
+	{
+		this.transformerkey = key; 
+	}
 	
 	protected ContentTransformer(GenericConfiguration config)
 	{
@@ -96,6 +111,7 @@ public abstract class ContentTransformer {
 						t = (ContentTransformer) Class.forName(transformerClass).getConstructor(new Class[] {GenericConfiguration.class}).newInstance(c);
 						if(t!=null)
 						{
+							t.setTransformerkey(e.getKey());
 							ret.add(t);
 						}
 					}

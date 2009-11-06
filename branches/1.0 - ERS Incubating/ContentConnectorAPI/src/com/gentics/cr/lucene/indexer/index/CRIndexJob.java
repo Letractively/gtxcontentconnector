@@ -71,6 +71,15 @@ public class CRIndexJob implements Runnable{
 	}
 	
 	/**
+	 * Get Current Status
+	 * @return
+	 */
+	public String getStatusString()
+	{
+		return status.getCurrentStatusString();
+	}
+	
+	/**
 	 * Gets the Job Identifyer. In most cases this is the CR id.
 	 * @return identifyer as string
 	 */
@@ -400,6 +409,7 @@ public class CRIndexJob implements Runnable{
 			log.error("Could not complete index run... indexed Objects: "+status.getObjectsDone()+", trying to close index and remove lock.");
 			ex.printStackTrace();
 		}finally{
+			status.setCurrentStatusString("Finished job.");
 			log.debug("Indexed "+status.getObjectsDone()+" objects...");
 			indexAccessor.release(indexWriter);
 			CRDatabaseFactory.releaseDatasource(ds);
@@ -437,7 +447,9 @@ public class CRIndexJob implements Runnable{
 			//TODO This could be optimized for multicore servers with a map/reduce algorithm
 			for(ContentTransformer transformer:transformerlist)
 			{
+				
 				try{
+					status.setCurrentStatusString("TRANSFORMING... TRANSFORMER: "+transformer.getTransformerKey()+"; BEAN: "+bean.get(idAttribute));
 					if(transformer.match(bean))
 						transformer.processBean(bean);
 				}

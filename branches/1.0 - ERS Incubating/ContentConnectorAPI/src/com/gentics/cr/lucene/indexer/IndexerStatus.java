@@ -19,7 +19,33 @@ public class IndexerStatus {
 	private Date startTime = null;
 	
 	private long lastRunDuration = 0;
+	
+	private String currStatusString="";
 
+	/**
+	 * Get current Status String
+	 * @return
+	 */
+	public String getCurrentStatusString()
+	{
+		String stat ="";
+		synchronized(this)
+		{
+			stat =  this.currStatusString;
+		}
+		return stat;
+	}
+	/**
+	 * Set current Status string
+	 * @param statusstring
+	 */
+	public void setCurrentStatusString(String statusstring)
+	{
+		synchronized(this)
+		{
+			this.currStatusString=statusstring;
+		}
+	}
 	/**
 	 * Duration of last run in ms
 	 * @return
