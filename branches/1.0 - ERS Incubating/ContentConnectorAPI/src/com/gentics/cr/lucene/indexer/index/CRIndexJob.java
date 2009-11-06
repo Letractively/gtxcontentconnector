@@ -227,6 +227,7 @@ public class CRIndexJob implements Runnable{
 		CNWriteableDatasource ds=null;
 		try
 		{ 
+			status.setCurrentStatusString("Writer accquired. Starting index job.");
 			ds = (CNWriteableDatasource)config.getDatasource();
 		
 			if(ds==null)
@@ -294,10 +295,11 @@ public class CRIndexJob implements Runnable{
 			
 			
 			//Clear Index and remove stale Documents
-			if(!create)
+			if(!create && !doFullIndexRun)
 			{
 				log.debug("Will do differential index.");
 				try {
+					status.setCurrentStatusString("Cleaning index from stale objects...");
 					cleanCRIndex(ds,rule,indexLocation,config);
 				} catch (Exception e) {
 					log.error("ERROR while cleaning index");
@@ -361,7 +363,7 @@ public class CRIndexJob implements Runnable{
 			Collection<Resolvable> slice = new Vector(CRBatchSize);
 			int sliceCounter = 0;
 			
-			
+			status.setCurrentStatusString("Starting to index slices.");
 			boolean interrupted = Thread.currentThread().isInterrupted();
 			for (Iterator<Resolvable> iterator = objectsToIndex.iterator(); iterator.hasNext();) {
 				Resolvable obj = iterator.next();

@@ -155,7 +155,7 @@ public class IndexJobQueue{
 							if(currentJob.isAlive())
 								currentJob.join();
 							
-						} catch (Exception e) {
+						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
 					}
