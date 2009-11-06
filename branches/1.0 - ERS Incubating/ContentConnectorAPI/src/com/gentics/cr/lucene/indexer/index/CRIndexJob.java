@@ -21,7 +21,6 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TermDocs;
 import org.apache.lucene.index.TermEnum;
 
-import com.gentics.api.lib.datasource.DatasourceException;
 import com.gentics.api.lib.exception.NodeException;
 import com.gentics.api.lib.expressionparser.ExpressionParser;
 import com.gentics.api.lib.resolving.Resolvable;
@@ -63,6 +62,7 @@ public class CRIndexJob implements Runnable{
 	{
 		this.config = config;
 		this.configmap = configmap;
+		if(this.configmap==null)log.debug("Configmap is empty");
 		this.identifyer = (String) config.getName();
 		this.indexLocation = indexLoc;
 		status = new IndexerStatus();
@@ -174,35 +174,14 @@ public class CRIndexJob implements Runnable{
 	
 	private static final String BATCH_SIZE_KEY = "BATCHSIZE";
 	private static final String CR_FIELD_KEY = "CRID";
+	
+	private static final String TIMESTAMP_ATTR = "updatetimestamp";
 	/**
 	 * Default batch size is set to 1000 elements
 	 */
 	protected int batchSize = 1000;
 
-	
-	private void resetStatusValues() throws DatasourceException,CRException
-	{
-		for(Entry<String,CRConfigUtil> e:this.configmap.entrySet())
-		{
-			CRConfigUtil crC = e.getValue();
-			String crid = crC.getName();
-			CNWriteableDatasource ds = (CNWriteableDatasource)crC.getDatasource();
-			try
-			{
-				if(ds==null)
-				{
-					throw new CRException("FATAL ERROR","Datasource not available");
-				}
-				ds.setContentStatus(crid + "."+ PARAM_LASTINDEXRULE, "");
-				ds.setContentStatus(crid + "."+ PARAM_LASTINDEXRUN, 0);
-				log.debug("Resetting status for "+crid);
-			}
-			finally{
-				CRDatabaseFactory.releaseDatasource(ds);
-			}
-		}
-	}
-	
+		
 	/**
 	 * Index a single configured ContentRepository
 	 * @param indexLocation
@@ -218,8 +197,7 @@ public class CRIndexJob implements Runnable{
 			throws NodeException, CorruptIndexException, IOException, CRException, LockedIndexException{
 		String crID = config.getName();
 		if(crID ==null)crID = this.identifyer;
-		int timestamp = (int)(System.currentTimeMillis()/1000);
-		String configuredRule="";
+		
 		//IndexWriter indexWriter = new IndexWriter(indexLocation.getDirectory(),analyzer, create,IndexWriter.MaxFieldLength.LIMITED);
 		IndexAccessor indexAccessor = null;
 		IndexWriter indexWriter = null;
@@ -235,21 +213,7 @@ public class CRIndexJob implements Runnable{
 			{
 				throw new CRException("FATAL ERROR","Datasource not available");
 			}
-			
-			log.debug("Loading status for "+crID);
-			
-			// get the last index timestamp
-			int lastIndexRun = ds.getIntContentStatus(crID + "."
-					+ PARAM_LASTINDEXRUN);
-	
-			// get the last index rule
-			String lastIndexRule = ds.getStringContentStatus(crID + "."
-					+ PARAM_LASTINDEXRULE);
-	
-			if (lastIndexRule == null) {
-				lastIndexRule = "";
-			}
-			
+						
 			String bsString = (String)config.get(BATCH_SIZE_KEY);
 			
 			int CRBatchSize = batchSize;
@@ -290,42 +254,26 @@ public class CRIndexJob implements Runnable{
 			} else {
 				rule = "(" + rule + ")";
 			}
-			configuredRule = rule;
-			boolean doFullIndexRun = lastIndexRun <= 0 || !lastIndexRule.equals(rule);
 			
-			
+			Collection<Resolvable> objectsToIndex=null;
 			
 			//Clear Index and remove stale Documents
-			if(!create && !doFullIndexRun)
+			if(!create)
 			{
 				log.debug("Will do differential index.");
 				try {
 					status.setCurrentStatusString("Cleaning index from stale objects...");
-					cleanCRIndex(ds,rule,indexLocation,config);
+					objectsToIndex = cleanAndGetDiffObjects(ds,rule,indexLocation,config);
 				} catch (Exception e) {
 					log.error("ERROR while cleaning index");
 					e.printStackTrace();
 				}
 				
 			}
-			
-			if(create)
-			{
-				log.debug("Will do full index.");
-				resetStatusValues();
-			}
-			
+						
 			//Obtain accessor and writer after clean
 			indexAccessor = indexLocation.getAccessor();
 			indexWriter = indexAccessor.getWriter();
-			
-			
-			
-			if (!doFullIndexRun && !create) {
-				// do a differential index run, so just get the objects modified since the last index run
-				rule += " AND (object.updatetimestamp > " + lastIndexRun
-						+ " AND object.updatetimestamp <= " + timestamp + ")";
-			}
 			
 			log.debug("Using rule: "+rule);
 			
@@ -350,9 +298,12 @@ public class CRIndexJob implements Runnable{
 			attributes.put(idAttribute, Boolean.TRUE);
 	
 			// get all objects to index
-			Collection<Resolvable> objectsToIndex = (Collection<Resolvable>) ds.getResult(ds
+			if(objectsToIndex==null)
+			{
+				objectsToIndex = (Collection<Resolvable>) ds.getResult(ds
 					.createDatasourceFilter(ExpressionParser.getInstance()
 							.parse(rule)), null);
+			}
 			if(objectsToIndex==null)
 			{
 				log.debug("Rule returned no objects to index. Skipping run");
@@ -396,10 +347,6 @@ public class CRIndexJob implements Runnable{
 			}
 			if(!interrupted)
 			{
-				//UPDATE CONTENT STATUS FOR DIFFERENTIAL INDEXING
-				//Only update status if indexing has been finished and no interrupt occured during indexing
-				ds.setContentStatus(crID + "."+ PARAM_LASTINDEXRULE, configuredRule);
-				ds.setContentStatus(crID + "."+ PARAM_LASTINDEXRUN, timestamp);
 				//Only Optimize the Index if the thread has not been interrupted
 				indexWriter.optimize();
 			}
@@ -501,6 +448,11 @@ public class CRIndexJob implements Runnable{
 		{
 			//Add content repository identification
 			doc.add(new Field(CR_FIELD_KEY, crID, Field.Store.YES, Field.Index.NOT_ANALYZED));
+		}
+		Integer upTS = (Integer)resolvable.get(TIMESTAMP_ATTR);
+		if(upTS!=null)
+		{
+			doc.add(new Field(TIMESTAMP_ATTR, upTS.toString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
 		}
 		
 		for (Entry<String,Boolean> entry:attributes.entrySet()) {
@@ -608,11 +560,12 @@ public class CRIndexJob implements Runnable{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	private void cleanCRIndex(CNWriteableDatasource ds, String rule, IndexLocation indexLocation, CRConfigUtil config) throws Exception
+	private Collection<Resolvable> cleanAndGetDiffObjects(CNWriteableDatasource ds, String rule, IndexLocation indexLocation, CRConfigUtil config) throws Exception
 	{
 		String idAttribute = (String)config.get(ID_ATTRIBUTE_KEY);
 		
 		String CRID = (String)config.getName();
+		Collection<Resolvable> diffObjects = new Vector<Resolvable>();
 		
 		//IndexReader reader = IndexReader.open(indexLocation.getDirectory(), false);// open existing index
 		IndexAccessor indexAccessor = indexLocation.getAccessor();
@@ -621,7 +574,7 @@ public class CRIndexJob implements Runnable{
 		{
 			TermDocs termDocs = reader.termDocs(new Term(CR_FIELD_KEY,CRID));
 			
-			Collection<Resolvable> objectsToIndex = (Collection<Resolvable>)ds.getResult(ds.createDatasourceFilter(ExpressionParser.getInstance().parse(rule)), null, 0, -1, CRUtil.convertSorting("contentid:asc"));
+			Collection<Resolvable> objectsToIndex = (Collection<Resolvable>)ds.getResult(ds.createDatasourceFilter(ExpressionParser.getInstance().parse(rule)), new String[]{TIMESTAMP_ATTR}, 0, -1, CRUtil.convertSorting("contentid:asc"));
 			
 			Iterator<Resolvable> resoIT = objectsToIndex.iterator();
 			if(resoIT.hasNext())
@@ -631,6 +584,11 @@ public class CRIndexJob implements Runnable{
 				
 				//solange index id kleiner cr id delete from index
 				boolean finish=!termDocs.next();
+				if(finish)
+				{
+					//IF THERE ARE NO INDEXED OBJECTS => ADD ALL
+					diffObjects = objectsToIndex;
+				}
 				
 				while(!finish)
 				{
@@ -638,7 +596,15 @@ public class CRIndexJob implements Runnable{
 					String docID = doc.get(idAttribute);
 					if(docID!=null && docID.compareTo(crElemID) == 0)
 					{
-						//step both
+						//ELEMENT IN BOTH, CR AND INDEX
+						//COMPARE UPDATE and STEP BOTH
+						Integer crUpt = (Integer)CRlem.get(TIMESTAMP_ATTR);
+						String s_docUpt = doc.get(TIMESTAMP_ATTR);
+						if(!(crUpt!=null && s_docUpt!=null && Integer.parseInt(s_docUpt)>=crUpt.intValue()))
+						{
+							//IF UPDATE TS DOES NOT EXIST OR TS IN INDEX SMALLER THAN IN CR
+							diffObjects.add(CRlem);
+						}
 						finish = !termDocs.next();
 						if(resoIT.hasNext())
 						{
@@ -648,16 +614,16 @@ public class CRIndexJob implements Runnable{
 					}
 					else if(docID!=null && docID.compareTo(crElemID) > 0 && resoIT.hasNext())
 					{
-						//step cr
+						//ELEMENT NOT IN INDEX
+						//ADD TO DIFF OBJECTS and STEP CR
+						diffObjects.add(CRlem);
 						CRlem = resoIT.next();
 						crElemID =(String) CRlem.get(idAttribute);
-						
 					}
 					else
 					{
 						//delete Document
 						reader.deleteDocument(termDocs.doc());
-						
 						finish = !termDocs.next();
 					}
 					
@@ -665,6 +631,7 @@ public class CRIndexJob implements Runnable{
 			}
 			else
 			{
+				//NO OBJECTS IN CONTENT REPOSITORY
 				//DELETE ALL FROM INDEX
 				boolean finish=!termDocs.next();
 				
@@ -682,6 +649,7 @@ public class CRIndexJob implements Runnable{
 		{
 			indexAccessor.release(reader, true);
 		}
+		return(diffObjects);
 			
 	}
 
