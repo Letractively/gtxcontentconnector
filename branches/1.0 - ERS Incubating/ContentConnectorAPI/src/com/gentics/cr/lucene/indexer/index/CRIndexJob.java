@@ -2,9 +2,11 @@ package com.gentics.cr.lucene.indexer.index;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -552,6 +554,29 @@ public class CRIndexJob implements Runnable{
 			
 	}
 	
+	private LinkedHashMap<String,Integer> fetchSortedDocs(TermDocs termDocs, IndexReader reader, String idAttribute) throws IOException
+	{
+		LinkedHashMap<String,Integer> tmp = new LinkedHashMap<String,Integer>();
+		boolean finish=!termDocs.next();
+		
+		while(!finish)
+		{
+			Document doc = reader.document(termDocs.doc());
+			String docID = doc.get(idAttribute);
+			tmp.put(docID, termDocs.doc());
+			finish=!termDocs.next();
+		}
+		
+		LinkedHashMap<String,Integer> ret = new LinkedHashMap<String,Integer>(tmp.size());
+		Vector<String> v = new Vector<String>(tmp.keySet());
+		Collections.sort(v);
+		for(String id:v)
+		{
+			ret.put(id, tmp.get(id));
+		}
+		return ret;
+	}
+	
 	/**
 	 * Deletes all Objects from index, which are not returned from the datasource using the given rule
 	 * @param ds
@@ -573,39 +598,49 @@ public class CRIndexJob implements Runnable{
 		try
 		{
 			TermDocs termDocs = reader.termDocs(new Term(CR_FIELD_KEY,CRID));
-			
+						
 			Collection<Resolvable> objectsToIndex = (Collection<Resolvable>)ds.getResult(ds.createDatasourceFilter(ExpressionParser.getInstance().parse(rule)), new String[]{TIMESTAMP_ATTR}, 0, -1, CRUtil.convertSorting("contentid:asc"));
 			
 			Iterator<Resolvable> resoIT = objectsToIndex.iterator();
 			if(resoIT.hasNext())
 			{
+				LinkedHashMap<String,Integer> docs = fetchSortedDocs(termDocs, reader, idAttribute);
+				Iterator docIT = docs.keySet().iterator();
+				
 				Resolvable CRlem = resoIT.next();
 				String crElemID =(String) CRlem.get(idAttribute);
-				
+				String docID="";
 				//solange index id kleiner cr id delete from index
-				boolean finish=!termDocs.next();
+				boolean finish=!docIT.hasNext();
 				if(finish)
 				{
 					//IF THERE ARE NO INDEXED OBJECTS => ADD ALL
 					diffObjects = objectsToIndex;
 				}
+				else
+				{
+					docID = (String)docIT.next();
+				}
 				
 				while(!finish)
 				{
-					Document doc = reader.document(termDocs.doc());
-					String docID = doc.get(idAttribute);
+					
+					
 					if(docID!=null && docID.compareTo(crElemID) == 0)
 					{
 						//ELEMENT IN BOTH, CR AND INDEX
 						//COMPARE UPDATE and STEP BOTH
 						Integer crUpt = (Integer)CRlem.get(TIMESTAMP_ATTR);
-						String s_docUpt = doc.get(TIMESTAMP_ATTR);
-						if(!(crUpt!=null && s_docUpt!=null && Integer.parseInt(s_docUpt)>=crUpt.intValue()))
+						Integer docNR = docs.get(docID);
+						Document doc = reader.document(docNR);
+						String docUpt = doc.get(TIMESTAMP_ATTR);
+						if(!(crUpt!=null && docUpt!=null && Integer.parseInt(docUpt)>=crUpt.intValue()))
 						{
 							//IF UPDATE TS DOES NOT EXIST OR TS IN INDEX SMALLER THAN IN CR
 							diffObjects.add(CRlem);
 						}
-						finish = !termDocs.next();
+						finish = !docIT.hasNext();
+						if(!finish)docID = (String)docIT.next();
 						if(resoIT.hasNext())
 						{
 							CRlem = resoIT.next();
@@ -623,8 +658,10 @@ public class CRIndexJob implements Runnable{
 					else
 					{
 						//delete Document
-						reader.deleteDocument(termDocs.doc());
-						finish = !termDocs.next();
+						Integer docNR = docs.get(docID);
+						reader.deleteDocument(docNR);
+						finish = !docIT.hasNext();
+						if(!finish)docID = (String)docIT.next();
 					}
 					
 				}
