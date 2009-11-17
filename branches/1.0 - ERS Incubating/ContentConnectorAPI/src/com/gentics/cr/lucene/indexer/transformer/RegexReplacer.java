@@ -24,7 +24,7 @@ public class RegexReplacer extends ContentTransformer{
 	private static final String STRIPPER_PATTERN_KEY="pattern";
 	private static final String REPLACEMENT_PATTERN_KEY="replacement";
 	private String attribute="";
-	private String pattern="(?s)(<!--[ \n\r]*noindexstart[^>]*-->.*?<!--[ \n\r]*noindexend[^>]*-->)";
+	private String pattern="(?s)(<!--[ \t\n\r]*noindexstart[^>]*-->.*?<!--[ \t\n\r]*noindexend[^>]*-->)";
 	private String replacement = "";
 	private Pattern c_pattern = null;
 	/**
@@ -79,9 +79,9 @@ public class RegexReplacer extends ContentTransformer{
 			}
 		}
 		
-        // Replace all occurrences of pattern in input
-        Matcher matcher = c_pattern.matcher(str);
-        str = matcher.replaceAll(replacement);
+		// Replace all occurrences of pattern in input
+		Matcher matcher = c_pattern.matcher(str);
+		str = matcher.replaceAll(replacement);
 		return str;
 	}
 
