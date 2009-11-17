@@ -36,6 +36,8 @@ import com.gentics.cr.lucene.indexer.IndexerUtil;
 public class IndexLocation {
 	//STATIC MEMBERS
 	protected static final Logger log = Logger.getLogger(IndexLocation.class);
+	private static final String REOPEN_CHECK_KEY = "reopencheck";
+	private static final String REOPEN_FILENAME = "reopen";
 	private static final String INDEX_LOCATION_KEY = "indexLocation";
 	private static final String RAM_IDENTIFICATION_KEY = "RAM";
 	private static final String PERIODICAL_KEY = "PERIODICAL";
@@ -55,6 +57,8 @@ public class IndexLocation {
 	private int periodical_interval = 60; //60 seconds
 	private Thread periodical_thread;
 	private boolean lockdetection = false;
+	private boolean reopencheck = false;
+	private String indexLocation ="";
 	
 	private Analyzer getConfiguredAnalyzer() 
 	{
@@ -119,10 +123,15 @@ public class IndexLocation {
 	{
 		this.config = config;
 		name = config.getName();
-		String indexLocation = (String)config.get(INDEX_LOCATION_KEY);
+		indexLocation = (String)config.get(INDEX_LOCATION_KEY);
 		queue = new IndexJobQueue(config);
 		String per = (String)config.get(PERIODICAL_KEY);
 		periodical = Boolean.parseBoolean(per);
+		String s_reopen = (String)config.get(REOPEN_CHECK_KEY);
+		if(s_reopen!=null)
+		{
+			reopencheck = Boolean.parseBoolean(s_reopen);
+		}
 		String s_lockdetect = (String)config.get(LOCK_DETECTION_KEY);
 		if(s_lockdetect!=null)
 		{
@@ -284,7 +293,27 @@ public class IndexLocation {
 	 */
 	public IndexAccessor getAccessor()
 	{
-		return IndexAccessorFactory.getInstance().getAccessor(this.getDirectory());
+		IndexAccessor acc = IndexAccessorFactory.getInstance().getAccessor(this.getDirectory());
+		if(reopencheck)
+		{
+			try
+			{
+				log.debug("Check for reopen file at "+this.indexLocation+"/"+REOPEN_FILENAME);
+				File ro_check = new File(this.indexLocation+"/"+REOPEN_FILENAME);
+				if(ro_check.exists())
+				{
+					IndexWriter w = acc.getWriter();
+					acc.release(w);
+					ro_check.delete();
+					log.debug("Reopened index.");
+				}
+			}catch(Exception ex)
+			{
+				log.error(ex.getMessage());
+				ex.printStackTrace();
+			}
+		}
+		return acc;
 	}
 
 	/**
