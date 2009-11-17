@@ -9,7 +9,7 @@ The next few lines describe how to set up a search infrastructure with an index 
 
 The infrastructure of a search application can be devided in two important parts: the indexer and the searcher.
 
- [http://farm3.static.flickr.com/2584/4112482736_249669e800_o_d.png]
+ [http://farm3.static.flickr.com/2614/4111841413_6f266ca3f6_o_d.png]
 
 == The Indexer ==
 
