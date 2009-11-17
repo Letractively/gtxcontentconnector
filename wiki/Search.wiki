@@ -1,0 +1,50 @@
+#Describes the search functionality and how to set it up.
+
+= Introduction =
+
+The next few lines describe how to set up a search infrastructure with an index server and a search application.
+
+
+= Infrastructure =
+
+The infrasturcture of a search application can be devided in two important parts: the indexer and the searcher.
+
+ [http://farm3.static.flickr.com/2584/4112482736_249669e800_o_d.png]
+
+== The Indexer ==
+
+The Indexer periodically scans the defined content and builds up an index to speed up searches. The content has to be converted to text before it can be indexed. This means that one has to extract text from Files like PDF, DOC, DOCX and so on, before the content of the files is being passed to the indexer.
+
+== The Searcher ==
+
+The Searcher runs the searches against the index for the user. It highlights the text snippets in the result and passes the result back to the search application where it can be displayed to the user.
+
+= Index content =
+
+[http://farm3.static.flickr.com/2531/4112482688_3db75f673e_o_d.png]
+
+  # All objects that match the index rule (config) are loaded from the content repository with their CONTENTID and UPDATETIMESTAMP. Then they are compared to the objects in the index. If needed the object in the index will be updated, new objects will be added and objects that are no longer in the repository will be deleted.
+  # A chain of configured transformers will now process the collection of resolvables in order to prepare the content for the indexing process. E.g.: Extracting text from a PDF-Binary or stripping HTML tags,... For each resolvable the configured transformer rule is being executed in order to determine if the transformer should process the current resolvable.
+  # Then the converted objects are being written to the index file (can be configured to a file system location or to a RAM-directory).
+
+= Basic search =
+
+[http://farm3.static.flickr.com/2667/4112482644_4929b80e12_o_d.png]
+
+  # A search is being run against the index. For a detailed description on the lucene query language, have a look at: [http://lucene.apache.org/java/2_0_0/queryparsersyntax.html Querylanguage]
+  # The configured number of results is being returned with the contained attributes and an additional score attribute that describes the importance of the according object. Anyhow the score value does not describe the quality of the according object. [http://wiki.apache.org/lucene-java/LuceneFAQ#Can_I_filter_by_score.3F LuceneScore]
+  # The collection of resolvables is then being highlighted in order to get a text snipped around the searched terms. There are several ways how highlighting can be done, therefore more than one highlighter can be configured.
+  # Now the result can be displayed to the user.
+= Enrich searched objects =
+
+[http://farm3.static.flickr.com/2773/4111717305_c6408d11c5_o_d.png]
+
+If you do not want to store much data in the index you can enrich searched objects by additional attributes from another datasource (e.g. Content Repository). This can be done using the RPMergerRequestProcessor.
+
+  # Like in the basic search, the query agains the index is being executed and returnes the found objects.
+  # The found objects are then looked up in the second configured datasource.
+  # Attributes that were not stored in the index are now being loaded from the second datasource if the objects (per default matched via CONTENTID) does exist there as well.
+
+
+= Lucene FAQ =
+[http://wiki.apache.org/lucene-java/LuceneFAQ LuceneFAQ]
