@@ -36,8 +36,8 @@
 		</copy>
 		<javac srcdir="${out}/tmpscr/" destdir="${out}/bin" debug="true" debuglevel="lines,vars,source">
 			<classpath>
-				<fileset dir="${sharedlibs}" />
 				<fileset dir="${webappdir}/lib" />
+				<fileset dir="${sharedlibs}" />
 			</classpath>
 			
 		</javac>
