@@ -32,7 +32,7 @@ The Searcher runs the searches against the index for the user. It highlights the
 [http://farm3.static.flickr.com/2667/4112482644_4929b80e12_o_d.png]
 
   # A search is being run against the index. For a detailed description on the lucene query language, have a look at: [http://lucene.apache.org/java/2_0_0/queryparsersyntax.html Querylanguage]
-  # The configured number of results is being returned with the contained attributes and an additional score attribute that describes the importance of the according object. Anyhow the score value does not describe the quality of the according object. [http://wiki.apache.org/lucene-java/LuceneFAQ#Can_I_filter_by_score.3F LuceneScore]
+  # The configured number of results is being returned with the contained attributes and an additional score attribute that describes the importance of the according object. Anyhow the score value does not describe the quality of the according object. [http://wiki.apache.org/lucene-java/LuceneFAQ#Can_I_filter_by_score.3F LuceneScore] [http://jayant7k.blogspot.com/2006/07/document-scoringcalculating-relevance_08.html ScoreCalculation]
   # The collection of resolvables is then being highlighted in order to get a text snipped around the searched terms. There are several ways how highlighting can be done, therefore more than one highlighter can be configured.
   # Now the result can be displayed to the user.
 = Enrich searched objects =
