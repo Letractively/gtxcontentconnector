@@ -176,9 +176,13 @@ public abstract class RequestProcessor {
 			log.warn("Could not get Pathresolver to resolve path '" + request.getUrl()
 					+ "'.");
 		}
-		
-		return getContent(new CRResolvableBean(reso), request);
-
+		if(reso == null){
+			log.error("Cannot get Object for path '" + request.getUrl() + "'");
+			return null;
+		}
+		else{
+			return getContent(new CRResolvableBean(reso), request);
+		}
 	}
 	
 	
