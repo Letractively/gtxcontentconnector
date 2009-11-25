@@ -46,5 +46,6 @@ If you do not want to store much data in the index you can enrich searched objec
   # Attributes that were not stored in the index are now being loaded from the second datasource if the objects (per default matched via CONTENTID) does exist there as well.
 
 
-= Lucene FAQ =
-[http://wiki.apache.org/lucene-java/LuceneFAQ LuceneFAQ]
+= Additional Info =
+  * [http://lucene.apache.org/ LuceneHome]
+  * [http://wiki.apache.org/lucene-java/LuceneFAQ LuceneFAQ]
