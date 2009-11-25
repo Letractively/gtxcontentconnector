@@ -16,6 +16,25 @@ import com.gentics.cr.template.ITemplateManager;
  */
 public interface CRConfig {
 
+	
+	/**
+	 * Reserved Attributes for Advanced Plinkreplacing without Velocity
+	 * See com.gentics.cr.plink.PathResolver and com.gentics.cr.plink.PlinkProcessor
+	 */
+	
+	/**
+	 * configuration property name for advanced plinkreplacing
+	 */
+	public static final String ADVPLR_KEY = "ADVPLR";
+	/**
+	 * configuration property name for filename attribute used by advanced plinkreplacing to generate beautiful URLs
+	 */
+	public static final String ADVPLR_FN_KEY = "ADVPLR_FILENAME_ATTRIBUTE";
+	/**
+	 * configuration property name for pub_dir attribute used by advanced plinkreplacing to generate beautiful URLs
+	 */
+	public static final String ADVPLR_PB_KEY = "ADVPLR_PUB_DIR_ATTRIBUTE";
+	
 	/**
 	 * Creates Datasource from Config
 	 * @return Datasource

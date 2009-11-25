@@ -1,7 +1,11 @@
 package com.gentics.cr.plink;
 
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.Iterator;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 
@@ -197,4 +201,36 @@ public class PathResolver {
 			return "?contentid=" + contentid;
 		
 	}
+
+	/**
+	 * @param contentid
+	 * @return a dynamic URL to suitable for CRServlet.
+	 * Supports beautiful URLs, therefore it needs to load DB Objects and Attributes 
+	 */
+	public String getDynamicUrl(String contentid, CRConfig config, CRRequest request) {
+			String url = (String) request.get("url");
+			if(url == null)
+				return getDynamicUrl(contentid);
+			else{
+				//if there is an attribute URL the servlet was called with a beautiful URL so give back a beautiful URL
+				Resolvable plinkObject;
+				try {
+					
+					plinkObject = PortalConnectorFactory.getContentObject(contentid, config.getDatasource());
+					//TODO: make this more beautiful and compatible with portlets
+					String filename_attribute = (String) config.get(CRConfig.ADVPLR_FN_KEY);
+					String pub_dir_attribute = (String) config.get(CRConfig.ADVPLR_PB_KEY);
+					String filename = (String) plinkObject.get(filename_attribute);
+					String pub_dir = (String) plinkObject.get(pub_dir_attribute);
+					HttpServletRequest servletRequest = (HttpServletRequest) request.get("request");
+					String contextPath = servletRequest.getContextPath();
+					String servletPath = servletRequest.getServletPath();
+					return contextPath + servletPath + pub_dir + filename;
+				} catch (DatasourceNotAvailableException e) {
+					log.error("Error while getting object for "+contentid, e);
+					return getDynamicUrl(contentid);
+				}
+			}
+	}
+
 }

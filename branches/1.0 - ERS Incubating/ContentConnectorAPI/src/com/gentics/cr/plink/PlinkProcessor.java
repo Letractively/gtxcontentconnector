@@ -153,7 +153,14 @@ public class PlinkProcessor {
 		// If velocity template parsing and caching does not work for any
 		// reason use a dynamic link
 		if ("".equals(link) || link == null) {
-			link = this.config.getPathResolver().getDynamicUrl(contentid);
+			
+			if("true".equals(this.config.get(CRConfig.ADVPLR_KEY))){
+				link = this.config.getPathResolver().getDynamicUrl(contentid, config, request);
+			}
+			else
+			{
+				link = this.config.getPathResolver().getDynamicUrl(contentid);
+			}
 		}
 
 		// add link to cache
