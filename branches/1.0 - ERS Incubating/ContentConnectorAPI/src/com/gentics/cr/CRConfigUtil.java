@@ -215,6 +215,7 @@ public class CRConfigUtil extends GenericConfiguration implements CRConfig {
 	/**
 	 * Gets the Datasource of this config
 	 * 		- only RequestProcessor configs have Datasources set
+	 * When a Datasource is requested it has to be released after usage using CRDatabaseFactory.releaseDatasource(ds); where ds is the Datasource instance.
 	 * @return Datasource or null if config has no Datasource
 	 */
 	public Datasource getDatasource() {
