@@ -1,10 +1,8 @@
 package com.gentics.cr.plink;
 
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.Iterator;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -204,6 +202,8 @@ public class PathResolver {
 
 	/**
 	 * @param contentid
+	 * @param config 
+	 * @param request 
 	 * @return a dynamic URL to suitable for CRServlet.
 	 * Supports beautiful URLs, therefore it needs to load DB Objects and Attributes 
 	 */
