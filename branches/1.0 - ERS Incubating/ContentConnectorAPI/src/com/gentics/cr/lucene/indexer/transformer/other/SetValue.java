@@ -3,7 +3,11 @@ package com.gentics.cr.lucene.indexer.transformer.other;
 import com.gentics.cr.CRResolvableBean;
 import com.gentics.cr.configuration.GenericConfiguration;
 import com.gentics.cr.lucene.indexer.transformer.ContentTransformer;
-
+/**
+ * Sets a configured value
+ * @author Andreas Perhab
+ *
+ */
 public class SetValue extends ContentTransformer {
 
 	private static final String TRANSFORMER_ATTRIBUTE_KEY="attribute";
@@ -11,6 +15,10 @@ public class SetValue extends ContentTransformer {
 	private String attribute;
 	private String value;
 	
+	/**
+	 * Creates instance of SetValueTransformer
+	 * @param config
+	 */
 	public SetValue(GenericConfiguration config){
 		super(config);
 		attribute = (String)config.get(TRANSFORMER_ATTRIBUTE_KEY);
