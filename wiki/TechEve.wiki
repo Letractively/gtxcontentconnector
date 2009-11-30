@@ -1,0 +1,22 @@
+#TechEve is a event hosted by gentics to talk about and implement new features or extensions.
+
+= Location =
+
+{{{
+Gentics Software GmbH
+Gonzagagasse 11/25
+A-1010 Wien,
+Österreich
+}}}
+
+  * [http://www.gentics.com/Content.Node/company/legal/company_anfahrtsplan.php Anfahrtsplan DE]
+  * [http://www.gentics.com/Content.Node/company/legal/Description-of-way.php description of way EN]
+
+
+
+= What to bring =
+
+You should bring:
+  * Notebook or Netbook
+  * List of questions (if you have any)
+  * Ideas you want to implement
