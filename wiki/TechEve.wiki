@@ -1,4 +1,4 @@
-#TechEve is a event hosted by gentics to talk about and implement new features or extensions.
+#TechEve is an event hosted by gentics to talk about and implement new features or extensions.
 
 = Location =
 
