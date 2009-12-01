@@ -9,9 +9,10 @@ import java.util.logging.Level;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.search.HitCollector;
+import org.apache.lucene.search.Collector;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.Scorer;
 import org.apache.lucene.search.Similarity;
 import org.apache.lucene.store.Directory;
 
@@ -165,10 +166,32 @@ class WarmingIndexAccessor extends DefaultIndexAccessor {
       }
       try {
         
-          searcher.search(warmQuery,new HitCollector() {
-              public void collect(int doc, float score) {
-                  //do nothing
-                }
+          searcher.search(warmQuery,new Collector() {
+              
+			@Override
+			public boolean acceptsDocsOutOfOrder() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public void collect(int arg0) throws IOException {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void setNextReader(IndexReader arg0, int arg1)
+					throws IOException {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void setScorer(Scorer arg0) throws IOException {
+				// TODO Auto-generated method stub
+				
+			}
               });
         
       } catch (IOException e) {

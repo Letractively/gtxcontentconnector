@@ -14,7 +14,8 @@ import org.apache.lucene.search.Explanation;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Searcher;
-import org.apache.lucene.search.TopDocCollector;
+import org.apache.lucene.search.TopScoreDocCollector;
+import org.apache.lucene.util.Version;
 
 import com.gentics.cr.CRConfig;
 import com.gentics.cr.lucene.indexaccessor.IndexAccessor;
@@ -71,7 +72,8 @@ public class CRSearcher {
 		Searcher searcher;
 		Analyzer analyzer;
 		//Collect count+start hits
-		TopDocCollector collector = new TopDocCollector(count+start);
+		int hits = count+start;
+		TopScoreDocCollector collector = TopScoreDocCollector.create(hits, true);
 	
 		IndexLocation idsLocation = IndexLocation.getIndexLocation(this.config);
 		
@@ -82,16 +84,16 @@ public class CRSearcher {
 			boolean doStemming = Boolean.parseBoolean((String)this.config.get(STEMMING_KEY));
 			if(doStemming)
 			{
-				analyzer = new SnowballAnalyzer((String)this.config.get(STEMMER_NAME_KEY));
+				analyzer = new SnowballAnalyzer(Version.LUCENE_CURRENT,(String)this.config.get(STEMMER_NAME_KEY));
 			}
 			else
 			{
-				analyzer = new StandardAnalyzer();
+				analyzer = new StandardAnalyzer(Version.LUCENE_CURRENT);
 			}
 			
 			if(searchedAttributes!=null && searchedAttributes.length>0)
 			{
-				QueryParser parser = new QueryParser(searchedAttributes[0], analyzer);
+				QueryParser parser = new QueryParser(Version.LUCENE_CURRENT,searchedAttributes[0], analyzer);
 				
 				Query parsedQuery = parser.parse(query);
 				result = new HashMap<String,Object>(2);
@@ -122,7 +124,7 @@ public class CRSearcher {
 	 * @param count
 	 * @return ArrayList of results
 	 */
-	private LinkedHashMap<Document,Float> runSearch(TopDocCollector collector, Searcher searcher, Query parsedQuery,boolean explain,int count, int start) {
+	private LinkedHashMap<Document,Float> runSearch(TopScoreDocCollector collector, Searcher searcher, Query parsedQuery,boolean explain,int count, int start) {
 		try {
 		    
 		    searcher.search(parsedQuery, collector);

@@ -1,6 +1,7 @@
 package com.gentics.cr.lucene.search.highlight;
 
 import org.apache.lucene.analysis.Token;
+import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.search.highlight.Fragmenter;
 
 /**
@@ -58,6 +59,24 @@ public class WordCountFragmenter implements Fragmenter {
     private static final int DEFAULT_FRAGMENT_SIZE = 10;
     private int currentNumFrags;
     private int wordCount;
+    
+    /**
+     * Lucene 3.0 Implementation
+     */
+	public boolean isNewFragment() {
+		boolean isNewFrag = currentNumFrags >= wordCount;
+        currentNumFrags++;
+        if(isNewFrag)
+            currentNumFrags=0;
+        return isNewFrag;
+	}
+
+	/**
+	 * Lucene 3.0 Implementation
+	 */
+	public void start(String arg0, TokenStream arg1) {
+
+	}
 	
 
 }

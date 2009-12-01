@@ -19,9 +19,6 @@
 	<classpathentry kind="lib" path="lib/json-lib-2.2.1-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/jsp-api.jar"/>
 	<classpathentry kind="lib" path="lib/language-identifier.jar"/>
-	<classpathentry kind="lib" path="lib/lucene-core-2.4.0.jar"/>
-	<classpathentry kind="lib" path="lib/lucene-highlighter-2.4.1.jar"/>
-	<classpathentry kind="lib" path="lib/lucene-snowball-2.4.1.jar"/>
 	<classpathentry kind="lib" path="lib/nutch-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/pdfbox-0.8.0-incubating.jar"/>
 	<classpathentry kind="lib" path="lib/rome-1.0RC2.jar"/>
@@ -39,5 +36,9 @@
 	<classpathentry kind="lib" path="lib/xmlbeans-qname.jar"/>
 	<classpathentry kind="lib" path="lib/xmlpublic.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/lucene-core-3.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/lucene-fast-vector-highlighter-3.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/lucene-highlighter-3.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/lucene-snowball-3.0.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

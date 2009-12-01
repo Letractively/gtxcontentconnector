@@ -17,6 +17,7 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.util.Version;
 
 import com.gentics.cr.CRConfig;
 import com.gentics.cr.CRException;
@@ -153,8 +154,8 @@ public class LuceneRequestProcessor extends RequestProcessor {
 			Object highlightQuery = request.get(HIGHLIGHT_QUERY_KEY);
 			if(highlightQuery!=null)
 			{
-				Analyzer analyzer = new StandardAnalyzer();
-				QueryParser parser = new QueryParser(getSearchedAttributes()[0], analyzer);
+				Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_CURRENT);
+				QueryParser parser = new QueryParser(Version.LUCENE_CURRENT,getSearchedAttributes()[0], analyzer);
 				try {
 					parsedQuery = parser.parse((String)highlightQuery);
 				} catch (ParseException e) {

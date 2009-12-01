@@ -111,7 +111,7 @@ public class IndexAccessorFactory {
     }
     accessor.open();
 
-    if (dir.list().length == 0) {
+    if (dir.listAll().length == 0) {
       IndexWriter indexWriter = new IndexWriter(dir, null, true, IndexWriter.MaxFieldLength.UNLIMITED);
       indexWriter.close();
     }

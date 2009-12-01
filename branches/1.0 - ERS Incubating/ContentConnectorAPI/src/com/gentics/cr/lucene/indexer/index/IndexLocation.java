@@ -15,6 +15,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.LockObtainFailedException;
 import org.apache.lucene.store.RAMDirectory;
+import org.apache.lucene.util.Version;
 
 import com.gentics.cr.CRConfig;
 import com.gentics.cr.CRConfigUtil;
@@ -67,7 +68,7 @@ public class IndexLocation {
 		boolean doStemming = Boolean.parseBoolean((String)config.get(STEMMING_KEY));
 		if(doStemming)
 		{
-			analyzer = new SnowballAnalyzer((String)config.get(STEMMER_NAME_KEY));
+			analyzer = new SnowballAnalyzer(Version.LUCENE_CURRENT,(String)config.get(STEMMER_NAME_KEY));
 		}
 		else
 		{
@@ -80,18 +81,18 @@ public class IndexLocation {
 				//initialize Analyzer with stop words
 				try
 				{
-					analyzer = new StandardAnalyzer(stopWordFile);
+					analyzer = new StandardAnalyzer(Version.LUCENE_CURRENT,stopWordFile);
 				}
 				catch(IOException ex)
 				{
 					log.error("Could not open stop words file. Will create standard analyzer. "+ex.getMessage());
-					analyzer = new StandardAnalyzer();
+					analyzer = new StandardAnalyzer(Version.LUCENE_CURRENT);
 				}
 			}
 			else
 			{
 				//if no stop word list exists load fall back
-				analyzer = new StandardAnalyzer();
+				analyzer = new StandardAnalyzer(Version.LUCENE_CURRENT);
 			}
 		}
 		return analyzer;
@@ -206,7 +207,7 @@ public class IndexLocation {
 	
 	private Directory createFSDirectory(File indexLoc) throws IOException
 	{
-		Directory dir = FSDirectory.getDirectory(indexLoc);
+		Directory dir = FSDirectory.open(indexLoc);
 		log.debug("Creating FS Directory for Index ["+name+"]");
 		return(dir);
 	}

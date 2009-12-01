@@ -9,9 +9,11 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.highlight.Formatter;
 import org.apache.lucene.search.highlight.Highlighter;
+import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.TextFragment;
 import org.apache.lucene.search.highlight.TokenGroup;
+import org.apache.lucene.util.Version;
 
 import com.gentics.cr.configuration.GenericConfiguration;
 /**
@@ -42,7 +44,7 @@ public class PhraseBolder extends ContentHighlighter implements Formatter{
 	 */
 	public PhraseBolder(GenericConfiguration config) {
 		super(config);
-		analyzer = new StandardAnalyzer();
+		analyzer = new StandardAnalyzer(Version.LUCENE_CURRENT);
 		
 		highlightPrefix = (String)config.get(PHRASE_PREFIX_KEY);
 		if(highlightPrefix==null)highlightPrefix="<b>";
@@ -126,6 +128,9 @@ public class PhraseBolder extends ContentHighlighter implements Formatter{
 				}
 				
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidTokenOffsetsException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
