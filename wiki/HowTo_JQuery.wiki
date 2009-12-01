@@ -15,8 +15,8 @@ Click File->New->Project in your GPN SDK and select "Dynamic Web Project". Go to
 
 [http://www.flickr.com/photos/27618206@N05/4151381742/sizes/o/ http://farm3.static.flickr.com/2743/4151381742_e13d239bc5_t.jpg]  
 [http://www.flickr.com/photos/27618206@N05/4150622755/sizes/o/ http://farm3.static.flickr.com/2612/4150622755_7f8783bfc2_t.jpg] 
-[http://farm3.static.flickr.com/2572/4151381794_2485dec189_o_d.jpg http://farm3.static.flickr.com/2572/4151381794_2485dec189_s_d.jpg] 
-[http://farm3.static.flickr.com/2801/4151381848_f521590127_o_d.jpg http://farm3.static.flickr.com/2801/4151381848_f521590127_s_d.jpg]
+[http://www.flickr.com/photos/27618206@N05/4151381794/sizes/o/ http://farm3.static.flickr.com/2572/4151381794_272a109ccf_t.jpg] 
+[http://www.flickr.com/photos/27618206@N05/4151381848/sizes/o/ http://farm3.static.flickr.com/2801/4151381848_7f341e7142_t.jpg]
 
 
 === Fix two small Bugs ===
