@@ -16,7 +16,7 @@ Click File->New->Project in your GPN SDK and select "Dynamic Web Project". Go to
 === Fix two small Bugs ===
 Unfortunately there is a small issue in the delivered sample project so you have to make a change in the project settings.
 
-And you have to add the following [http://code.google.com/p/gtxcontentconnector/source/browse/branches/stable/Servlets/WebContent/WEB-INF/lib/ezmorph-1.0.jar missing library] to the project GEP ContentRepository/WebContent/WEB-INF/lib
+And you have to add the following [http://code.google.com/p/gtxcontentconnector/source/browse/branches/stable/Servlets/WebContent/WEB-INF/lib/ezmorph-1.0.jar missing library] to the project 'GEP ContentRepository/WebContent/WEB-INF/lib'
 
 == The Coding ==
 Now we can get going:
