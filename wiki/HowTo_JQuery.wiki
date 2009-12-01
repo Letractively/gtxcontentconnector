@@ -11,10 +11,10 @@ Nothing is simpler than that. First you have to get all the dependencies you nee
 First you have to set up Gentics Portal.Node SDK. Use the [http://www.gentics.com/help/topic/com.gentics.portalnode.sdk.doc/misc/doc/sdkguide/xhtml/sdkguide-installation.html InstallationGuide] if you need any help.
 
 Then you can set up your WebProject.
-Click File->New->Project in your GPN SDK and select "Dynamic Web Project". Go to the next page and enter a project name (We will use "Example" here).
+Click File->New->Project in your GPN SDK and select "Dynamic Web Project". Go to the next page and enter a project name (We will use "CCR_Samples" here).
 
-[http://farm3.static.flickr.com/2743/4151381742_e13d239bc5_o_d.jpg http://farm3.static.flickr.com/2743/4151381742_e13d239bc5_s_d.jpg]  
-[http://farm3.static.flickr.com/2612/4150622755_84248e6b28_o_d.jpg http://farm3.static.flickr.com/2612/4150622755_84248e6b28_s_d.jpg] 
+[http://www.flickr.com/photos/27618206@N05/4151381742/sizes/o/ http://farm3.static.flickr.com/2743/4151381742_e13d239bc5_t.jpg]  
+[http://www.flickr.com/photos/27618206@N05/4150622755/sizes/o/ http://farm3.static.flickr.com/2612/4150622755_7f8783bfc2_t.jpg] 
 [http://farm3.static.flickr.com/2572/4151381794_2485dec189_o_d.jpg http://farm3.static.flickr.com/2572/4151381794_2485dec189_s_d.jpg] 
 [http://farm3.static.flickr.com/2801/4151381848_f521590127_o_d.jpg http://farm3.static.flickr.com/2801/4151381848_f521590127_s_d.jpg]
 
