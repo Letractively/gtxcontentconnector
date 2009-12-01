@@ -1,0 +1,2 @@
+#summary Setup a simple Example with jQuery
+
