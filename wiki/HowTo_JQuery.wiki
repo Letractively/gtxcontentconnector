@@ -56,6 +56,8 @@ After placing the jquery.js in the same folder, you are ready to test the page i
 == The Testing == 
 Activate the "J2EE-Perspective" with Window->Open Perspective->Other and select "Java EE". There you should see a Servers View where you have predefined Servers. We will use "Gentics Enterprise Portal". You can drag&drop your Dynamic Web Project from the Project Explorer to the Server.
 
+<wiki:video url="http://www.youtube.com/watch?v=PSfDRFF9JvQ"/>
+
 Now that the Project is deployed, you are ready to start the Server with a right click on the instance which brings up a context menu. Now select "Start" and on it goes.
 
 After the server has started you should be able to access your example via [http://localhost:42880/Example].
