@@ -1,2 +1,6 @@
 #summary Setup a simple Example with jQuery
 
+
+
+You can download the sample source here:
+[http://code.google.com/p/gtxcontentconnector/source/browse/branches/stable/Examples/Examples/jqueryjson.html SampleSourceFile]
