@@ -20,3 +20,11 @@ You should bring:
   * Notebook or Netbook
   * List of questions (if you have any)
   * Ideas you want to implement
+
+= What we do @techeve =
+Agenda:
+* questions and answers
+* create tasks out of important questions
+* prioritize tasks
+* work on tasks in groups
+* find next possible evening (one per month)
