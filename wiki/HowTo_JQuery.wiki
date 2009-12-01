@@ -61,6 +61,8 @@ Now that the Project is deployed, you are ready to start the Server with a right
 After the server has started you should be able to access your example via [http://localhost:42880/Example].
 
 == The Playing around ==
+Edit this code and play around. Try to add additional attributes to the json-url (e.g. ...&attributes=content&attributes=updatetimestamp) and make the output more beautiful ;)
+
 
 == You want more? ==
 View [http://code.google.com/p/gtxcontentconnector/source/browse/branches/stable/Examples/Examples/ More examples]
