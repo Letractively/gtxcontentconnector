@@ -1,5 +1,5 @@
 #summary HowTo setup different use cases of Gentics Content.Connector
-#labels Samples,Featured
+#labels Sample,Featured
 
 = JQuery with JSON =
 = Use API in Java =
