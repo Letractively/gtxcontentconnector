@@ -1,6 +1,7 @@
 #summary HowTo setup different use cases of Gentics Content.Connector
+#labels Samples,Featured
 
 = JQuery with JSON =
 = Use API in Java =
-= SetUp indexing with lucene =
-= SetUp enterprise indexing with lucene (distributed indexing) =
+= Setup indexing with lucene =
+= Setup enterprise indexing with lucene (distributed indexing) =
