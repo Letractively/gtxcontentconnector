@@ -8,3 +8,4 @@
   ** based on Use Cases
   ** extended by hardcore documentation for those who wanna know
   * Documentation (doing)
+  ** [Samples]
