@@ -1,6 +1,66 @@
 #summary Setup a simple Example with jQuery
+#labels Example
 
+= You want to access via jQuery? =
+Nothing is simpler than that. First you have to get all the dependencies you need:
+  * The lates jQuery [http://docs.jquery.com/Downloading_jQuery release]
+  * [http://www.gentics.com/Content.Node/products/portalnodesdk/gentics_portalnode_4_sdk_ueberblick.php Gentics Portal.Node SDK] (here short GPN SDK)
+  * Gentics Portal.Node SDK Licence Key
 
+== Preparing ==
+First you have to set up Gentics Portal.Node SDK. Use the [http://www.gentics.com/help/topic/com.gentics.portalnode.sdk.doc/misc/doc/sdkguide/xhtml/sdkguide-installation.html InstallationGuide] if you need any help.
 
-You can download the sample source here:
-[http://code.google.com/p/gtxcontentconnector/source/browse/branches/stable/Examples/Examples/jqueryjson.html SampleSourceFile]
+Then you can set up your WebProject.
+Click File->New->Project in your GPN SDK and select "Dynamic Web Project". Go to the next page and enter a project name (We will use "Example" here. 
+
+== The Coding ==
+Now we can get going:
+
+Navigate to your newly created project and into the /WebContent/ folder. There we can create our HTML-File and name it index.html:
+
+{{{
+<html>
+  <head>
+    <title>My First Content Connector Example</title>
+    <script src="jquery.js" type="text/javascript"></script> 
+  </head>
+  <body>
+   <script type="text/javascript">
+   var custom = {};
+   custom.ccrlocation="http://localhost:42880/PNApplication/ccr";
+   $(function() {
+   	$('#update-target a').click(function() {
+   	  	$.getJSON(custom.ccrlocation+"?   filter=object.obj_type==10007&attributes=contentid&attributes=name&attributes=filename&sor   ting=contentid:asc&type=json&count=30",
+   	  	function(data){
+   	  	  $('<p></p>').html('status: '+data.status).appendTo('#update-target ol');
+             $.each(data.Objects, function(i,item){
+               
+               $('<li></li>')
+   		            .html(i+' '+item.attributes.name+' -    '+item.attributes.filename+' - '+item.attributes.contentid)
+   		            .appendTo('#update-target ol');
+               
+             });
+           }); //close $.ajax(
+       }); //close click(
+   }); //close $(
+   </script>
+   <div id='update-target'><a href="#">Click here to load data</a>
+   <ol></ol>
+   </div>
+  </body>
+</html>
+}}}
+
+After placing the jquery.js in the same folder, you are ready to test the page in your browser.
+
+== The Testing == 
+Activate the "J2EE-Perspective" with Window->Open Perspective->Other and select "Java EE". There you should see a Servers View where you have predefined Servers. We will use "Gentics Enterprise Portal". You can drag&drop your Dynamic Web Project from the Project Explorer to the Server.
+
+Now that the Project is deployed, you are ready to start the Server with a right click on the instance which brings up a context menu. Now select "Start" and on it goes.
+
+After the server has started you should be able to access your example via [http://localhost:42880/Example].
+
+== The Playing around ==
+
+== You want more? ==
+View [http://code.google.com/p/gtxcontentconnector/source/browse/branches/stable/Examples/Examples/ More examples]
