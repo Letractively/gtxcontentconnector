@@ -13,6 +13,11 @@ First you have to set up Gentics Portal.Node SDK. Use the [http://www.gentics.co
 Then you can set up your WebProject.
 Click File->New->Project in your GPN SDK and select "Dynamic Web Project". Go to the next page and enter a project name (We will use "Example" here. 
 
+=== Fix a small Bug ===
+Unfortunately there is a small issue in the delivered sample project so you have to make a change in the project settings.
+
+
+
 == The Coding ==
 Now we can get going:
 
@@ -27,7 +32,7 @@ Navigate to your newly created project and into the /WebContent/ folder. There w
   <body>
    <script type="text/javascript">
    var custom = {};
-   custom.ccrlocation="http://localhost:42880/PNApplication/ccr";
+   custom.ccrlocation="http://localhost:42880/ContentRepository/ccr";
    $(function() {
    	$('#update-target a').click(function() {
    	  	$.getJSON(custom.ccrlocation+"?   filter=object.obj_type==10007&attributes=contentid&attributes=name&attributes=filename&sor   ting=contentid:asc&type=json&count=30",
