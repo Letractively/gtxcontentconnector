@@ -1,5 +1,5 @@
 #summary Setup a simple Example with jQuery
-#labels Example
+#labels Example,Featured
 
 = You want to access via jQuery? =
 Nothing is simpler than that. First you have to get all the dependencies you need:
