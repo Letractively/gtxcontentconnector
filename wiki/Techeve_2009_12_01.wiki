@@ -1,0 +1,9 @@
+#summary Protocol of Techeve #1 on 2009-12-01
+
+  * SVN Cleanup - we use trunk as trunk again
+  * Questions from HP about interface design
+  * Melin Newsletter Publishing from Gentics Content.Node [http://farm3.static.flickr.com/2517/4150261497_827a897210_d.jpg]
+  * Documentation Plan
+  ** based on Use Cases
+  ** extended by hardcore documentation for those who wanna know
+  * Documentation (doing)
