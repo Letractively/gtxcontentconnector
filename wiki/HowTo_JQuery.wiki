@@ -13,10 +13,10 @@ First you have to set up Gentics Portal.Node SDK. Use the [http://www.gentics.co
 Then you can set up your WebProject.
 Click File->New->Project in your GPN SDK and select "Dynamic Web Project". Go to the next page and enter a project name (We will use "Example" here. 
 
-=== Fix a small Bug ===
+=== Fix two small Bugs ===
 Unfortunately there is a small issue in the delivered sample project so you have to make a change in the project settings.
 
-
+And you have to add the following [http://code.google.com/p/gtxcontentconnector/source/browse/branches/stable/Servlets/WebContent/WEB-INF/lib/ezmorph-1.0.jar missing library] to the project GEP ContentRepository/WebContent/WEB-INF/lib
 
 == The Coding ==
 Now we can get going:
@@ -32,7 +32,7 @@ Navigate to your newly created project and into the /WebContent/ folder. There w
   <body>
    <script type="text/javascript">
    var custom = {};
-   custom.ccrlocation="http://localhost:42880/ContentRepository/ccr";
+   custom.ccrlocation="http://localhost:42881/ContentRepository/ccr";
    $(function() {
    	$('#update-target a').click(function() {
    	  	$.getJSON(custom.ccrlocation+"?   filter=object.obj_type==10007&attributes=contentid&attributes=name&attributes=filename&sor   ting=contentid:asc&type=json&count=30",
@@ -69,7 +69,7 @@ If you have problems on a slow machine and your server is abborting the startup 
 
 <wiki:video url="http://www.youtube.com/watch?v=mWAlZ0qMzN8"/>
 
-After the server has started you should be able to access your example via [http://localhost:42880/Example].
+After the server has started you should be able to access your example via [http://localhost:42881/Example].
 
 == The Playing around ==
 Edit this code and play around. Try to add additional attributes to the json-url (e.g. ...&attributes=content&attributes=updatetimestamp) and make the output more beautiful ;)
