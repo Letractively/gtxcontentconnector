@@ -65,6 +65,10 @@ Activate the "J2EE-Perspective" with Window->Open Perspective->Other and select 
 
 Now that the Project is deployed, you are ready to start the Server with a right click on the instance which brings up a context menu. Now select "Start" and on it goes.
 
+If you have problems on a slow machine and your server is abborting the startup you may increase the allowed startup time of the server:
+
+<wiki:video url="http://www.youtube.com/watch?v=mWAlZ0qMzN8"/>
+
 After the server has started you should be able to access your example via [http://localhost:42880/Example].
 
 == The Playing around ==
