@@ -30,4 +30,4 @@ Agenda:
   * find next possible evening (one per month)
 
 = History =
-  * [Techeve_01.12.2009]
+  * [Techeve_2009-12-01]
