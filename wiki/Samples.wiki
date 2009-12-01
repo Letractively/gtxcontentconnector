@@ -1,6 +1,6 @@
 #summary HowTo setup different use cases of Gentics Content.Connector
 
-= Introduction =
+= JQuery with JSON =
 
 Add your content here.
 
