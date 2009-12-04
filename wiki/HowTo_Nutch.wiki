@@ -125,14 +125,14 @@ Once you configured everything you can test your configuration with a shallow de
 
 execute the command from your nutch base directory
 {{{
-bin/nutch crawl urls -dir <your_crawl_dir> -depth 3 -topN 50
+bin/nutch crawl urls -dir *your_crawl_dir* -depth 3 -topN 50
 }}}
 
 If you are happy with the results returned, you can increase the values. A common depth value for a full crawl would be around 10 and topN can range from hundreds to hundreds of thousands depending on the sources you want to index/crawl.
 
 You can find more infos about how to crawl on [http://wiki.apache.org/nutch/NutchTutorial this tutorial].
 
-Once the crawling finished, you can find the index in <nutch_base_dir>/<your_crawl_dir>/index
+Once the crawling finished, you can find the index in <nutch_base_dir>/*your_crawl_dir*/index
 
 = More =
   * You can find more information about nutch on the [http://lucene.apache.org/nutch/ project homepage].
