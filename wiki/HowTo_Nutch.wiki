@@ -109,16 +109,9 @@ Open the file /conf/nutch-site.xml and insert something like the following:
 }}}
 
 == Highlighted content ==
-In order to have a highlighted text snipped available you have to set the content attribute to be stored in the index. Therefore open the file /conf/schema.xml in the Nutch configuration and change the value for the field stored from false to true.
-{{{
-  <!-- change  -->
-        
-  <field name="content" type="text" stored="false" indexed="true"/>
+In order to have a highlighted text snipped available you have to set the content attribute to be stored in the index. Unfortunately nutch sets this value hardcoded to false. You have to replace the existing index-basic plugin jar with the one provided [http://gtxcontentconnector.googlecode.com/files/index-basic.jar here] for download.
 
-  <!-- to -->
-  <field name="content" type="text" stored="true" indexed="true"/>
-
-}}}
+You find the existing plugin in the folder plugins/index-basic.
 
 In order to get nutch to use this settings you have to edit conf/nutch-site.xml and add a block like this:
 
