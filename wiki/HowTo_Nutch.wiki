@@ -120,6 +120,21 @@ In order to have a highlighted text snipped available you have to set the conten
 
 }}}
 
+In order to get nutch to use this settings you have to edit conf/nutch-site.xml and add a block like this:
+
+{{{
+<property>
+  <name>plugin.includes</name>
+  <value>nutch-extensionpoints|protocol-http|urlfilter-regex|parse-(text|html)|index-basic|query-(basic|site|url)</value>
+  <description>Regular expression naming plugin directory names to
+  include.  Any plugin not matching this expression is excluded.
+  In any case you need at least include the nutch-extensionpoints plugin. By
+  default Nutch includes crawling just HTML and plain text via HTTP,
+  and basic indexing and search plugins.
+  </description>
+</property>
+}}}
+
 = Start crawling =
 Once you configured everything you can test your configuration with a shallow depth and a low number of links to follow:
 
