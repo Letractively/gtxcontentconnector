@@ -144,3 +144,5 @@ Once the crawling finished, you can find the index in *nutch_base_dir*/*your_cra
 
 = More =
   * You can find more information about nutch on the [http://lucene.apache.org/nutch/ project homepage].
+  * Running [http://wiki.apache.org/nutch/GettingNutchRunningWithWindows Nutch on Windows]
+    * Running Nutch on Windows [http://wiki.apache.org/nutch/Nutch_on_windows_without_cygwin without cygwin]
