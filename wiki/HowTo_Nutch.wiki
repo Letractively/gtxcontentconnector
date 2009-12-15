@@ -203,6 +203,16 @@ You can find more infos about how to crawl on [http://wiki.apache.org/nutch/Nutc
 
 Once the crawling finished, you can find the index in *nutch_base_dir*/*your_crawl_dir*/index
 
+If you like the outcome you can create a start script that is being executed as cronjob or called by the scheduler of Gentics Content.Node. Your start script could look something like that:
+
+{{{
+rm -r crawl
+bin/nutch crawl urls -dir crawl -depth 5 -topN 50
+rm -r index
+cp -r crawl/index index
+touch indes/reopen
+}}}
+
 = More =
   * You can find more information about nutch on the [http://lucene.apache.org/nutch/ project homepage].
   * Running [http://wiki.apache.org/nutch/GettingNutchRunningWithWindows Nutch on Windows]
