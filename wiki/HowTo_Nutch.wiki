@@ -210,7 +210,7 @@ rm -r crawl
 bin/nutch crawl urls -dir crawl -depth 5 -topN 50
 rm -r index
 cp -r crawl/index index
-touch indes/reopen
+touch index/reopen
 }}}
 
 = More =
