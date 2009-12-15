@@ -128,6 +128,67 @@ In order to get nutch to use this settings you have to edit conf/nutch-site.xml 
 </property>
 }}}
 
+== Multilanguage ==
+If you want to search for specific languages you have to enable the language-identifier plugin to add the lang field to the index.
+
+{{{
+<property>
+  <name>plugin.includes</name>
+  <value>nutch-extensionpoints|protocol-http|language-identifier|urlfilter-regex|parse-(text|html)|index-basic|query-(basic|site|url)</value>
+  <description>Regular expression naming plugin directory names to
+  include.  Any plugin not matching this expression is excluded.
+  In any case you need at least include the nutch-extensionpoints plugin. By
+  default Nutch includes crawling just HTML and plain text via HTTP,
+  and basic indexing and search plugins.
+  </description>
+</property>
+}}}
+
+You also have to add the default configuration for the language-identifier to your nutch-default.xml
+
+{{{
+<!-- language-identifier plugin properties -->
+	
+	<property>
+	  <name>lang.ngram.min.length</name>
+	  <value>1</value>
+	  <description> The minimum size of ngrams to uses to identify
+	  language (must be between 1 and lang.ngram.max.length).
+	  The larger is the range between lang.ngram.min.length and
+	  lang.ngram.max.length, the better is the identification, but
+	  the slowest it is.
+	  </description>
+	</property>
+	
+	<property>
+	  <name>lang.ngram.max.length</name>
+	  <value>4</value>
+	  <description> The maximum size of ngrams to uses to identify
+	  language (must be between lang.ngram.min.length and 4).
+	  The larger is the range between lang.ngram.min.length and
+	  lang.ngram.max.length, the better is the identification, but
+	  the slowest it is.
+	  </description>
+	</property>
+	
+	<property>
+	  <name>lang.analyze.max.length</name>
+	  <value>2048</value>
+	  <description> The maximum bytes of data to uses to indentify
+	  the language (0 means full content analysis).
+	  The larger is this value, the better is the analysis, but the
+	  slowest it is.
+	  </description>
+	</property>
+	
+	<property>
+	  <name>query.lang.boost</name>
+	  <value>0.0</value>
+	  <description> Used as a boost for lang field in Lucene query.
+	  </description>
+	</property>
+}}}
+
 = Start crawling =
 Once you configured everything you can test your configuration with a shallow depth and a low number of links to follow:
 
