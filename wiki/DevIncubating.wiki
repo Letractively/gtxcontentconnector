@@ -7,7 +7,7 @@ Plan for CC cleanup, API and use case simplification.
 == Masterplan ==
 
 === Usacases ===
-define usecases, based on current [Features] and current GPN content portlet (GenticsContentModule, DatasourceTreeComponent) features and some project requirements.
+define usecases (see google docs), based on current [Features] and current GPN content portlet (GenticsContentModule, DatasourceTreeComponent) features and some project requirements.
 
 === Meta Code Usecases ===
 what would be the simplest way to implement the usecases for the user. based on the API and specific implementations.
@@ -32,4 +32,3 @@ reuse as much code as possible, implement missing code, packages for every useca
   * php content presentation.
   * javascript/flash/ajax content presentation.
   * search across multiple CRs or external datasources.
-
