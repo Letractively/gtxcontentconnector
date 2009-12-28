@@ -21,7 +21,8 @@ rename packages and classes, remove deprecated code, remove duplicate code.
 create a place for contributions for easier backmerging of enhancements from external contributors.
 
 === Implement Usecases ===
-reuse as much code as possible, implement missing code, packages for every usecase, inline code, wiki, samples, junit tests.
+phase 1: verify usecases with new CC and CC api.
+phase 2: implement, reuse as much code as possible, implement missing code, packages for every usecase, inline code, wiki, samples, junit tests.
 
 == Details ==
 
