@@ -6,12 +6,12 @@ import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
-import com.gentics.api.lib.datasource.Datasource;
 import com.gentics.cr.configuration.GenericConfiguration;
 import com.gentics.cr.exceptions.CRException;
 import com.gentics.cr.plink.PathResolver;
 import com.gentics.cr.template.ITemplateManager;
 import com.gentics.cr.template.VelocityTemplateManagerFactory;
+import com.gentics.cr.portalnode.Datasource;
 import com.gentics.cr.util.CRUtil;
 
 /**

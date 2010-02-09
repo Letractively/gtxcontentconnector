@@ -5,13 +5,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
-import com.gentics.api.lib.datasource.Datasource;
-import com.gentics.api.lib.datasource.DatasourceException;
-import com.gentics.api.lib.exception.ParserException;
-import com.gentics.api.lib.expressionparser.ExpressionParserException;
-import com.gentics.api.lib.expressionparser.filtergenerator.DatasourceFilter;
-import com.gentics.api.lib.resolving.Resolvable;
 import com.gentics.cr.exceptions.CRException;
+import com.gentics.cr.portalnode.Datasource;
+import com.gentics.cr.portalnode.exception.DatasourceException;
+import com.gentics.cr.portalnode.Resolvable;
 
 /**
  * 
@@ -25,7 +22,7 @@ public class CRRequestProcessor extends RequestProcessor{
 	private HashMap<String, Resolvable> resolvables = null;
 	
 	/**
-	 * Create a new instance of CRRequestProcessor
+	 * Create a new instance of CRRequestProcessor.
 	 * @param config
 	 * @throws CRException
 	 */
@@ -46,7 +43,6 @@ public class CRRequestProcessor extends RequestProcessor{
 	public Collection<CRResolvableBean> getObjects(CRRequest request, boolean doNavigation) throws CRException
 	{
 		Datasource ds = null;
-		DatasourceFilter dsFilter;
 		Vector<CRResolvableBean> collection = new Vector<CRResolvableBean>();
 		if (request != null) {
 			
