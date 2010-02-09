@@ -16,12 +16,16 @@ import com.gentics.portalnode.portal.Portal;
 public class PortalNodeInteractor {
 
 	/**
-	 * Get a configured Instance of Datasource from a running Portal.Node Instance
+	 * Get a configured Instance of Datasource from a running Portal.Node
+	 * Instance.
 	 * @param key datasource identifyer e.g.: ccr, pcr,...
 	 * @return
 	 */
 	public static Datasource getPortalnodeDatasource(String key)
 	{
+		//TODO: remove reference to non-api class Portal,
+		//		maybe we can handle this over the PortalPropertyResolver
+		//		and the path "portal.portal.createDatasource(key)
 		return (Portal.getCurrentPortal().createDatasource(key));
 	}
 	
@@ -33,7 +37,7 @@ public class PortalNodeInteractor {
 	@SuppressWarnings("deprecation")
 	public static TemplateProcessor getPortletTemplateProcessor(GenticsPortlet portlet)
 	{
-		//TODO Get not depricated method from DEV
+		//TODO Get not depricated method from GTX-DEV
 		return(portlet.getTemplateProcessor(null, null));
 	}
 }
