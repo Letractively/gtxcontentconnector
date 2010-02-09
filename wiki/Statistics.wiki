@@ -5,7 +5,7 @@
 We have added this project to [https://www.ohloh.net/p/gtxcontentconnector/ Ohloh.net] a portal for open source projects that shows basi statitistics about our project.
 
 = Languages =
-<wiki:gadget url="http://www.ohloh.net/p/342790/widgets/project_languages.xml" border="1"/>
+<wiki:gadget url="http://www.ohloh.net/p/342790/widgets/project_languages.xml" width="350px" height="220" border="0"/>
 
 = Stats =
-<wiki:gadget url="http://www.ohloh.net/p/342790/widgets/project_basic_stats.xml" height="220" border="1"/>
+<wiki:gadget url="http://www.ohloh.net/p/342790/widgets/project_basic_stats.xml" width="350px" height="250" border="0"/>
