@@ -1,4 +1,5 @@
 #summary Some basic statistics about the Gentics Content Connector Project
+#labels Featured
 
 = Introduction =
 
