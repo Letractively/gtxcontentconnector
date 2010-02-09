@@ -4,9 +4,9 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
-import com.gentics.api.lib.datasource.Datasource;
-import com.gentics.api.portalnode.connector.PortalConnectorFactory;
+import com.gentics.cr.portalnode.PortalConnectorFactoryInteractor;
 import com.gentics.cr.portalnode.PortalNodeInteractor;
+import com.gentics.cr.portalnode.Datasource;
 /**
  * 
  * Last changed: $Date$
@@ -55,7 +55,7 @@ public class CRDatabaseFactory {
 	{
 		if(dbcount<=0)
 		{
-			PortalConnectorFactory.destroy();
+			PortalConnectorFactoryInteractor.destroy();
 			log.debug("Factory, resources and threads have been closed.");
 			return true;
 		}
@@ -64,8 +64,10 @@ public class CRDatabaseFactory {
 	}
 	
 	/**
-	 * Destroys the Factory and releases all resources and stops threads if there are no more datasources that were not released
-	 * @return true if there were no unreleased datasources and the factory was destroyed
+	 * Destroys the Factory and releases all resources and stops threads if
+	 * there are no more datasources that were not released
+	 * @return true if there were no unreleased datasources and the factory was
+	 * destroyed
 	 */
 	public static boolean destroy()
 	{
@@ -80,33 +82,32 @@ public class CRDatabaseFactory {
 	public static Datasource getDatasource(CRConfigUtil requestProcessorConfig)
 	{
 		Datasource ds = null;
-		Properties ds_handle = requestProcessorConfig.getDatasourceHandleProperties();
-		Properties ds_props = requestProcessorConfig.getDatasourceProperties();
-		if(ds_handle!=null && ds_handle.size()!=0)
-		{
-			if(ds_handle.containsKey("portalnodedb"))
-			{
-				String key = (String)ds_handle.get("portalnodedb");
-				ds = PortalNodeInteractor.getPortalnodeDatasource(key);
+		Properties ds_handle = requestProcessorConfig
+			.getDatasourceHandleProperties();
+		Properties ds_props = requestProcessorConfig
+			.getDatasourceProperties();
+		if (ds_handle != null && ds_handle.size() != 0) {
+			if (ds_handle.containsKey("portalnodedb")) {
+				String key = (String) ds_handle
+					.get("portalnodedb");
+				ds = PortalNodeInteractor
+						.getPortalnodeDatasource(key);
+			} else if (ds_props != null && ds_props.size() != 0) {
+				ds = PortalConnectorFactoryInteractor
+					.createWriteableDatasource(ds_handle, ds_props);
+			} else {
+				ds = PortalConnectorFactoryInteractor
+					.createWriteableDatasource(ds_handle);
 			}
-			else if(ds_props!=null && ds_props.size()!=0)
-			{
-				ds = PortalConnectorFactory.createWriteableDatasource(ds_handle,ds_props);
-			}
-			else
-			{
-				ds = PortalConnectorFactory.createWriteableDatasource(ds_handle);
-			}	
-			log.debug("Datasource created for "+requestProcessorConfig.getName());
-			if(ds!=null)
-			{
+			log.debug("Datasource created for "
+					+ requestProcessorConfig.getName());
+			if (ds != null) {
 				getInstance().accquireDS();
 			}
+		} else {
+			log.debug("No Datasource created for"
+					+ requestProcessorConfig.getName());
 		}
-		else
-		{
-			log.debug("No Datasource created for"+requestProcessorConfig.getName());
-		}
-		return(ds);
+		return (ds);
 	}
 }

@@ -3,10 +3,10 @@ package com.gentics.cr;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import com.gentics.api.lib.datasource.Datasource;
 import com.gentics.cr.exceptions.CRException;
 import com.gentics.cr.plink.PathResolver;
 import com.gentics.cr.template.ITemplateManager;
+import com.gentics.cr.portalnode.Datasource;
 
 /**
  * 
