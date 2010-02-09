@@ -1,0 +1,11 @@
+#summary Some basic statistics about the Gentics Content Connector Project
+
+= Introduction =
+
+We have added this project to [https://www.ohloh.net/p/gtxcontentconnector/ Ohloh.net] a portal for open source projects that shows basi statitistics about our project.
+
+= Languages =
+<script type="text/javascript" src="http://www.ohloh.net/p/342790/widgets/project_languages.js"></script>
+
+= Stats =
+<script type="text/javascript" src="http://www.ohloh.net/p/342790/widgets/project_basic_stats.js"></script>
