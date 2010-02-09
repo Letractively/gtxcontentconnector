@@ -1,6 +1,6 @@
 package com.gentics.cr.portalnode;
 
-import com.gentics.api.lib.datasource.Datasource;
+import com.gentics.cr.portalnode.Datasource;
 import com.gentics.api.portalnode.portlet.GenticsPortlet;
 import com.gentics.api.portalnode.templateengine.TemplateProcessor;
 import com.gentics.portalnode.portal.Portal;
@@ -26,7 +26,7 @@ public class PortalNodeInteractor {
 		//TODO: remove reference to non-api class Portal,
 		//		maybe we can handle this over the PortalPropertyResolver
 		//		and the path "portal.portal.createDatasource(key)
-		return (Portal.getCurrentPortal().createDatasource(key));
+		return (Datasource) (Portal.getCurrentPortal().createDatasource(key));
 	}
 	
 	/**
