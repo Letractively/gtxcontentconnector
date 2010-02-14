@@ -23,6 +23,24 @@ public class DatasourceWrapper {
   }
 
   /**
+   * Sort in no particular order.
+   * @see Datasource
+   */
+  public static final int SORTORDER_NONE = Datasource.SORTORDER_NONE;
+
+  /**
+   * Sort in ascending order.
+   * @see Datasource
+   */
+  public static final int SORTORDER_ASC = Datasource.SORTORDER_ASC;
+
+  /**
+   * Sort in descending order.
+   * @see Datasource
+   */
+  public static final int SORTORDER_DESC = Datasource.SORTORDER_DESC;
+
+  /**
    * Create a DatasourceFilter with the given Expression.
    * @param expression Expression descriping the objects to load
    * @return wrapped DatasourceFilter.
