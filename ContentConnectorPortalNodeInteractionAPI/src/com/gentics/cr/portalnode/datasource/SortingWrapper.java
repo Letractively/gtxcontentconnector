@@ -1,7 +1,6 @@
 package com.gentics.cr.portalnode.datasource;
 
 import com.gentics.api.lib.datasource.Datasource.Sorting;
-import com.gentics.cr.portalnode.DatasourceWrapper;
 
 /**
  * Wrapper class for {@link Sorting} from Gentics Portal.Node.
