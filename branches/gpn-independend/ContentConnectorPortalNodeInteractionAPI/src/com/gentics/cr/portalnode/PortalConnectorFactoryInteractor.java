@@ -79,7 +79,7 @@ public final class PortalConnectorFactoryInteractor {
    * @throws DatasourceNotAvailableException if the {@link Datasource} is not
    * available.
    */
-  public static Resolvable getContentObejct(final String contentid,
+  public static Resolvable getContentObject(final String contentid,
       final Datasource datasource) throws DatasourceNotAvailableException {
     try {
       return (Resolvable) PortalConnectorFactory.getContentObject(contentid,
