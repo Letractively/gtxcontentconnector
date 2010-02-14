@@ -28,12 +28,12 @@ public class DatasourceWrapper {
    * @return wrapped DatasourceFilter.
    * @throws ExpressionParserException when the Expression cannot be parsed
    */
-  public final DatasourceFilter
+  public final DatasourceFilterWrapper
       createDatasourceFilter(final Expression expression)
       throws ExpressionParserException {
     try {
-      return (DatasourceFilter) wrappedDatasource
-        .createDatasourceFilter(expression);
+      return new DatasourceFilterWrapper(wrappedDatasource
+        .createDatasourceFilter(expression));
     } catch (com.gentics.api.lib.expressionparser.ExpressionParserException e) {
       throw (ExpressionParserException) e;
     }

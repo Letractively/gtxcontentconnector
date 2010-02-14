@@ -2,7 +2,11 @@ package com.gentics.cr.portalnode;
 
 import java.util.Properties;
 
+import javax.naming.CommunicationException;
+
 import com.gentics.api.portalnode.connector.PortalConnectorFactory;
+import com.gentics.cr.portalnode.exception.ParserException;
+import com.gentics.cr.portalnode.expressions.Expression;
 
 /**
  * Provides access to the final {@link PortalConnectorFactory}.
@@ -52,5 +56,19 @@ public final class PortalConnectorFactoryInteractor {
     createWriteableDatasource(final Properties dsHandleProps) {
     return (Datasource) PortalConnectorFactory
       .createWriteableDatasource(dsHandleProps);
+  }
+  /**
+   * creates an Expression from a given rule.
+   * @param rule String with the rule
+   * @return Expression generated from the rule
+   * @throws ParserException in case the Expression cannot be generated
+   */
+  public static Expression createExpression(final String rule)
+      throws ParserException {
+    try {
+      return (Expression) PortalConnectorFactory.createExpression(rule);
+    } catch (com.gentics.api.lib.exception.ParserException e) {
+      throw (ParserException) e;
+    }
   }
 }
