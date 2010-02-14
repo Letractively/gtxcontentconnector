@@ -2,9 +2,8 @@ package com.gentics.cr.portalnode;
 
 import java.util.Properties;
 
-import javax.naming.CommunicationException;
-
 import com.gentics.api.portalnode.connector.PortalConnectorFactory;
+import com.gentics.cr.portalnode.exception.DatasourceNotAvailableException;
 import com.gentics.cr.portalnode.exception.ParserException;
 import com.gentics.cr.portalnode.expressions.Expression;
 
@@ -69,6 +68,24 @@ public final class PortalConnectorFactoryInteractor {
       return (Expression) PortalConnectorFactory.createExpression(rule);
     } catch (com.gentics.api.lib.exception.ParserException e) {
       throw (ParserException) e;
+    }
+  }
+
+  /**
+   * Get a specific content object from the {@link Datasource}.
+   * @param contentid String identifying the object
+   * @param datasource {@link Datasource} to get the object from
+   * @return {@link Resolvable} with the given identifier
+   * @throws DatasourceNotAvailableException if the {@link Datasource} is not
+   * available.
+   */
+  public static Resolvable getContentObejct(final String contentid,
+      final Datasource datasource) throws DatasourceNotAvailableException {
+    try {
+      return (Resolvable) PortalConnectorFactory.getContentObject(contentid,
+        datasource);
+    } catch (com.gentics.api.lib.datasource.DatasourceNotAvailableException e) {
+      throw (DatasourceNotAvailableException) e;
     }
   }
 }
