@@ -1,7 +1,7 @@
 package com.gentics.cr.portalnode.exception;
 
 /**
- * Wrapping class for DatasourceAxception generated from Gentics datasources.
+ * Wrapping class for DatasourceException generated from Gentics datasources.
  * @author bigbear3001
  *
  */
