@@ -1,0 +1,11 @@
+#This page will give some facts about the required system configuration
+
+
+
+
+
+= Plugins and Transformer =
+
+ATTENTION: 
+The Transformer com.gentics.cr.lucene.indexer.transformer.lang.LanguageIdentifyer will significantly increase the amount of needed memory.
+
