@@ -1,4 +1,4 @@
-#labels Featured,Configuration
+#labels Configuration
 #This Article describes how an analyzer can be configured per field in the index
 
 = Introduction =
