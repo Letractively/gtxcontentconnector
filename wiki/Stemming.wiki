@@ -41,7 +41,19 @@ content.fieldname=content
 content.stemmername=English
 }}}
 
-This would initialize an english snowball stemmer.
+This would initialize an english snowball stemmer. You can change English for any other snowball stemmer available.
 
 = Additional Info =
   * [http://e-mats.org/2009/05/modifying-a-lucene-snowball-stemmer/ How to create a new Stemmer]
+
+There are more stemming implementations that do not use the snowball classes e.g.:
+  * Arabic
+  * Brazilian
+
+To use these you have to configure their classes like follows
+{{{
+content_b.analyzerclass=org.apache.lucene.analysis.br.BrazilianAnalyzer
+content_b.fieldname=content_b
+content_a.analyzerclass=org.apache.lucene.analysis.ar.ArabicAnalyzer
+content_arfieldname=content_a
+}}}
