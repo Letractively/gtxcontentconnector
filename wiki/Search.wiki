@@ -149,6 +149,38 @@ index.1.CR.2.transformer.6.transformerclass=com.gentics.cr.lucene.indexer.transf
   # The configured number of results is being returned with the contained attributes and an additional score attribute that describes the importance of the according object. Anyhow the score value does not describe the quality of the according object. [http://wiki.apache.org/lucene-java/LuceneFAQ#Can_I_filter_by_score.3F LuceneScore] [http://jayant7k.blogspot.com/2006/07/document-scoringcalculating-relevance_08.html ScoreCalculation]
   # The collection of resolvables is then being highlighted in order to get a text snipped around the searched terms. There are several ways how highlighting can be done, therefore more than one highlighter can be configured.
   # Now the result can be displayed to the user.
+
+{{{
+#ContentRepository specific config
+#RequestProcessor1 gets the elements from LuceneIndex
+rp.1.rpClass=com.gentics.cr.lucene.search.LuceneRequestProcessor
+#file system location of index
+rp.1.analyzerconfig=${com.gentics.portalnode.confpath}/rest/analyzer.properties
+rp.1.indexLocations.0.path=${com.gentics.portalnode.confpath}/index/index
+rp.1.indexLocationClass=com.gentics.cr.lucene.indexer.index.LuceneSingleIndexLocation
+#check if index should be reopened each search
+rp.1.reopencheck=true
+#idattribute: attribute that contains the identifyer in the lucene index
+rp.1.idattribute=contentid
+#Searched attributes: default attribute that is being searched if no other is specified
+rp.1.searchedattributes=content
+#Searchcount: number of hits that is returned if no other specified
+rp.1.searchcount=30
+#Score attribute: under which the score of each hit can be requested
+rp.1.scoreattribute=score
+#getstoredattributes: if this is set to true, all stored attributes are returned
+rp.1.getstoredattributes=true
+#highlighters
+rp.1.highlighter.1.class=com.gentics.cr.lucene.search.highlight.PhraseBolder
+rp.1.highlighter.1.attribute=content
+rp.1.highlighter.1.rule=1==1
+rp.1.highlighter.1.fragments=5
+rp.1.highlighter.1.fragmentsize=10
+rp.1.highlighter.1.highlightprefix=<b>
+rp.1.highlighter.1.highlightpostfix=</b>
+rp.1.highlighter.1.fragmentseperator=...
+}}}
+
 = Enrich searched objects =
 
 [http://farm3.static.flickr.com/2773/4111717305_c6408d11c5_o_d.png]
