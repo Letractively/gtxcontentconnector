@@ -196,3 +196,4 @@ If you do not want to store much data in the index you can enrich searched objec
   * [http://lucene.apache.org/ LuceneHome]
   * [http://wiki.apache.org/lucene-java/LuceneFAQ LuceneFAQ]
   * IndexPerFieldAnalyzer
+  * MultiIndexSearches
