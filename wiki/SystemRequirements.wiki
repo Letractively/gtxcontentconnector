@@ -1,6 +1,12 @@
 #This page will give some facts about the required system configuration
 
+= General Requirements = 
 
+The framework can be used in web applications as well as in other environments.
+
+It requires a JRE to work.
+
+The amount of Memory and CPU power needed stronly depends on the implementation and the amount of data you want to work with.
 
 
 
@@ -8,4 +14,3 @@
 
 ATTENTION: 
 The Transformer com.gentics.cr.lucene.indexer.transformer.lang.LanguageIdentifyer will significantly increase the amount of needed memory.
-
