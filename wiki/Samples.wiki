@@ -8,5 +8,8 @@
     * Basic HTML, CSS and JQuery know how
   [HowTo_JQuery JQuery Sample]
 = Use API in Java =
+(TODO)
 = Setup indexing with lucene =
+(TODO)
 = Setup enterprise indexing with lucene (distributed indexing) =
+(TODO)
