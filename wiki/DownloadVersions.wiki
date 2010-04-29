@@ -1,0 +1,9 @@
+#Download Gentics Content.Connector.
+
+= Introduction =
+On this page you can find all the download specific information.
+
+
+Here you can download the [http://gcc-nightly.gentics.com:8080/job/ContentConnector/lastSuccessfulBuild/artifact/ContentConnectorAPI/out/gentics-RequestProcessorAPI.jar latest build] of the framework.
+Here you can find the [http://gcc-nightly.gentics.com:8080/job/ContentConnector/javadoc/ JavaDoc] for this build.
+
