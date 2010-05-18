@@ -5,12 +5,25 @@
 On this page you can find all the download specific information.
 
 
-Here you can download the [http://gcc-nightly.gentics.com:8080/job/ContentConnector/lastSuccessfulBuild/artifact/ContentConnectorAPI/out/gentics-RequestProcessorAPI.jar latest build] of the framework.
-Here you can find the [http://gcc-nightly.gentics.com:8080/job/ContentConnector/javadoc/ JavaDoc] for this build.
+= Version 1.1.0 =
+
+Release date: 2010.05.18
+
+[http://gcc-nightly.gentics.com:8081/archiva/browse/contentconnector/contentconnector-core/1.1.0 contentconnector-core]
+[http://gcc-nightly.gentics.com:8081/archiva/browse/contentconnector/contentconnector-apihelper/1.1.0 contentconnector-apihelper]
+[http://gcc-nightly.gentics.com:8081/archiva/browse/contentconnector/contentconnector-http/1.1.0 contentconnector-http]
+[http://gcc-nightly.gentics.com:8081/archiva/browse/contentconnector/contentconnector-json/1.1.0 contentconnector-json]
+[http://gcc-nightly.gentics.com:8081/archiva/browse/contentconnector/contentconnector-jtidy/1.1.0 contentconnector-jtidy]
+[http://gcc-nightly.gentics.com:8081/archiva/browse/contentconnector/contentconnector-language/1.1.0 contentconnector-language]
+[http://gcc-nightly.gentics.com:8081/archiva/browse/contentconnector/contentconnector-lucene/1.1.0 contentconnector-lucene]
+[http://gcc-nightly.gentics.com:8081/archiva/browse/contentconnector/contentconnector-poi-transformer/1.1.0 contentconnector-poi-transformer]
+[http://gcc-nightly.gentics.com:8081/archiva/browse/contentconnector/contentconnector-portlet/1.1.0 contentconnector-portlet]
+[http://gcc-nightly.gentics.com:8081/archiva/browse/contentconnector/contentconnector-rss/1.1.0 contentconnector-rss]
+[http://gcc-nightly.gentics.com:8081/archiva/browse/contentconnector/contentconnector-servlet/1.1.0 contentconnector-servlet]
 
 
-= Release Management = 
+= Nightly = 
 
-There is currently a release management being set up. You will be able to download the first official version of the library soon.
+You can check out the nightly version directly from google code.
 
-We will provide maven project object model information in order to make your deployment easy and fast.
+[http://code.google.com/p/gtxcontentconnector/source/checkout Checkout instructions]
