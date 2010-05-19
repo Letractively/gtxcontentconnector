@@ -298,7 +298,10 @@ public class CRRequestBuilder {
 			}
 			if(this.node_id == null){
 				String default_node = (String) defaultparameters.get("node");
-				this.node_id = default_node.split("^");
+				if(default_node!=null)
+				{
+					this.node_id = default_node.split("^");
+				}
 			}
 			addAdvancedSearchParameters();
 		}
@@ -442,7 +445,13 @@ public class CRRequestBuilder {
 				}
 				catch(Exception ex)
 				{
-					logger.error("Could net create ContentRepository instance from class: "+cls, ex);
+					try{
+						cr = (ContentRepository) Class.forName(cls).getConstructor(new Class[] {String[].class,String.class,String[].class,CRConfigUtil.class}).newInstance(this.getAttributeArray(),encoding,null,configUtil);
+					}
+					catch(Exception exc)
+					{
+						logger.error("Could net create ContentRepository instance from class: "+cls, exc);
+					}
 				}
 			}
 		}
