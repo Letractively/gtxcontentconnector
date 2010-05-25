@@ -1,0 +1,11 @@
+#The following article describes how to increase the performance of the embedded Lucene
+
+= Introduction =
+
+[TODO]
+
+
+= External Articles =
+
+Have a look on the following articles to better understand how lucene works:
+  * [http://onjava.com/pub/a/onjava/2003/03/05/lucene.html?page=1]
