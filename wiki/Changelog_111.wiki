@@ -2,8 +2,20 @@
 
 = Configuration changes =
 
+== Index Optimization ==
+We replaced the following configuration option
+{{{
+#The following line sets the index job to not optimize the index
+#index.DEFAULT.CR.FILES.ignoreoptimize=true
+}}}
 
+with the following options. They give more control over the optimization process and do not mislead the user.
 
+{{{
+#The following line would set the index job to execute an optimize command on the index after each run (time an memory consuming)
+#index.DEFAULT.CR.FILES.optimize=true
+#The following line would set the index job to execute an optimize command on the index after each run using a max segement rule => only optimizes when more than max segments are present (not as time and memory consuming) (the line above should be commented out)
+#index.DEFAULT.CR.FILES.maxsegments=10
+}}}
 
 = Features =
-
