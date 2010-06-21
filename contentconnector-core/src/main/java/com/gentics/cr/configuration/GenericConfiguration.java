@@ -100,19 +100,14 @@ public class GenericConfiguration implements Serializable{
 	 */
 	public synchronized Map<String,GenericConfiguration> getSortedSubconfigs()
 	{
-		Map<String,GenericConfiguration> ret = null;
+		Map<String,GenericConfiguration> ret = Collections.synchronizedMap(new LinkedHashMap<String,GenericConfiguration>(this.subconfigs.size()));
 		
-		if(this.subconfigs!=null)
-		{
-			ret=Collections.synchronizedMap(new LinkedHashMap<String,GenericConfiguration>(this.subconfigs.size()));
-			
-			Vector<String> v = new Vector<String>(this.subconfigs.keySet());
-		    Collections.sort(v);
-		    for(String key:v)
-		    {
-		    	ret.put(key, this.subconfigs.get(key));
-		    }
-		}
+		Vector<String> v = new Vector<String>(this.subconfigs.keySet());
+	    Collections.sort(v);
+	    for(String key:v)
+	    {
+	    	ret.put(key, this.subconfigs.get(key));
+	    }
 	    return(ret);
 
 	}

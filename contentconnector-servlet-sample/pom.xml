@@ -2,9 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>contentconnector</groupId>
   <artifactId>contentconnector-servlet-sample</artifactId>
-  <version>1.1.1-SNAPSHOT</version>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
-  <name>Gentics Content.Connector - SERVLET SAMPLE</name>
+  <name>Gentics Content.Connector - SERVLET SAMPE</name>
   
   <description>This is a test application to test the ContentConnector and its servlets</description>
   <build>
@@ -18,20 +18,6 @@
 			<target>1.5</target>
 			</configuration>
   		</plugin>
-  		
-	      <plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-war-plugin</artifactId>
-		        <version>2.0</version>
-		        <configuration>
-		          <outputDirectory>out</outputDirectory>   
-		          <warName>servletsample</warName>
-		          <warSourceDirectory>src/main/java</warSourceDirectory>
-		          <webappDirectory>WebContent</webappDirectory>
-		          <workDirectory>tmp</workDirectory>
-		        </configuration>
-		       </plugin>
-		 
   		<plugin>
   			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-javadoc-plugin</artifactId>
@@ -101,12 +87,12 @@
     <dependency>
       <groupId>contentconnector</groupId>
       <artifactId>contentconnector-core</artifactId>
-      <version>1.1.1-SNAPSHOT</version>
+      <version>0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>contentconnector</groupId>
       <artifactId>contentconnector-servlet</artifactId>
-      <version>1.1.1-SNAPSHOT</version>
+      <version>0.0.1-SNAPSHOT</version>
       <exclusions>
       	<exclusion>
       		<groupId>javax.servlet.jsp</groupId>

@@ -17,8 +17,6 @@ import com.gentics.cr.CRResolvableBean;
 import com.gentics.cr.RequestProcessor;
 import com.gentics.cr.exceptions.CRException;
 import com.gentics.cr.exceptions.WrongOrderException;
-import com.gentics.cr.monitoring.MonitorFactory;
-import com.gentics.cr.monitoring.UseCase;
 
 //TODO: complete JavaDoc when class is finished
 /**
@@ -152,52 +150,46 @@ public abstract class AbstractUpdateCheckerJob implements Runnable {
 	protected Collection<CRResolvableBean> getObjectsToUpdate(CRRequest request, RequestProcessor rp, boolean forceFullUpdate, IndexUpdateChecker indexUpdateChecker){
 		Collection<CRResolvableBean> updateObjects = new Vector<CRResolvableBean>();
 		
-		UseCase objectsToUpdateCase = MonitorFactory.startUseCase("AbstractUpdateCheck.getObjectsToUpdate("+request.get("CRID")+")");
-		try
-		{
-			if(forceFullUpdate){
-				try {
-					updateObjects = (Collection<CRResolvableBean>) rp.getObjects(request);
-				} catch (CRException e) {
-					log.error("Error getting results for full index from requestprocessor",e);
-				} 
+		
+		if(forceFullUpdate){
+			try {
+				updateObjects = (Collection<CRResolvableBean>) rp.getObjects(request);
+			} catch (CRException e) {
+				log.error("Error getting results for full index from requestprocessor",e);
+			} 
+		}
+		else{
+			//Sorted (by the idAttribute) list of Resolvables to check for Updates.´
+			Collection<CRResolvableBean> objectsToIndex;
+			try{
+				defaultizeRequest(request);
+				objectsToIndex = (Collection<CRResolvableBean>) rp.getObjects(request);
 			}
-			else{
-				//Sorted (by the idAttribute) list of Resolvables to check for Updates.´
-				Collection<CRResolvableBean> objectsToIndex;
-				try{
-					defaultizeRequest(request);
-					objectsToIndex = (Collection<CRResolvableBean>) rp.getObjects(request);
-				}
-				catch (CRException e) {
-					log.error("Error getting results for full index from requestprocessor",e);
-					return null;
-				}
+			catch (CRException e) {
+				log.error("Error getting results for full index from requestprocessor",e);
+				return null;
+			}
+			
+			Iterator<CRResolvableBean> resolvableIterator = objectsToIndex.iterator();
+			try {
 				
-				Iterator<CRResolvableBean> resolvableIterator = objectsToIndex.iterator();
-				try {
-					
-					while(resolvableIterator.hasNext())
-					{
-						CRResolvableBean crElement = resolvableIterator.next();
-						String crElementID = (String) crElement.get(idAttribute);
-						int crElementTimestamp = (Integer) crElement.get(TIMESTAMP_ATTR);
-						if(!indexUpdateChecker.isUpToDate(crElementID, crElementTimestamp, crElement)){
-							updateObjects.add(crElement);
-						}
+				while(resolvableIterator.hasNext())
+				{
+					CRResolvableBean crElement = resolvableIterator.next();
+					String crElementID = (String) crElement.get(idAttribute);
+					int crElementTimestamp = (Integer) crElement.get(TIMESTAMP_ATTR);
+					if(!indexUpdateChecker.isUpToDate(crElementID, crElementTimestamp, crElement)){
+						updateObjects.add(crElement);
 					}
 				}
-				catch (WrongOrderException e) {
-					log.error("Got the objects from the datasource in the wrong order.", e);
-					return null;
-				}
 			}
-			//Finally delete all Objects from Index that are not checked for an Update
-			indexUpdateChecker.deleteStaleObjects();
+			catch (WrongOrderException e) {
+				log.error("Got the objects from the datasource in the wrong order.", e);
+				return null;
+			}
 		}
-		finally {
-			objectsToUpdateCase.stop();
-		}
+		//Finally delete all Objects from Index that are not checked for an Update
+		indexUpdateChecker.deleteStaleObjects();
 		return updateObjects;
 	}
 
