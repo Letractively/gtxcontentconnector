@@ -442,18 +442,19 @@ public class CRConfigUtil extends CRConfig {
 	 */
 	public RequestProcessor getNewRequestProcessorInstance(int requestProcessorId) throws CRException
 	{
-		
 		CRConfigUtil requestProcessorConfig = this.getRequestProcessorConfig(requestProcessorId);
-		String requestProcessorClass = requestProcessorConfig.getRequestProcessorClass();
-		
-		log.debug("Instanciate RequestProcessor"+requestProcessorId+" from class "+requestProcessorClass);
-		RequestProcessor rp=null;
-		try {
-			rp = (RequestProcessor) Class.forName(requestProcessorClass).getConstructor(new Class[] {CRConfig.class}).newInstance(requestProcessorConfig);
-		} catch (Exception e) {
-			throw new CRException(e);
+		if (requestProcessorConfig != null) {
+			String requestProcessorClass = requestProcessorConfig.getRequestProcessorClass();
+			log.debug("Instanciate RequestProcessor" + requestProcessorId + " from class " + requestProcessorClass);
+			RequestProcessor rp = null;
+			try {
+				rp = (RequestProcessor) Class.forName(requestProcessorClass).getConstructor(new Class[] {CRConfig.class}).newInstance(requestProcessorConfig);
+			} catch (Exception e) {
+				throw new CRException(e);
+			}
+			return rp;
 		}
-		return(rp);
+		return null;
 	}
 	
 	private static final String PORTALNODE_COMPATIBILITY_MODE_KEY = "PORTALNODECOMPATIBILITY";
