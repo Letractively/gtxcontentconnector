@@ -21,5 +21,6 @@ index.DEFAULT.CR.FILES.maxsegments=10
 = Features =
 
 = Bugfixes =
-# issue #37 is fixed, this caused a not stopable jvm when using RPMergerRequestProcessor
-# various bugfixes that where not reported as an issue, mainly bugfixes to be able to stop the jvm correctly
+
+  * issue #37 is fixed, this caused a not stopable jvm when using RPMergerRequestProcessor
+  * various bugfixes that where not reported as an issue, mainly bugfixes to be able to stop the jvm correctly
