@@ -60,3 +60,6 @@ Describes the Deploymentstructure for the Lucene Webapp.
   {{{<tomcat>/conf/gentics/nodelog.properties}}}
 
   {{{<tomcat>/conf/gentics/cache.ccf}}}
+
+==Indexer Files==
+  Directory for the indexerfiles (configured in indexer.properties)
