@@ -4,6 +4,17 @@
 
 The following page should give you some basic understanding on how to increase search and indexing performance.
 
+= Indexing Performance = 
+
+If you have sufficient system memory available you can increase the number of objects fetched at a time from the requests processor:
+
+{{{
+#How many items should be processed at once. Decrease this number if you have memory problems.
+index.DEFAULT.batchsize=10
+#Specific batch size for the configuration block (PAGES) decrease this value if you have memory problems. (overwrites index.DEFAULT.batchsize)
+index.DEFAULT.CR.PAGES.batchsize=100
+}}}
+
 
 = External Articles =
 
