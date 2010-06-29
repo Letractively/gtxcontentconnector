@@ -2,24 +2,21 @@
 
 = Introduction =
 
-TBD
+Describes the Deploymentstructure for the Lucene Webapp.
 
 
 = Details =
 ==Webapp==
 
-Directories:
-
-  {{{<tomcathome>/webapps/<CCWebapp>/}}}
-
+  {{{<tomcathome>/webapps/<CCWebapp>/}}}<br/>
   {{{<tomcathome>/webapps/<CCWebapp.war>}}}
 
 *CCWebapp*
 
 {{{/WEB-INF/web.xml}}}
-contains the config for search- and indexerservlet
+  contains the config for search- and indexerservlet
 
-Indexerconfig example
+  indexerconfig example
 {{{
 <servlet>
   <description>
@@ -38,7 +35,7 @@ Indexerconfig example
 </servlet-mapping>
 }}}
 
-Searchconfig example
+  searchconfig example
 {{{
 <servlet>
   <servlet-name>search</servlet-name>
@@ -52,13 +49,14 @@ Searchconfig example
 </servlet-mapping>
 }}}
 
-/WEB-INF/lib/
-  Lucene Libs
-  Transformator Libs
-  CC Libs
+{{{/WEB-INF/lib/}}}
+  contains Lucene Libs, Transformator Libs and CC Libs
 
+==Config==
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+  {{{<tomcathome>/conf/gentics/rest/}}}
+    indexer.properties, analyzer.properties and search.properties
+
+  {{{<tomcat>/conf/gentics/nodelog.properties}}}
+
+  {{{<tomcat>/conf/gentics/cache.ccf}}}
