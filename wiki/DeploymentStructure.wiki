@@ -57,9 +57,9 @@ Describes the Deploymentstructure for the Lucene Webapp.
   {{{<tomcathome>/conf/gentics/rest/}}}
     indexer.properties, analyzer.properties and search.properties
 
-  {{{<tomcat>/conf/gentics/nodelog.properties}}}
+  {{{<tomcathome>/conf/gentics/nodelog.properties}}}
 
-  {{{<tomcat>/conf/gentics/cache.ccf}}}
+  {{{<tomcathome>/conf/gentics/cache.ccf}}}
 
 ==Indexer Files==
   Directory for the indexerfiles (configured in indexer.properties)
