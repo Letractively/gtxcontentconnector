@@ -2,7 +2,7 @@
 
 = Introduction =
 
-[TODO]
+The following page should give you some basic understanding on how to increase search and indexing performance.
 
 
 = External Articles =
