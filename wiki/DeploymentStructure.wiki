@@ -1,0 +1,64 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+TBD
+
+
+= Details =
+==Webapp==
+
+Directories:
+
+  {{{<tomcathome>/webapps/<CCWebapp>/}}}
+
+  {{{<tomcathome>/webapps/<CCWebapp.war>}}}
+
+*CCWebapp*
+
+{{{/WEB-INF/web.xml}}}
+contains the config for search- and indexerservlet
+
+Indexerconfig example
+{{{
+<servlet>
+  <description>
+    Gentics .Node ContentConnector Indexer Application
+  </description>
+  <display-name>indexer</display-name>
+
+  <servlet-name>indexer</servlet-name>
+  <servlet-class>com.gentics.cr.lucene.IndexJobServlet</servlet-class>
+  <load-on-startup>1</load-on-startup>
+</servlet>
+
+<servlet-mapping>
+  <servlet-name>indexer</servlet-name>
+  <url-pattern>/indexer/*</url-pattern>
+</servlet-mapping>
+}}}
+
+Searchconfig example
+{{{
+<servlet>
+  <servlet-name>search</servlet-name>
+  <servlet-class>com.gentics.cr.rest.RESTServlet</servlet-class>
+  <load-on-startup>1</load-on-startup>
+</servlet>
+
+<servlet-mapping>
+  <servlet-name>search</servlet-name>
+  <url-pattern>/search/*</url-pattern>
+</servlet-mapping>
+}}}
+
+/WEB-INF/lib/
+  Lucene Libs
+  Transformator Libs
+  CC Libs
+
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
