@@ -1,5 +1,9 @@
 #summary CS/LH/NOP Incubator Plan
 
+
+= DOCUMENT DEPRICATED =
+
+
 = Introduction =
 
 Plan for CC cleanup, API and use case simplification.
