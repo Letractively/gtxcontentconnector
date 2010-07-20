@@ -15,6 +15,15 @@ index.DEFAULT.batchsize=10
 index.DEFAULT.CR.PAGES.batchsize=100
 }}}
 
+= Search Performance = 
+
+Check your queries!
+Rule of thumb: The shorter a query - the faster it is.
+This applies only for the standard operations.
+
+Operations like fuzzy and wild card search take additional time.
+
+Also the highlighting of terms in the results takes some time.
 
 = External Articles =
 
