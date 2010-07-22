@@ -47,6 +47,18 @@ rp.1.highlighter.1.fragmentseperator=...
 #Makes searches faster, required for VectorBolder, needs more space on disk (about double the space as without Vector), default is true
 index.DEFAULT.CR.FILES.storeVectors=true
 }}}
+  * You can now configure a custom collector. e.g. for checking permissions.
+{{{
+#configure a custom collector (not included in content connector)
+#in this case it is a collector to check the permissions of the search results
+rp.1.collectorClass=org.apache.lucene.search.PermissionsCollector
+#all properties used in rp.1.collector are put into the collector config
+#here we have a sample config with another custom class and an additional datasource for the permissions
+rp.1.collector.permissionCheckerClass=your.company.PermissionChecker
+rp.1.collector.permissionChecker.ds.ds-handle.type=jdbc
+rp.1.collector.permissionChecker.ds.ds-handle.driverClass=com.mysql.jdbc.Driver
+rp.1.collector.permissionChecker.ds.ds-handle.url=jdbc:mysql://127.0.0.1:3306/permissiondb?user=x&password=y
+}}}
 
 = Bugfixes =
 
