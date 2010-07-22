@@ -22,7 +22,8 @@ index.DEFAULT.CR.FILES.maxsegments=10
 
   * FileSystemRequestProcessor (not yet finished) which allows to get and index contents from a directory in the file system. At the moment you can use the attributes "binarycontent", "obj_type" of the resolvables
   * simple performance montoring. we are still working on this.
-  * VectorBolder which uses search term vectors stored when indexing, so its faster than the old PhraseBolder
+  * VectorBolder which uses search term vectors stored when indexing, so its faster than the old PhraseBolder.
+  * SearchTerm Vectors are now stored by default when indexing (for faster search and VectorBolder)
 
 = Bugfixes =
 
