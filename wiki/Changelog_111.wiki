@@ -60,7 +60,35 @@ rp.1.collector.permissionChecker.ds.ds-handle.driverClass=com.mysql.jdbc.Driver
 rp.1.collector.permissionChecker.ds.ds-handle.url=jdbc:mysql://127.0.0.1:3306/permissiondb?user=x&password=y
 }}}
 
+  * You can now use and configure the did-you-mean functionality
+{{{
+# Did you mean functionality
+# Enables the did you mean functionality
+rp.1.didyoumean=true
+# Sets the minimum score that works as a threshold. For results below that score a did you mean suggestion will be computed
+rp.1.didyoumeanminscore=0.01
+# Enables or disables the bestquery calculation
+rp.1.didyoumeanbestquery=false
+# Sets the fields that are being used to suggest the best terms
+rp.1.didyoumeanfields=content,teaser_title,teaser_text
+# Configures the location where the didyoumeanindex will be stored
+rp.1.didyoumeanlocation.indexLocationClass=com.gentics.cr.lucene.indexer.index.LuceneSingleIndexLocation
+rp.1.didyoumeanlocation.indexLocations.0.path=${com.gentics.portalnode.confpath}/index/didyoumean
+rp.1.didyoumeanlocation.reopencheck=true
+# Configures the location of the index for that the didyoumeanindex will be generated
+rp.1.srcindexlocation.indexLocationClass=com.gentics.cr.lucene.indexer.index.LuceneSingleIndexLocation
+rp.1.srcindexlocation.indexLocations.0.path=${com.gentics.portalnode.confpath}/index/index
+rp.1.srcindexlocation.analyzerconfig=${com.gentics.portalnode.confpath}/rest/analyzer.properties
+rp.1.srcindexlocation.reopencheck=true
+}}}
+
+  * You can now use boosting on field level in the indexer
+{{{
+# The fields/attributes that should be boosted with the value that is stated after the "^"
+index.DEFAULT.CR.PAGES.BoostedAttributes=name^10.0,content^5.0
+}}}
+
 = Bugfixes =
 
   * issue #37 is fixed, this caused a not stopable jvm when using RPMergerRequestProcessor
-  * various bugfixes that where not reported as an issue, mainly bugfixes to be able to stop the jvm correctly
+  * various bugfixes that where not reported as an issue, mainly bugfixes to be able to stop the jvm correctly, also now the background threads are demon threads
