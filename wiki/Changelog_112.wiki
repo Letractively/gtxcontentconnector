@@ -5,6 +5,14 @@
 
 = Features =
 
+  * The DIDYOUMEAN-Functionality can now be further configured in order to restrict the suggestions
+{{{
+# Sets the the worddistancescore that has to be reached (default = 0.5)
+rp.1.didyoumeanmindistancescore=0.75
+# Sets the minimal frequecy the suggested term must have (default = 1)
+rp.1.didyoumeanmindocfreq=10
+}}}
 
 
 = Bugfixes =
+  * dym will now only be performend in the configured dym fields (query terms)
