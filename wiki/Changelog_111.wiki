@@ -2,6 +2,15 @@
 
 = Configuration changes =
 
+== Differential Indexing ==
+
+Now a updateattribute has to be configured to enable differential indexing.
+
+{{{
+# Enables the differential indexing and uses the attribute set in this option
+index.DEFAULT.CR.PAGES.updateattribute=updatetimestamp
+}}}
+
 == Index Optimization ==
 We replaced the following configuration option
 {{{
