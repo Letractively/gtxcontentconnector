@@ -49,7 +49,7 @@ returns content (for pages), binary (for files). optional.
 paramter: filter
 returns objects filtered by given rule.
 
-parameter: sort=key:order
+parameter: sorting=key:order
 sort by attribute "key", order "asc" or "desc"
 
 pathinfo:
