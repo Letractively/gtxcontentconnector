@@ -13,6 +13,11 @@ rp.1.didyoumeanmindistancescore=0.75
 rp.1.didyoumeanmindocfreq=10
 }}}
 
+  * The VectorBolder now supports Wildcardqueries e.g.: *word*
+  * Active "Indexes" will now be highlighted in the IndexerServlet
+
 
 = Bugfixes =
   * dym will now only be performend in the configured dym fields (query terms)
+  * VectorBolder will now read highlightprefix and postfix correctly from its config
+  * Improved highlighter performance (removed IO that was not needed)
