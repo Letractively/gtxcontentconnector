@@ -13,6 +13,12 @@ rp.1.didyoumeanmindistancescore=0.75
 rp.1.didyoumeanmindocfreq=10
 }}}
 
+  * The max number of clauses for BooleanQueries can now be configured
+{{{
+# Sets the maximal possible clauses per boolean query (expert setting)
+rp.1.maxqueryclauses=4096
+}}}
+
   * The VectorBolder now supports Wildcardqueries e.g.: *word*
   * Active "Indexes" will now be highlighted in the IndexerServlet
 
