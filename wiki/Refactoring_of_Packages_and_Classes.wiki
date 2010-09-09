@@ -1,0 +1,12 @@
+#summary How to refactor a package or a class
+
+= Introduction =
+
+This are the guidlines how refactoring should be done in this project.
+
+= Details =
+
+ # copy the package to the contentconnector-deprecated package
+ # move the original package to the new place
+ # edit the copy in contentconnector-deprecated so the package is a reference to the new package
+ # mark the copy as deprecated
