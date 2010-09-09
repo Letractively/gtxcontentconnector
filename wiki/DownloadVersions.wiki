@@ -1,5 +1,5 @@
+#summary Download Gentics Content.Connector.
 #labels Featured,Download
-#Download Gentics Content.Connector.
 
 = Introduction =
 On this page you can find all the download specific information.
