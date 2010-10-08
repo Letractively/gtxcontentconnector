@@ -1,0 +1,11 @@
+#summary This Page describes the major changes from Verstion 1.1.2 to 1.1.3
+
+= Configuration changes =
+
+
+= Features =
+
+ 
+
+= Bugfixes =
+  * Removed possible NPE from CMSPageLanguageFallbackRequestProcessor
