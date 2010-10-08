@@ -5,6 +5,34 @@
 On this page you can find all the download specific information.
 
 
+= Version 1.1.2 =
+
+Release date: 2010.08.20
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-core/1.1.2 contentconnector-core]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-apihelper/1.1.2 contentconnector-apihelper]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-http/1.1.2 contentconnector-http]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-json/1.1.2 contentconnector-json]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-jtidy/1.1.2 contentconnector-jtidy]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-language/1.1.2 contentconnector-language]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-lucene/1.1.2 contentconnector-lucene]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-poi-transformer/1.1.2 contentconnector-poi-transformer]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-portlet/1.1.2 contentconnector-portlet]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-rss/1.1.2 contentconnector-rss]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-servlet/1.1.2 contentconnector-servlet]
+
+
+
 = Version 1.1.1 =
 
 Release date: 2010.08.20
@@ -21,7 +49,7 @@ Release date: 2010.08.20
 
 [http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-language/1.1.1 contentconnector-language]
 
-[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-lucene/1.1.0 contentconnector-lucene]
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-lucene/1.1.1 contentconnector-lucene]
 
 [http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-poi-transformer/1.1.1 contentconnector-poi-transformer]
 
