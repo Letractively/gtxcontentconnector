@@ -1,0 +1,10 @@
+#summary This Page describes the major changes from Verstion 1.1.3 to 1.2.0
+
+= Configuration changes =
+
+
+= Features =
+
+ 
+
+= Bugfixes =
