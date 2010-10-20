@@ -8,3 +8,4 @@
  
 
 = Bugfixes =
+  * Fixed: Issue 50:       Lucene DefaultMultiIndexAccessor throws NPE
