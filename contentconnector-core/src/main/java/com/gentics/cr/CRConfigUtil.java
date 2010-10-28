@@ -570,11 +570,14 @@ public class CRConfigUtil extends CRConfig {
    * @return template manager or null if it is not set
    */
   public ITemplateManager getTemplateManager() {
-    if(!this.getPortalNodeCompMode()) {
+    if(!this.getPortalNodeCompMode())
+    {
       ITemplateManager tmplManager=null;
-      try {
+      try
+      {
         tmplManager = VelocityTemplateManagerFactory.getConfiguredVelocityTemplateManagerInstance(this.getEncoding(),DEFAULT_TEMPLATE_PATH);
-      } catch(Exception e) {
+      }catch(Exception e)
+      {
         CRException ex = new CRException(e);
         log.error(ex.getMessage(),ex);
       }
@@ -657,8 +660,6 @@ public class CRConfigUtil extends CRConfig {
         String key = ((String)e.getKey()).toLowerCase();
         //Driver class has to be spelled "driverClass"
         if("driverclass".equals(key))key="driverClass";
-        if("pooling.testonborrow".equals(key))key="pooling.testOnBorrow";
-        if("pooling.validationquery".equals(key))key="pooling.validationQuery";
         ret.put(key, e.getValue());
       }
       return ret;

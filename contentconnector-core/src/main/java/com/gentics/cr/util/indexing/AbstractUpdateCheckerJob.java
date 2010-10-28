@@ -225,47 +225,37 @@ public abstract class AbstractUpdateCheckerJob implements Runnable {
 	
 	
 	/**
-	 * get all objects that are not up to date.
-	 * @param forceFullUpdate - boolean use to force a full update in the index
-	 * @param request - Request describing the objects to index.
-	 * @param rp - RequestProcessor to get the objects from.
-	 * @param indexUpdateChecker - update checker for the index.
-	 * @return {@link Collection} of {@link CRResolvableBean} that need to be
-	 * updated in the index.
-	 * @see IndexUpdateChecker#isUpToDate(String, Object, String,
-	 * com.gentics.api.lib.resolving.Resolvable)
-	 * @see IndexUpdateChecker#deleteStaleObjects()
+	 * Checks objects in {@link Datasource} that match the rule, if they are up to date in the index. Finally all the objects not checked for an update are removed from the index.
+	 * @param rule Rule describing the objects that should be indexed
+	 * @param ds {@link Datasource} providing the objects to index
+	 * @param forceFullUpdate boolean use to force a full update in the index
+	 * @param indexUpdateChecker {@link IIndexUpdateChecker} to check if the item is up to date in the index
+	 * @return {@link Collection} of {@link Resolvables} that need an update in the index.
+	 * 
+	 * @see {@link IIndexUpdateChecker#isUpToDate(String, int)}
+	 * @see {@link IIndexUpdateChecker#deleteStaleObjects()}
 	 */
-	protected Collection<CRResolvableBean> getObjectsToUpdate(
-			final CRRequest request, final RequestProcessor rp,
-			final boolean forceFullUpdate,
-			final IndexUpdateChecker indexUpdateChecker) { 
-		Collection<CRResolvableBean> updateObjects =
-			new Vector<CRResolvableBean>();
+	protected Collection<CRResolvableBean> getObjectsToUpdate(CRRequest request, RequestProcessor rp, boolean forceFullUpdate, IndexUpdateChecker indexUpdateChecker){
+		Collection<CRResolvableBean> updateObjects = new Vector<CRResolvableBean>();
 		
 		UseCase objectsToUpdateCase = MonitorFactory.startUseCase(
-				"AbstractUpdateCheck.getObjectsToUpdate(" + request.get("CRID")
-				+ ")");
-		try {
-			if (forceFullUpdate || "".equals(timestampAttribute)) {
+				"AbstractUpdateCheck.getObjectsToUpdate(" + request.get("CRID") + ")");
+		try
+		{
+			if(forceFullUpdate){
 				try {
-					updateObjects = (Collection<CRResolvableBean>)
-						rp.getObjects(request);
+					updateObjects = (Collection<CRResolvableBean>) rp.getObjects(request);
 				} catch (CRException e) {
-					log.error("Error getting results for full index from "
-							+ "requestprocessor", e);
+					log.error("Error getting results for full index from requestprocessor",e);
 				} 
 			} else {
-				//Sorted (by the idAttribute) list of Resolvables to check for
-				//Updates.
+				//Sorted (by the idAttribute) list of Resolvables to check for Updates.
 				Collection<CRResolvableBean> objectsToIndex;
 				try {
 					defaultizeRequest(request);
-					objectsToIndex = (Collection<CRResolvableBean>)
-						rp.getObjects(request);
+					objectsToIndex = (Collection<CRResolvableBean>) rp.getObjects(request);
 				} catch (CRException e) {
-					log.error("Error getting results for full index from "
-							+ "requestprocessor", e);
+					log.error("Error getting results for full index from requestprocessor",e);
 					return null;
 				}
 				Iterator<CRResolvableBean> resolvableIterator =
@@ -273,27 +263,22 @@ public abstract class AbstractUpdateCheckerJob implements Runnable {
 				try {
 					while (resolvableIterator.hasNext()) {
 						CRResolvableBean crElement = resolvableIterator.next();
-						Object crElementIDObject = crElement.get(idAttribute);
-						if (crElementIDObject == null) {
-							log.error("IDAttribute is null!");
-						}
-						String crElementID = crElementIDObject.toString();
-						Object crElementTimestamp =
-							crElement.get(timestampAttribute);
-						if (!indexUpdateChecker.isUpToDate(crElementID,
-								crElementTimestamp, timestampAttribute,
-								crElement)) {
+						Object o_crElementID = crElement.get(idAttribute);
+						if(o_crElementID==null)log.error("IDAttribute is null!");
+						String crElementID = o_crElementID.toString();
+						Object crElementTimestamp =	crElement.get(timestampAttribute);
+						if (!indexUpdateChecker.isUpToDate(crElementID, crElementTimestamp,
+								timestampAttribute,crElement)) {
 							updateObjects.add(crElement);
 						}
 					}
 				} catch (WrongOrderException e) {
-					log.error("Got the objects from the datasource in the wrong"
-							+ "order.", e);
+					log.error("Got the objects from the datasource in the wrong order.",
+							e);
 					return null;
 				}
 			}
-			//Finally delete all Objects from Index that are not checked for an
-			//Update
+			//Finally delete all Objects from Index that are not checked for an Update
 			indexUpdateChecker.deleteStaleObjects();
 		}
 		finally {

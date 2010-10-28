@@ -1,14 +1,7 @@
 package com.gentics.cr.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Collection;
 
 import org.apache.log4j.Logger;
 
@@ -19,11 +12,6 @@ import org.apache.log4j.Logger;
  */
 public final class StringUtils {
 
-	/**
-	 * Variable for the average word length to calculate the size of the
-	 * StringBuilder based on how many items we have.
-	 */
-	public static final int AVERAGE_WORD_LENGTH = 7;
 	/**
 	 * Log4j logger for error and debug messages.
 	 */
@@ -117,117 +105,6 @@ public final class StringUtils {
 		} else {
 			return Boolean.parseBoolean(parameter.toString());
 		}
-	}
 
-	/**
-	 * Create a summary of a collection of objects.
-	 * e.g. ["a", "b"] is transformed to the String "a, b".
-	 * @param collection - Collection containing the objects
-	 * @return String of comma seperated values of the Collection.
-	 */
-	public static String getCollectionSummary(final Collection<?> collection) {
-		StringBuilder result =
-			new StringBuilder(collection.size() * AVERAGE_WORD_LENGTH);
-		for (Object object : collection) {
-			if (result.length() != 0) {
-				result.append(",");
-			}
-			result.append(' ');
-			result.append(object);
-		}
-		return result.toString();
-	}
-	
-	/**
-	 * Serialize the given object into a byte array.
-	 * @param object - object to serialize into the byte array.
-	 * @return serializedObject as byte array.
-	 */
-	public static byte[] serializeToByteArray(final Serializable object) {
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(baos);
-			oos.writeObject(object);
-			return baos.toByteArray();
-		} catch (IOException e) {
-			logger.error("Error while serializing object.", e);
-			return null;
-		}
-	}
-
-	/**
-	 * Serialize the given object into a String.
-	 * @param object - object to serialize into the String.
-	 * @return serializedObject as String.
-	 */
-	public static String serialize(final Serializable object) {
-		return new String(serializeToByteArray(object));
-	}
-	
-	/**
-	 * Deserialize an object from a given string.
-	 * @param objectString - string containing a serialized object
-	 * @return object contained in the string
-	 * @see #serialize(Serializable)
-	 */
-	public static Object deserialize(final String objectString) {
-		if (objectString != null && objectString.length() > 0) {
-			return deserialize(objectString.getBytes());
-		}
-		return null;
-		
-	}
-
-	/**
-	 * Deserialize an object from a given byteArray.
-	 * @param objectBytes - byte array containing a serialized object
-	 * @return object contained in the byte array
-	 * @see #serializeToByteArray(Serializable)
-	 */
-	public static Object deserialize(final byte[] objectBytes) {
-		if (objectBytes != null && objectBytes.length > 0) {
-			try {
-				ByteArrayInputStream bais =
-					new ByteArrayInputStream(objectBytes);
-				ObjectInputStream ois = new ObjectInputStream(bais);
-				return ois.readObject();
-			} catch (IOException e) {
-				logger.error("Error while deserializing object.", e);
-			} catch (ClassNotFoundException e) {
-				logger.error("Cannot deserialize object because the class of "
-						+ "the object or one of its dependencies is not known "
-						+ "on this system.", e);
-			}
-		}
-		return null;
-	}
-	/**
-	 * Converts a folder name into a Gentics Content.Node compatible folder
-	 * name.
-	 * @param folderPubDir - folder name to convert.
-	 * @return CMS compatible folder name.
-	 * <ul>
-	 * <li>"&" is converted into "und"</li>
-	 * <li>"ß" is converted into "ss"</li>
-	 * <li>"ä" is converted into "ae"</li>
-	 * <li>"Ä" is converted into "Ae"</li>
-	 * <li>"ö" is converted into "oe"</li>
-	 * <li>"Ö" is converted into "Oe"</li>
-	 * <li>"ü" is converted into "ue"</li>
-	 * <li>"Ü" is converted into "Ue"</li>
-	 * <li>All characters except a-z, A-Z, 0-9, ., _, / and - are replaces with
-	 * _</li>
-	 * </ul>
-	 */
-	public static String toCMSFolder(final String folderPubDir) {
-		return folderPubDir.replaceAll("&", "und")
-			.replaceAll("ß", "ss")
-			.replace("ü", "ue")
-			.replace("Ü", "Ue")
-			.replace("ö", "oe")
-			.replace("Ö", "Oe")
-			.replace("ä", "ae")
-			.replace("Ä", "Ae")
-			.replaceAll("[^a-zA-Z0-9._/-]", "_");
 	}
 }
