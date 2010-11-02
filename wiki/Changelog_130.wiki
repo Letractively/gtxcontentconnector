@@ -7,6 +7,7 @@
  
 
 = Bugfixes =
+  * Fixed: Issue 51:       Deadlock after broken DB connection
   * Fixed: Issue 50:       Lucene DefaultMultiIndexAccessor throws NPE
-  * Fixed: Issue 45:       Transformer "LanguageIdentifyer" doesn't work
   * Fixed: Issue 49:       Start/Stop via IndexerServlet
+  * Fixed: Issue 45:       Transformer "LanguageIdentifyer" doesn't work
