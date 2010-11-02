@@ -4,8 +4,9 @@
 
 
 = Features =
-
  
 
 = Bugfixes =
   * Fixed: Issue 50:       Lucene DefaultMultiIndexAccessor throws NPE
+  * Fixed: Issue 45:       Transformer "LanguageIdentifyer" doesn't work
+  * Fixed: Issue 49:       Start/Stop via IndexerServlet
