@@ -10,6 +10,11 @@ rp.1.queryparser.class=com.gentics.cr.lucene.search.query.CRComplexPhraseQueryPa
 = Features =
   * Lucene Update 3.0.1 => 3.0.2
   * Added ComplexPhraseQueryParser capability to support wildcards in phrases e.g. "The Movie`*`"
+  * Added Feature for References in Configuration Files, now we can maintain all ds urls in one file. Referencing properties in the same Configuration file is not yet supported.
+{{{
+#loads path.to.property.B from anotherpropertyfilename.properties
+path.to.property.A=&{anotherpropertyfilename.path.to.property.B}
+}}}
 
 = Bugfixes =
   * Fixed: Issue 51:       Deadlock after broken DB connection
