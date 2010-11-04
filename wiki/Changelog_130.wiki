@@ -4,7 +4,7 @@
 
 
 = Features =
- 
+  * Lucene Update 3.0.1 => 3.0.2
 
 = Bugfixes =
   * Fixed: Issue 51:       Deadlock after broken DB connection
