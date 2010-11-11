@@ -15,6 +15,14 @@ rp.1.queryparser.class=com.gentics.cr.lucene.search.query.CRComplexPhraseQueryPa
 #loads path.to.property.B from anotherpropertyfilename.properties
 path.to.property.A=&{anotherpropertyfilename.path.to.property.B}
 }}}
+  * MergeTransformer can now add static strings
+{{{
+...transformer.1.sourceattributes=directory,"/",filename
+...transformer.1.targetattribute=path
+...transformer.1.rule=1==1
+...transformer.1.transformerclass=com.gentics.cr.lucene.indexer.transformer.MergeTransformer
+
+}}}
 
 = Bugfixes =
   * Fixed: Issue 51:       Deadlock after broken DB connection
