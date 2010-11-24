@@ -25,10 +25,10 @@ path.to.property.A=&{anotherpropertyfilename.path.to.property.B}
 }}}
   * The renderers (ContentRepository) can now contain deployable objects. This is now used in the VelocityContentRepository. In connection with the default RESTServlet, you can now access the Request and the session in the velocity context.
 {{{
-${request.parameters.test} <= fetches the parameter test (smart as string or array depending on the size)
-${request.parameters.get("test")} <= same as above
-${request.parameterMap} <= default servlet parameterMap
-${request.parameterMap.test} <= parameter test as array
+${request.parameters.test} #<= fetches the parameter test (smart as string or array depending on the size)
+${request.parameters.get("test")} #<= same as above
+${request.parameterMap} #<= default servlet parameterMap
+${request.parameterMap.test} #<= parameter test as array
 }}}
 
 = Bugfixes =
