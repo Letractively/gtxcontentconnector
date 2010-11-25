@@ -30,6 +30,7 @@ ${request.parameters.get("test")} #<= same as above
 ${request.parameterMap} #<= default servlet parameterMap
 ${request.parameterMap.test} #<= parameter test as array
 }}}
+  * The indexer servlet now gives information about the optimization status of the indexes managed by the servlet. Furthermore a optimize job can now be started through the servlet.
 
 = Bugfixes =
   * Fixed: Issue 51:       Deadlock after broken DB connection
