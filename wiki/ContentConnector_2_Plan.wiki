@@ -1,0 +1,31 @@
+#This page contains the planning for the ContentConnector Version 2
+
+= Introduction =
+
+This page contains the planning for the ContentConnector Version 2. It describes how the new Version should look like and how it will be restructured.
+
+
+= Core Elements =
+
+== Configuration ==
+
+== Datasources == 
+
+FKA RequestProcessor
+
+=== Readable === 
+
+=== Writeable ===
+
+== Filters ==
+
+FKA Transformer
+
+== Renderers ==
+
+FKA ContentRepository
+
+== Scheduler ==
+
+== Utils ==
+
