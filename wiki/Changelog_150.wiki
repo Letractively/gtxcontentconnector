@@ -5,4 +5,5 @@
 = Features =
   
 = Bugfixes =
+  * Issue 59 - now risizing should work correctly on sun JVM. Also removed the support for GIF.
  
