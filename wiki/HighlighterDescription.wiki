@@ -2,7 +2,7 @@
 
 = PhraseBolder =
 
-  * Does only work if the searched term occures in the first 50 * 1024 characters of the document.
+  * Does only work if the searched term occures in the first 50 x 1024 characters of the document.
 
 
 = VectorBolder =
