@@ -40,7 +40,7 @@ Navigate to your newly created project and into the /WebContent/ folder. There w
   <body>
    <script type="text/javascript">
    var custom = {};
-   custom.ccrlocation="http://localhost:42881/ContentRepository/ccr";
+   custom.ccrlocation="/ContentRepository/ccr";
    $(function() {
    	$('#update-target a').click(function() {
    	  	$.getJSON(custom.ccrlocation+"?   filter=object.obj_type==10007&attributes=contentid&attributes=name&attributes=filename&sor   ting=contentid:asc&type=json&count=30",
