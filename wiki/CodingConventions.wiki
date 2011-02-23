@@ -1,0 +1,11 @@
+#summary This page describes how to write code for the content connector
+
+= Basics =
+
+  * Make use of javadoc
+  * Use CheckStyle in your Eclipse to validate your code.
+
+
+== Checkstyle ==
+
+  * [http://eclipse-cs.sourceforge.net/ Checkstyle Plugin Homepage]
