@@ -3,7 +3,7 @@
 = Basics =
 
   * Make use of javadoc
-  * Use CheckStyle in your Eclipse to validate your code.
+  * Use Checkstyle in your Eclipse to validate your code.
 
 
 == Checkstyle ==
