@@ -85,4 +85,4 @@ Edit this code and play around. Try to add additional attributes to the json-url
 Visit [Usage] for more information.
 
 == You want more? ==
-View [http://code.google.com/p/gtxcontentconnector/source/browse/branches/stable/Examples/Examples/ More examples]
+View [http://code.google.com/p/gtxcontentconnector/source/browse/#svn%2Fbranches%2Farchive%2Ftrunk_20.04.2010%2FExamples%2FExamples More examples]
