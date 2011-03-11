@@ -4,6 +4,32 @@
 = Introduction =
 On this page you can find all the download specific information.
 
+= Version 1.5.0 =
+
+Release date: 2011.03.11
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-core/1.5.0 contentconnector-core]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-apihelper/1.5.0 contentconnector-apihelper]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-http/1.5.0 contentconnector-http]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-json/1.5.0 contentconnector-json]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-jtidy/1.5.0 contentconnector-jtidy]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-language/1.5.0 contentconnector-language]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-lucene/1.5.0 contentconnector-lucene]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-poi-transformer/1.5.0 contentconnector-poi-transformer]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-portlet/1.5.0 contentconnector-portlet]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-rss/1.5.0 contentconnector-rss]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-servlet/1.5.0 contentconnector-servlet]
+
 = Version 1.4.0 =
 
 Release date: 2011.01.13
