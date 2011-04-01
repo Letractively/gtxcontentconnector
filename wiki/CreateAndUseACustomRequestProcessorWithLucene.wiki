@@ -110,7 +110,7 @@ The new RequestPrcessor can then be configured in the according indexer.properti
 # The RequestProcessor that should be used to fetch the objects 
 index.DEFAULT.CR.DUMMY.rp.1.rpClass=com.gentics.cr.DummyRequestProcessor
 
-# Datasource
+# Configuration of the custom RequestProcessor
 index.DEFAULT.CR.DUMMY.rp.1.prefix=MyCustomPrefix
 
 # The Rule that is used to fetch the objects
