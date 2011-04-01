@@ -2,7 +2,7 @@
 
 = Introduction =
 
-The Lucene Indexer in this framework uses different instances of the RequestProcessor class to access all datasources that need to be indexed. It queries them with the configured rule periodically and expects them to return all the objects that should be contained in the index (for this datasource. e.g. matching the provided rule)
+The Lucene Indexer in this framework uses different instances of the RequestProcessor class to access all datasources that need to be indexed. It queries them with the configured rule periodically and expects them to return all the objects that should be contained in the index (for this datasource. e.g. matching the provided rule). When using differential indexing, it is important that the RequestProcessor always returns all Objects (otherwise the missing objects would be removed from the index).
 
 
 = Creating the RequestProcessor =
