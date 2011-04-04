@@ -3,6 +3,7 @@
 = Configuration changes =
 
 = Features =
+  * The DYM-Provider (Did you Mean index) now checks for an existing lock on startup (when it has not been ended with a clean shut down) and tries to remove it.
   
 = Bugfixes =
   
