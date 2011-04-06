@@ -1,8 +1,12 @@
 #summary This Page describes the major changes from Version 1.5.0 to 1.6.0
 
+= Important Changes = 
+  * Removed WrappedSnowballAnalyzer as this will no longer be supported by Lucene. Use the language specific analyzers provided by lucene instead.
+
 = Configuration changes =
 
 = Features =
+  * Now using Lucene Version 3.1 (Released in March 2011)
   * The DYM-Provider (Did you Mean index) now checks for an existing lock on startup (when it has not been ended with a clean shut down) and tries to remove it.
   * The Autocompleter now checks for an existing lock on startup (when it has not been ended with a clean shut down) and tries to remove it.
   * The indexer servlet can now display special indexes, such as DYM and autocomplete.
