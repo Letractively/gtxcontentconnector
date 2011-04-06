@@ -11,6 +11,12 @@
   * The Autocompleter now checks for an existing lock on startup (when it has not been ended with a clean shut down) and tries to remove it.
   * The indexer servlet can now display special indexes, such as DYM and autocomplete.
   * Now the locking state is displayed for each index.
+  * A CustomPatternAnalyzer has been added. This analyzer splits on a configured pattern. analyzer.properties
+{{{
+TAGS.analyzerclass=com.gentics.cr.lucene.analysis.CustomPatternAnalyzer
+TAGS.fieldname=tags
+TAGS.pattern=someregex
+}}}
   
 = Bugfixes =
  * fixed backwards compatibility with Java 1.5
