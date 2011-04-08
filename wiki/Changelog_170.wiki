@@ -1,13 +1,12 @@
-#summary One-sentence summary of this page.
+#summary This Page describes the major changes from Version 1.6.0 to 1.7.0
 
-= Introduction =
+= Important Changes = 
 
-Add your content here.
+= Configuration changes =
 
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+= Features =
+ 
+  
+= Bugfixes =
+ 
+ 
