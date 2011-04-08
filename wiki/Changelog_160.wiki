@@ -21,6 +21,7 @@ TAGS.pattern=someregex
 = Bugfixes =
  * fixed backwards compatibility with Java 1.5
  * fixed indexing problems with SQLRequestProcessor when using views with extra column labels
+ * Windows (CP-1252) encoded powerpoint files containing special characters will now correctly be indexed.
 
 
  
