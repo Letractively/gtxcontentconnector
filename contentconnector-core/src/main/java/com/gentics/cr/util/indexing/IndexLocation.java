@@ -103,7 +103,7 @@ public abstract class IndexLocation {
 	/**
 	 * Holds the time when each index part was checked.
 	 */
-	private Hashtable<String, Date> indexJobCreationTimes = new Hashtable<String, Date>();
+	private HashMap<String, Date> indexJobCreationTimes = null;
 	
 	
 	private IndexJobQueue queue = null;
@@ -494,7 +494,7 @@ public abstract class IndexLocation {
 	
 	public abstract boolean isOptimized();
 	
-	public abstract boolean isLocked();
+
 	
 	/**
 	 * Creates a new CRIndexJob for the given CRConfig and adds the job to the queue
@@ -547,7 +547,7 @@ public abstract class IndexLocation {
 	 * resets all creation times for index jobs.
 	 */
 	public final void resetIndexJobCreationTimes() {
-		indexJobCreationTimes = new Hashtable<String, Date>();
+		indexJobCreationTimes = new HashMap<String, Date>();
 	}
 
 	private static final String CR_KEY = "CR";

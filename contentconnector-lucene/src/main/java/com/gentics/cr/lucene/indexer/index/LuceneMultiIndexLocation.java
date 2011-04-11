@@ -243,13 +243,4 @@ public class LuceneMultiIndexLocation extends LuceneIndexLocation {
 	    
 		return ret;
 	}
-
-
-	@Override
-	public boolean isLocked() {
-		boolean locked = false;
-		IndexAccessor indexAccessor = this.getAccessor();
-		locked = indexAccessor.isLocked(); 
-		return locked;
-	}
 }

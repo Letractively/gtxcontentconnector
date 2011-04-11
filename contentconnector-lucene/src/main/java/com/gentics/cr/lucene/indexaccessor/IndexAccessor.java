@@ -120,11 +120,6 @@ public interface IndexAccessor {
 
   /**
    * 
-   * @return
-   */
-  boolean isLocked();
-  /**
-   * 
    */
   void open();
   

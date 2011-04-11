@@ -420,9 +420,6 @@ public class CRLuceneIndexJob extends AbstractUpdateCheckerJob {
 				log.error("Could not complete index run... indexed Objects: " + status
 						.getObjectsDone() + ", trying to close index and remove lock.", ex);
 				finishedIndexJobWithError = true;
-				status.setError("Could not complete index run... indexed "
-						+ "Objects: " + status.getObjectsDone() 
-						+ ", trying to close index and remove lock.");
 			} finally {
 				if (!finishedIndexJobSuccessfull && !finishedIndexJobWithError) {
 					log.fatal("There seems to be a run time exception from this"
@@ -537,10 +534,8 @@ public class CRLuceneIndexJob extends AbstractUpdateCheckerJob {
 				if (Thread.currentThread().isInterrupted()) {
 					break;
 				}
-				this.status.setObjectsDone(this.status.getObjectsDone() + 1);
+				this.status.setObjectsDone(this.status.getObjectsDone()+1);
 			}
-		} catch (Exception e) {
-			throw new CRException(e);
 		} finally {
 			uc.stop();
 		}

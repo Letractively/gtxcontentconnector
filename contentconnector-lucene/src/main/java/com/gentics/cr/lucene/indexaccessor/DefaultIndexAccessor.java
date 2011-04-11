@@ -415,16 +415,6 @@ class DefaultIndexAccessor implements IndexAccessor {
 	public boolean isOpen() {
 		return !closed;
 	}
-	
-	public boolean isLocked() {
-		boolean locked = false;
-		try {
-			locked = IndexWriter.isLocked(directory);
-		} catch (IOException e) {
-			LOGGER.error(e);
-		}
-		return locked;
-	}
 
 	/*
 	 * (non-Javadoc)
