@@ -1,24 +1,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>contentconnector</groupId>
-  <artifactId>contentconnector-jtidy</artifactId>
-  <version>1.5.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
-  <name>Gentics Content.Connector - JTIDY</name>
-  <description>This is the JTIDY-Extension to the Gentics Content.Connector Suite</description>
-  
-  <build>
-  	<plugins>
-  		<plugin>
-  			<groupId>org.apache.maven.plugins</groupId>
-  			<artifactId>maven-compiler-plugin</artifactId>
-  			<configuration>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>contentconnector</groupId>
+	<artifactId>contentconnector-jtidy</artifactId>
+	<version>1.5.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>Gentics Content.Connector - JTIDY</name>
+	<description>This is the JTIDY-Extension to the Gentics Content.Connector Suite</description>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
 			<source>1.5</source>
 			<target>1.5</target>
 			</configuration>
-  		</plugin>
-  		<plugin>
-  			<groupId>org.apache.maven.plugins</groupId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-javadoc-plugin</artifactId>
 			<executions>
 				<execution>
@@ -41,8 +41,8 @@
 				</execution>
 			</executions>
 		</plugin>
-  	</plugins>
-  	<extensions>
+		</plugins>
+		<extensions>
 			<!-- begin - needed for deploying to repository using webdav -->
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
@@ -51,25 +51,25 @@
 			</extension>
 			<!-- end - needed for deploying to repository using webdav -->
 		</extensions>
-  </build>
+	</build>
  
 	
 	<dependencies>
 		<dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.16</version>
-    </dependency>
-    <dependency>
-      <groupId>jtidy</groupId>
-      <artifactId>jtidy</artifactId>
-      <version>4aug2000r7-dev</version>
-    </dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
+		<dependency>
+			<groupId>jtidy</groupId>
+			<artifactId>jtidy</artifactId>
+			<version>4aug2000r7-dev</version>
+		</dependency>
 	<dependency>
-      <groupId>contentconnector</groupId>
-      <artifactId>contentconnector-lucene</artifactId>
-      <version>1.5.0-SNAPSHOT</version>
-    </dependency>
+			<groupId>contentconnector</groupId>
+			<artifactId>contentconnector-lucene</artifactId>
+			<version>1.5.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>
@@ -84,24 +84,24 @@
 			</snapshots>
 		</repository>
 		<repository>
-	      <id>com.gentics.public</id>
-	      <name>Archiva Managed Public Repository</name>
-	      <url>http://archiva.gentics.com:8081/archiva/repository/com.gentics.public/</url>
-	      <releases>
-	        <enabled>true</enabled>
-	      </releases>
-	      <snapshots>
-	        <enabled>false</enabled>
-	      </snapshots>
-	    </repository>
-	    <repository>
-	      <id>com.gentics.public_snapshots</id>
-	      <name>Archiva Managed Public Repository</name>
-	      <url>http://archiva.gentics.com:8081/archiva/repository/com.gentics.public_snapshots/</url>
-	      <snapshots>
-	        <enabled>true</enabled>
-	      </snapshots>
-	    </repository>
+				<id>com.gentics.public</id>
+				<name>Archiva Managed Public Repository</name>
+				<url>http://archiva.gentics.com:8081/archiva/repository/com.gentics.public/</url>
+				<releases>
+					<enabled>true</enabled>
+				</releases>
+				<snapshots>
+					<enabled>false</enabled>
+				</snapshots>
+			</repository>
+			<repository>
+				<id>com.gentics.public_snapshots</id>
+				<name>Archiva Managed Public Repository</name>
+				<url>http://archiva.gentics.com:8081/archiva/repository/com.gentics.public_snapshots/</url>
+				<snapshots>
+					<enabled>true</enabled>
+				</snapshots>
+			</repository>
 	</repositories>
 	
 	<distributionManagement>
