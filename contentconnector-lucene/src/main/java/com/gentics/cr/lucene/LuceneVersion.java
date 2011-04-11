@@ -12,11 +12,13 @@ import org.apache.lucene.util.Version;
 public class LuceneVersion {
 
 		/**
-		 * Returns the current Lucene Version used in this implementation
-		 * @return
+		 * 
 		 */
-		public static Version getVersion()
-		{
-			return Version.LUCENE_31;
+		private LuceneVersion() { };
+		/**
+		 * @return the current Lucene Version used in this implementation
+		 */
+		public static Version getVersion() {
+			return Version.LUCENE_30;
 		}
 }
