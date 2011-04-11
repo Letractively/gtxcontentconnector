@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.spell.CustomSpellChecker;
 import org.apache.lucene.search.spell.LuceneDictionary;
@@ -24,6 +25,7 @@ import com.gentics.cr.events.EventManager;
 import com.gentics.cr.events.IEventReceiver;
 import com.gentics.cr.lucene.events.IndexingFinishedEvent;
 import com.gentics.cr.lucene.indexer.index.LuceneIndexLocation;
+import com.gentics.cr.lucene.information.SpecialDirectoryRegistry;
 
 /**
  * This class can be used to build an autocomplete index over an existing lucene index.
@@ -79,20 +81,21 @@ public class DidYouMeanProvider implements IEventReceiver{
     GenericConfiguration auto_conf = (GenericConfiguration)config.get(DIDYOUMEAN_INDEY_KEY);
     source = LuceneIndexLocation.createDirectory(new CRConfigUtil(src_conf,"SOURCE_INDEX_KEY"));
     didyoumeanLocation = LuceneIndexLocation.createDirectory(new CRConfigUtil(auto_conf,DIDYOUMEAN_INDEY_KEY));
-    
+    SpecialDirectoryRegistry.getInstance().register(didyoumeanLocation);
     didyoumeanfield = config.getString(DIDYOUMEAN_FIELD_KEY, didyoumeanfield);
 
     checkForExistingTerms =
       config.getBoolean(DIDYOUMEAN_EXISTINGTERMS_KEY, checkForExistingTerms);
     
-    Float minDScore = config.getFloat(DIDYOUMEAN_MIN_DISTANCESCORE, (float) 0.0);
+    Float minDScore = config.getFloat(DIDYOUMEAN_MIN_DISTANCESCORE,
+    		(float) 0.0);
     Integer minDFreq = config.getInteger(DIDYOUMEAN_MIN_DOCFREQ, 0);
     
     
     //FETCH DYM FIELDS
-    if(this.didyoumeanfield.equalsIgnoreCase("ALL")) {
-      all=true;
-    } else if(this.didyoumeanfield.contains(",")) {
+    if (this.didyoumeanfield.equalsIgnoreCase("ALL")) {
+      all = true;
+    } else if (this.didyoumeanfield.contains(",")) {
       String[] arr = this.didyoumeanfield.split(",");
       dym_fields = new ArrayList<String>(Arrays.asList(arr));
     } else {
@@ -101,11 +104,20 @@ public class DidYouMeanProvider implements IEventReceiver{
     }
     
     try {
-      spellchecker = new CustomSpellChecker(didyoumeanLocation,minDScore,minDFreq);
+    	//CHECK FOR EXISTING LOCK AND REMOVE IT
+    	synchronized (this) {
+	    	try {
+				if (IndexWriter.isLocked(didyoumeanLocation)) {
+					IndexWriter.unlock(didyoumeanLocation);
+				}
+			} catch (IOException e) {
+				log.error(e.getMessage(), e);
+			}
+    	}
+      spellchecker = new CustomSpellChecker(didyoumeanLocation,
+    		  minDScore, minDFreq);
       reIndex();
-    }
-    catch(IOException e)
-    {
+    } catch (IOException e) {
       log.error("Could not create didyoumean index.", e);
     }
     EventManager.getInstance().register(this);
@@ -170,7 +182,7 @@ public class DidYouMeanProvider implements IEventReceiver{
     log.debug("Starting to reindex didyoumean index.");
     IndexReader sourceReader = IndexReader.open(source);
     Collection<String> fields = null;
-    if(all) {
+    if (all) {
       fields = sourceReader.getFieldNames(IndexReader.FieldOption.ALL);
     } else {
       fields = dym_fields;
@@ -187,6 +199,7 @@ public class DidYouMeanProvider implements IEventReceiver{
   }
 
   public void finalize() {
+	SpecialDirectoryRegistry.getInstance().unregister(didyoumeanLocation);
     EventManager.getInstance().unregister(this);
   }
 
