@@ -34,7 +34,7 @@ import com.gentics.cr.util.AccessibleBean;
  * @author $Author: supnig@constantinopel.at $
  * 
  */
-public class CRResolvableBean extends AccessibleBean implements Serializable, Resolvable{
+public class CRResolvableBean extends AccessibleBean implements Serializable, Resolvable {
 
 	/**
 	 * object type of gentics content repository for file objects.
@@ -208,7 +208,10 @@ public class CRResolvableBean extends AccessibleBean implements Serializable, Re
 					//serializable objects (Resolvables) and convert them into
 					//CRResolvableBeans
 					try {
-						Object o = inspectResolvableAttribute(PropertyResolver.resolve(
+						//THE FOLLOWING CALL DOES NOT THROW AN EXCEPTION
+						//WHEN THE DB CONNECTION IS LOST
+						Object o = inspectResolvableAttribute(
+								PropertyResolver.resolve(
 								givenResolvable, cleanedAttributeNames[i]));
 						if (o != null) {
 							this.attrMap.put(cleanedAttributeNames[i], o);
@@ -267,33 +270,36 @@ public class CRResolvableBean extends AccessibleBean implements Serializable, Re
 	 * @param attr
 	 *		 Checks if attr is instance of Hashtable. If true, it sets attr as the new attribute map. If false, a new Hashtable with the given map as basis is being generated.
 	 */
-	public void setAttrMap(Map<String,Object> attr)
-	{
-		if(attr instanceof Hashtable<?, ?>)
-		{
-			this.attrMap = (Hashtable<String,Object>)attr;
-		}
-		else
-		{
-			this.attrMap=new Hashtable<String,Object>(attr);
+	public void setAttrMap(Map<String,Object> attr) {
+		if (attr instanceof Hashtable<?, ?>) {
+			this.attrMap = (Hashtable<String, Object>) attr;
+		} else {
+			this.attrMap = new Hashtable<String, Object>(attr);
 		}
 	}
 
 	/**
-	 * Gets the contentid of the CRResolvableBean
-	 * @return contentid
+	 * @return the contentid of the bean, this is usually used as unique identifier within the gentics frameworks.
 	 */
 	public String getContentid() {
-		return contentid;
+		if (contentid != null || resolvable == null) {
+			return contentid;
+		} else {
+			Object resContentid = resolvable.get("contentid");
+			if (resContentid != null) {
+				return resContentid.toString();
+			} else {
+				return null;
+			}
+		}
 	}
 	
 	/**
-	 * Sets the contentid of the CRResolvableBean
+	 * Sets the contentid of the CRResolvableBean.
 	 * @param id - contentid
 	 */
-	public void setContentid(String id)
-	{
-		this.contentid=id;
+	public void setContentid(final String id) {
+		this.contentid = id;
 	}
 
 	/**
@@ -559,9 +565,7 @@ public class CRResolvableBean extends AccessibleBean implements Serializable, Re
 	 * A String representation of this CRResolvableBean instance
 	 * @return String contentid
 	 */
-	public String toString()
-	{
+	public String toString() {
 		return this.getContentid();
-		
 	}
 }
