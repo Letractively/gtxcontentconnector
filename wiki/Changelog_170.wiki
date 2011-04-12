@@ -1,6 +1,7 @@
 #summary This Page describes the major changes from Version 1.6.0 to 1.7.0
 
 = Important Changes = 
+  * To achieve stemming you now have to configure the correct analyzer for the fields you want to stemm in the analyzer.properties
 
 = Configuration changes =
 
@@ -8,5 +9,7 @@
  
   
 = Bugfixes =
+  * Fixed debug output in indexer servlet
+
  
  
