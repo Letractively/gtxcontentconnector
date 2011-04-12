@@ -10,6 +10,7 @@
   
 = Bugfixes =
   * Fixed debug output in indexer servlet
+  * Fixed a bug where a UnsupportedOperationException would occure when using DYM and complex queries
 
  
  
