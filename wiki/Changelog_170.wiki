@@ -6,6 +6,13 @@
 = Configuration changes =
 
 = Features =
+  * Added a new transformer for XLSX documents that works better with large files (>=30 MB)
+{{{
+# XLSX
+index.DEFAULT.CR.FILES.transformer.4.attribute=binarycontent
+index.DEFAULT.CR.FILES.transformer.4.rule=object.obj_type==10008
+index.DEFAULT.CR.FILES.transformer.4.transformerclass=com.gentics.cr.lucene.indexer.transformer.xlsx.XLSXContentTransformer
+}}}
  
   
 = Bugfixes =
