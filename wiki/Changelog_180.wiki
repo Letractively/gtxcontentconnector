@@ -5,6 +5,7 @@
 = Configuration changes =
 
 = Features =
+  * Now marking failed index jobs and display the error message in the indexer servlet.
   
 = Bugfixes =
   * Fixed display of memory consumption in the indexer servlet
