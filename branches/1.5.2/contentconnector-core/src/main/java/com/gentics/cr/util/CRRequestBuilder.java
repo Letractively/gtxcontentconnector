@@ -40,6 +40,7 @@ public class CRRequestBuilder {
 	protected String type;
 	protected String contentid;
 	protected String wordmatch;
+	protected String extensionmatch;
 	protected String[] node_id;
 	protected String[] attributes;
 	protected String[] sorting;
@@ -143,6 +144,7 @@ public class CRRequestBuilder {
 		this.query_not = requestWrapper.getParameter("q_not");
 		this.query_group = requestWrapper.getParameter("q_group");
 		this.wordmatch = requestWrapper.getParameter("wm");
+		this.extensionmatch = requestWrapper.getParameter("ul");
 		if (config != null) {
 			String addPermissionsToRuleConfig = config.getString(ADD_PERMISSIONS_TO_RULE_KEY);
 			if (addPermissionsToRuleConfig != null) {
@@ -344,6 +346,7 @@ public class CRRequestBuilder {
 		req.setResponse(this.response);
 		req.set(RequestProcessor.META_RESOLVABLE_KEY, this.metaresolvable);
 		req.set(CRRequest.WORDMATCH_KEY, this.wordmatch);
+		req.set(CRRequest.EXTENSION_MATCH_KEY, this.extensionmatch);
 		req.set(CRRequest.PERMISSIONS_KEY, this.permissions);
 		if (this.highlightquery != null) {
 			req.set(RequestProcessor.HIGHLIGHT_QUERY_KEY, this.highlightquery);

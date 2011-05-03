@@ -80,6 +80,7 @@ public class CRQueryParser extends QueryParser {
     }
     crQuery = replaceBooleanMnoGoSearchQuery(crQuery);
     crQuery = addWildcardsForWordmatchParameter(crQuery);
+    crQuery = addExtensionMatchToQuery(crQuery);
     return super.parse(crQuery);
   }
 
@@ -161,6 +162,41 @@ public class CRQueryParser extends QueryParser {
       }
     }
     valueMatcher.appendTail(newQuery);
+    return newQuery.toString();
+  }
+  
+  /**
+   * If crQuery is provided the EXTENSION_MATCH_KEY is appended to the query to
+   * check if the extension matches.
+   * Extensions can be seperated using ';' (e.g.: doc;docx;xls;xlsx)
+   * @param crQuery Query to add the check for extension to.
+   * @return Modified query or the original one if the CRRequest has no EXTENSION_MATCH_KEY set.
+   */
+  private String addExtensionMatchToQuery(final String crQuery) {
+    String extensionMatch = (String) request.get(CRRequest.EXTENSION_MATCH_KEY);
+    String[] extensions;
+    if (extensionMatch != null && ((!extensionMatch.equals("")) && (!extensionMatch.contains("%")))) {
+    	extensions = extensionMatch.split(";");
+    } else {
+    	return crQuery;
+    }
+
+    // don't accept extensions with '%' which could be used 
+    // in the original mnogosearch ul paramters as part of a SQL query 
+    StringBuffer newQuery = new StringBuffer();
+    newQuery.append("(");
+    newQuery.append(crQuery);
+    newQuery.append(") AND (");
+    for (int i = 0; i < extensions.length; i++) {
+    	String extension = extensions[i];
+    	newQuery.append("extension:");
+    	newQuery.append(extension);
+    	if (i != extensions.length - 1) {
+    		newQuery.append(" OR ");
+    	}
+    }
+    newQuery.append(")");
+        
     return newQuery.toString();
   }
 
