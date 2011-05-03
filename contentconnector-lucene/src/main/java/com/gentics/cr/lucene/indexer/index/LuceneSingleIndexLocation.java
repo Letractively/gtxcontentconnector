@@ -3,6 +3,7 @@ package com.gentics.cr.lucene.indexer.index;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.index.IndexReader;
@@ -10,6 +11,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 
 import com.gentics.cr.CRConfig;
+import com.gentics.cr.configuration.GenericConfiguration;
 import com.gentics.cr.lucene.indexaccessor.IndexAccessor;
 import com.gentics.cr.lucene.indexaccessor.IndexAccessorFactory;
 
@@ -19,13 +21,7 @@ import com.gentics.cr.lucene.indexaccessor.IndexAccessorFactory;
  */
 public class LuceneSingleIndexLocation extends LuceneIndexLocation {
 	//Instance Members
-	/**
-	 * Directory.
-	 */
-	private Directory dir = null;
-	/**
-	 * Location.
-	 */
+	private Directory dir=null;
 	private String indexLocation;
 
 	/**
@@ -34,62 +30,68 @@ public class LuceneSingleIndexLocation extends LuceneIndexLocation {
 	private long lastmodifiedStored = 0;
 	
 	/**
-	 * Create a new Instance of LuceneSingleIndexLocation. 
-	 * This is the Default IndexLocation for Lucene.
-	 * @param config configuration
+	 * Create a new Instance of LuceneSingleIndexLocation. This is the Default IndexLocation for Lucene.
+	 * @param config
 	 */
-	public LuceneSingleIndexLocation(final CRConfig config) {
+	public LuceneSingleIndexLocation(CRConfig config) {
 		super(config);
 		indexLocation = getFirstIndexLocation(config);
-		if (RAM_IDENTIFICATION_KEY.equalsIgnoreCase(indexLocation) 
-				|| indexLocation == null 
-				|| indexLocation.startsWith(RAM_IDENTIFICATION_KEY)) {
+		if(RAM_IDENTIFICATION_KEY.equalsIgnoreCase(indexLocation) || indexLocation==null || indexLocation.startsWith(RAM_IDENTIFICATION_KEY))
+		{
 			dir = new RAMDirectory();
 			
-		} else {
+		}
+		else
+		{
 			File indexLoc = new File(indexLocation);
-			try {
+			try
+			{
 				dir = createFSDirectory(indexLoc);
-				if (dir == null) {
-					dir = createRAMDirectory();
-				}
-			} catch (IOException ioe) {
+				if(dir==null) dir = createRAMDirectory();
+			}
+			catch(IOException ioe)
+			{
 				dir = createRAMDirectory();
 			}
 		}
 		//Create index accessor
-		IndexAccessorFactory iAFactory = IndexAccessorFactory.getInstance();
-		if (!iAFactory.hasAccessor(dir)) {
-			try {
-				iAFactory.createAccessor(dir, getConfiguredAnalyzer());
-			} catch (IOException ex) {
-				log.fatal("COULD NOT CREATE INDEX ACCESSOR" + ex.getMessage());
+		IndexAccessorFactory IAFactory = IndexAccessorFactory.getInstance();
+		if(!IAFactory.hasAccessor(dir)){
+			try
+			{
+				IAFactory.createAccessor(dir, getConfiguredAnalyzer());
 			}
-		} else {
-			log.debug("Accessor already present.");
+			catch(IOException ex)
+			{
+				log.fatal("COULD NOT CREATE INDEX ACCESSOR"+ex.getMessage());
+			}
+		}
+		else{
+			log.debug("Accessor already present. we will not create a new one.");
 		}
 	}
 
 	@Override
-	protected final IndexAccessor getAccessorInstance() {
+	protected IndexAccessor getAccessorInstance() 
+	{
 		Directory directory = this.getDirectory();
-		if (directory == null) {
+		if(directory == null){
 			directory = this.getDirectory();
 		}
-		IndexAccessor indexAccessor = IndexAccessorFactory.getInstance()
-						.getAccessor(directory);
+		IndexAccessor indexAccessor = IndexAccessorFactory.getInstance().getAccessor(directory);
 		return indexAccessor;
 	}
 
 	@Override
-	public final int getDocCount()  {
+	public int getDocCount() 
+	{
 		IndexAccessor indexAccessor = this.getAccessor();
 		IndexReader reader	= null;
 		int count = 0;
 		try {
 			reader = indexAccessor.getReader(false);
 			count = reader.numDocs();
-		} catch (IOException ex) {
+		} catch(IOException ex) {
 			log.error("IOException happened during test of index. ", ex);
 		} finally {
 			indexAccessor.release(reader, false);
@@ -99,16 +101,13 @@ public class LuceneSingleIndexLocation extends LuceneIndexLocation {
 	}
 
 	@Override
-	protected final Directory[] getDirectories() {
+	protected Directory[] getDirectories() {
 		Directory[] dirs = new Directory[]{this.getDirectory()};
 		return dirs;
 	}
 	
-	/**
-	 * getDirectory.
-	 * @return directory.
-	 */
-	private Directory getDirectory() {
+	private Directory getDirectory()
+	{
 		return this.dir;
 	}
 	
@@ -117,14 +116,14 @@ public class LuceneSingleIndexLocation extends LuceneIndexLocation {
 	 * Returns the filename of the reopen file.
 	 * @return filename of the reopen file.
 	 */
-	public final String getReopenFilename() {
-		return this.indexLocation + "/" + REOPEN_FILENAME;
+	public String getReopenFilename(){
+		return this.indexLocation+"/"+REOPEN_FILENAME;
 	}
 	
 	/**
 	 * Creates the reopen file to make portlet reload the index.
 	 */
-	public final void createReopenFile() {
+	public void createReopenFile(){
 		boolean writeReopenFile = config.getBoolean("writereopenfile");
 		if (writeReopenFile) {
 			String filename = this.getReopenFilename();
@@ -202,18 +201,14 @@ public class LuceneSingleIndexLocation extends LuceneIndexLocation {
 		}
 	}
 
-	/**
-	 * Checks if the index is optimized.
-	 * @return true if it is optimized
-	 */
-	public final boolean isOptimized() {
+	public boolean isOptimized() {
 		boolean ret = false;
 		IndexAccessor indexAccessor = this.getAccessor();
 			IndexReader reader	= null;
 			try {
 				reader = indexAccessor.getReader(false);
 				ret = reader.isOptimized();
-			} catch (IOException ex) {
+			} catch(IOException ex) {
 				log.error("IOException happened during test of index. ", ex);
 			} finally {
 				indexAccessor.release(reader, false);
@@ -223,7 +218,7 @@ public class LuceneSingleIndexLocation extends LuceneIndexLocation {
 	}
 
 	@Override
-	public final boolean isLocked() {
+	public boolean isLocked() {
 		boolean locked = false;
 		IndexAccessor indexAccessor = this.getAccessor();
 		locked = indexAccessor.isLocked(); 

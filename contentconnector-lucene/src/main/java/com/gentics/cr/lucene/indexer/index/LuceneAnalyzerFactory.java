@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.PerFieldAnalyzerWrapper;
+import org.apache.lucene.analysis.snowball.SnowballAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.util.Version;
 
@@ -26,40 +27,22 @@ import com.gentics.cr.lucene.indexer.IndexerUtil;
  * @author $Author: supnig@constantinopel.at $
  *
  */
-public final class LuceneAnalyzerFactory {
-	/**
-	 * Private constructor.
-	 */
-	private LuceneAnalyzerFactory() { }
+public class LuceneAnalyzerFactory {
 	/**
 	 * Log4j Logger for error and debug messages.
 	 */
 	protected static final Logger LOGGER =
 		Logger.getLogger(LuceneAnalyzerFactory.class);
-	/**
-	 * Stop word config key.
-	 */
+	private static final String STEMMING_KEY = "STEMMING";
+	private static final String STEMMER_NAME_KEY = "STEMMERNAME";
 	private static final String STOP_WORD_FILE_KEY = "STOPWORDFILE";
-	/**
-	 * Analyzer config key.
-	 */
 	private static final String ANALYZER_CONFIG_KEY = "ANALYZERCONFIG";
-	/**
-	 * Analyzer class key.
-	 */
 	private static final String ANALYZER_CLASS_KEY = "ANALYZERCLASS";
-	/**
-	 * Field name.
-	 */
 	private static final String FIELD_NAME_KEY = "FIELDNAME";
-	/**
-	 * Reveres attributes key.
-	 */
-	private static final String REVERSE_ATTRIBUTES_KEY = "REVERSEATTRIBUTES";
-	/**
-	 * 	Reverse Attribute suffix.
-	 */
-	public static final String REVERSE_ATTRIBUTE_SUFFIX = "_REVERSE";
+	private static final String REVERSE_ATTRIBUTES_KEY="REVERSEATTRIBUTES";
+
+	public static final String REVERSE_ATTRIBUTE_SUFFIX="_REVERSE";
+
 	/**
 	 * TODO javadoc.
 	 * @param config TODO javadoc
@@ -93,20 +76,18 @@ public final class LuceneAnalyzerFactory {
 			Map<String, GenericConfiguration> subconfigs =
 				analyzerConfig.getSortedSubconfigs();
 			if (subconfigs != null) {
-				for (Map.Entry<String, GenericConfiguration> e 
-						: subconfigs.entrySet()) {
+				for (Map.Entry<String, GenericConfiguration> e : subconfigs.entrySet())
+				{
 					GenericConfiguration analyzerconfig = e.getValue();
 					String fieldname = analyzerconfig.getString(FIELD_NAME_KEY);
-					String analyzerclass = analyzerconfig
-							.getString(ANALYZER_CLASS_KEY);
+					String analyzerclass = analyzerconfig.getString(ANALYZER_CLASS_KEY);
 					Analyzer a = createAnalyzer(analyzerclass, analyzerconfig);
 					analyzerWrapper.addAnalyzer(fieldname, a);
 					//ADD REVERSE ANALYZERS
 					if (reverseAttributes != null
 							&& reverseAttributes.contains(fieldname)) {
 						addedRattributes.add(fieldname);
-						analyzerWrapper.addAnalyzer(fieldname 
-								+ REVERSE_ATTRIBUTE_SUFFIX,
+						analyzerWrapper.addAnalyzer(fieldname + REVERSE_ATTRIBUTE_SUFFIX,
 								new ReverseAnalyzer(a));
 					}
 				}
@@ -115,8 +96,7 @@ public final class LuceneAnalyzerFactory {
 			if (reverseAttributes != null && reverseAttributes.size() > 0) {
 				for (String att : reverseAttributes) {
 					if (!addedRattributes.contains(att)) {
-						analyzerWrapper.addAnalyzer(att 
-								+ REVERSE_ATTRIBUTE_SUFFIX,
+						analyzerWrapper.addAnalyzer(att + REVERSE_ATTRIBUTE_SUFFIX,
 								new ReverseAnalyzer(null));
 					}
 				}
@@ -137,11 +117,9 @@ public final class LuceneAnalyzerFactory {
 		if (confpath != null) {
 			analyzerConfig = new GenericConfiguration();
 			try {
-				CRConfigFileLoader.loadConfiguration(analyzerConfig,
-						confpath, null);
+				CRConfigFileLoader.loadConfiguration(analyzerConfig, confpath, null);
 			} catch (IOException e) {
-				LOGGER.error("Could not load analyzer configuration from " 
-						+ confpath, e);
+				LOGGER.error("Could not load analyzer configuration from " + confpath, e);
 			}
 		}
 		return analyzerConfig;
@@ -159,8 +137,7 @@ public final class LuceneAnalyzerFactory {
 		try {
 			//First try to create an Analyzer that takes a config object
 			a = (Analyzer) Class.forName(analyzerclass).getConstructor(
-					new Class[]{GenericConfiguration.class})
-						.newInstance(config);
+					new Class[]{GenericConfiguration.class}).newInstance(config);
 		} catch (Exception e1) {
 			try {
 				//IF FIRST FAILS TRY SIMPLE CONSTRUCTOR
@@ -175,8 +152,7 @@ public final class LuceneAnalyzerFactory {
 									LuceneVersion.getVersion());
 				} catch (Exception e3) {
 					LOGGER.error("Could not instantiate Analyzer with class "
-						+ analyzerclass + ". Do you use some special" 
-						+ " Analyzer? Or do you need to use a Wrapper?", e3);
+							+ analyzerclass, e3);
 				}
 			}
 		}
@@ -192,23 +168,30 @@ public final class LuceneAnalyzerFactory {
 			final GenericConfiguration config) {
 		//Update/add Documents
 		Analyzer analyzer;
-		File stopWordFile = IndexerUtil.getFileFromPath(
-				(String) config.get(STOP_WORD_FILE_KEY));
-		if (stopWordFile != null) {
-			//initialize Analyzer with stop words
-			try {
-				analyzer =	new StandardAnalyzer(LuceneVersion.getVersion(), 
-							stopWordFile);
-				return analyzer;
-			} catch (IOException ex) {
-				LOGGER.error("Could not open stop words file. "
-						+ "Will create standard "
-						+ "analyzer.", ex);
-			}
+		boolean doStemming =
+			Boolean.parseBoolean((String) config.get(STEMMING_KEY));
+		if (doStemming) {
+			analyzer = new SnowballAnalyzer(LuceneVersion.getVersion(),
+					(String) config.get(STEMMER_NAME_KEY));
+			return analyzer;
+		} else {
+			//Load StopWordList
+			File stopWordFile = IndexerUtil.getFileFromPath(
+					(String) config.get(STOP_WORD_FILE_KEY));
+			if (stopWordFile != null) {
+				//initialize Analyzer with stop words
+				try {
+					analyzer =
+						new StandardAnalyzer(LuceneVersion.getVersion(), stopWordFile);
+					return analyzer;
+				} catch (IOException ex) {
+					LOGGER.error("Could not open stop words file. Will create standard "
+							+ "analyzer.", ex);
+				}
+			} 
 		}
-		
-		analyzer = new StandardAnalyzer(LuceneVersion.getVersion(),
-				CharArraySet.EMPTY_SET);
+		//if no stop word list exists load fall back
+		analyzer = new StandardAnalyzer(LuceneVersion.getVersion(),CharArraySet.EMPTY_SET);
 		return analyzer;
 	}
 }
