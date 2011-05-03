@@ -34,6 +34,11 @@ public class CRRequest implements Cloneable, Serializable {
 	 * key for storing the wordmatch parameter into.
 	 */
 	public static final String WORDMATCH_KEY = "wordmatch";
+	
+	/**
+	 * key for storing the extensionmatch parameter into.
+	 */
+	public static final String EXTENSION_MATCH_KEY = "extensionmatch";
 
 	/**
 	 * key for storing the permissions parameter into.
