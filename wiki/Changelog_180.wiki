@@ -10,6 +10,10 @@
 {{{
 rp.1.dymreopenupdate=true
 }}}
+  * The Autocomplete Index will now be updated when the reopen file of the source index is updated. This can be configured with
+{{{
+rp.1.autocompletereopenupdate=true
+}}}
   * Now marking failed index jobs and display the error message in the indexer servlet.
   * You can now configure the query parser to not convert wildcardqueries to lower case. This ios usefull if you index a column with the WhitespaceAnalyzer which doesn't convert the terms to lowercase when indexing.
 <pre>
