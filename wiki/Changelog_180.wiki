@@ -6,6 +6,7 @@
 = Configuration changes =
 
 = Features =
+  * Added com.gentics.cr.lucene.analysis.KeywordListAnalyzer
   * The Did You Mean Index will now be updated when the reopen file of the source index is updated. This can be configured with
 {{{
 rp.1.dymreopenupdate=true
