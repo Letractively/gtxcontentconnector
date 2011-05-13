@@ -1,7 +1,6 @@
  package com.gentics.cr;
 
- import java.io.File;
-import java.io.FileFilter;
+ import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -24,11 +23,7 @@ import com.gentics.cr.util.RegexFileFilter;
  *
  */
 public class CRConfigFileLoader extends CRConfigUtil {
-	/**
-	 * Config directory. (${com.gentics.portalnode.confpath}/rest/)
-	 */
-	private static final String CONFIG_DIR = EnvironmentConfiguration.CONFPATH 
-		+ "/rest/";
+
 	/**
 	 * Generated unique serial version id.
 	 */
@@ -67,41 +62,23 @@ public class CRConfigFileLoader extends CRConfigUtil {
 		
 		//Load Environment Properties
 		EnvironmentConfiguration.loadEnvironmentProperties();
-		checkForSanity();
+		
 		setName(name);
 		
 		//load default configuration
-		loadConfigFile(CONFIG_DIR + subdir
+		loadConfigFile("${com.gentics.portalnode.confpath}/rest/" + subdir
 				+ name + ".properties");
 		
 		//load environment specific configuration
 		String modePath = ConfigurationSettings.getConfigurationPath();
 		if (modePath != null && !"".equals(modePath)) {
-			loadConfigFile(CONFIG_DIR + subdir
+			loadConfigFile("${com.gentics.portalnode.confpath}/rest/" + subdir
 					+ modePath + name + ".properties");
 		}
 		
 		// initialize datasource with handle_props and dsprops
 		initDS();
 
-	}
-	
-	/**
-	 * Checks for common configuration mistakes.
-	 */
-	private void checkForSanity() {
-		String dir = CRUtil.resolveSystemProperties(CONFIG_DIR);
-		File confDir = new File(dir);
-		if (confDir.exists() && confDir.isDirectory()) { 
-			log.debug("Loading configuration from " + dir);
-		} else {
-			String errMsg = "CONFIGURATION ERROR: Configuration directory does"
-				+ " not seem to contain a"
-				+ " valid configuration. The directory " + dir
-				+ " must exist and contain valid configuration files.";
-			log.error(errMsg);
-			System.err.println(errMsg);
-		}
 	}
 
 	/**
@@ -110,7 +87,8 @@ public class CRConfigFileLoader extends CRConfigUtil {
 	 */
 	private void loadConfigFile(final String path) {
 		String errorMessage = "Could not load configuration file at: "
-			+ CRUtil.resolveSystemProperties(path) + "!";
+			+ CRUtil.resolveSystemProperties("${" + CRUtil.PORTALNODE_CONFPATH
+					+ "}/rest/" + this.getName() + ".properties") + "!";
 		try {
 			//LOAD SERVLET CONFIGURATION
 			String confpath = CRUtil.resolveSystemProperties(path);

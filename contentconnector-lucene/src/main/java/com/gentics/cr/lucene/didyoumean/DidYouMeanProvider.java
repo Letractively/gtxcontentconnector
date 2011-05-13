@@ -24,7 +24,6 @@ import com.gentics.cr.events.Event;
 import com.gentics.cr.events.EventManager;
 import com.gentics.cr.events.IEventReceiver;
 import com.gentics.cr.lucene.events.IndexingFinishedEvent;
-import com.gentics.cr.lucene.indexaccessor.IndexAccessor;
 import com.gentics.cr.lucene.indexer.index.LuceneIndexLocation;
 import com.gentics.cr.lucene.information.SpecialDirectoryRegistry;
 
@@ -76,10 +75,6 @@ public class DidYouMeanProvider implements IEventReceiver{
   
   private Collection<String> dym_fields = null;
   
-  private boolean dymreopenupdate = false;
-  
-  private static final String UPDATE_ON_REOPEN_KEY = "dymreopenupdate";
-  
   public DidYouMeanProvider(CRConfig config)
   {
     GenericConfiguration src_conf = (GenericConfiguration)config.get(SOURCE_INDEX_KEY);
@@ -96,10 +91,6 @@ public class DidYouMeanProvider implements IEventReceiver{
     		(float) 0.0);
     Integer minDFreq = config.getInteger(DIDYOUMEAN_MIN_DOCFREQ, 0);
     
-    String sDYMReopenUpdate = config.getString(UPDATE_ON_REOPEN_KEY);
-    if (sDYMReopenUpdate != null) {
-    	dymreopenupdate = Boolean.parseBoolean(sDYMReopenUpdate);
-    }
     
     //FETCH DYM FIELDS
     if (this.didyoumeanfield.equalsIgnoreCase("ALL")) {
@@ -146,26 +137,6 @@ public class DidYouMeanProvider implements IEventReceiver{
   public CustomSpellChecker getInitializedSpellchecker() {
     return this.spellchecker;
   }
-  
-  private long lastupdatestored = 0;
-  
-  private void checkForUpdate() {
-		boolean reopened = false;
-		try {
-			if (source.fileExists("reopen")) {
-				long lastmodified = source.fileModified("reopen");
-				if (lastmodified != lastupdatestored) {
-					reopened = true;
-					lastupdatestored = lastmodified;
-				}
-			}
-			if (reopened) {
-					reIndex();	
-			}
-		} catch (IOException e) {
-			log.debug("Could not reIndex autocomplete index.", e);
-		}
-	}
 
   /**
    * TODO javadoc.
@@ -176,46 +147,37 @@ public class DidYouMeanProvider implements IEventReceiver{
    */
   public Map<String,String[]> getSuggestions(Set<Term> termlist,int count,IndexReader reader)
   {
-	  
-	  if (dymreopenupdate) {
-		  checkForUpdate();
-	  }
-    Map<String, String[]> result = new LinkedHashMap<String, String[]>();
+    Map<String,String[]> result = new LinkedHashMap<String,String[]>();
     Set<String> uniquetermset = new HashSet<String>();
-    if (this.spellchecker != null) {
-	    for (Term t : termlist) {
-	      if (all) {
-	        uniquetermset.add(t.text());
-	      } else {
-	        //ONLY ADD TERM IF IT COMES FROM A DYM FIELD
-	        if (dym_fields.contains(t.field())) {
-	          uniquetermset.add(t.text());
-	        }
-	      }
-	    }
-	    log.debug("Will use the following fields for dym: "
-	    			+ dym_fields.toString());
-	    for (String term : uniquetermset) {
-	      try {
-	        if (checkForExistingTerms || !this.spellchecker.exist(term)) {
-	          String[] ts = this.spellchecker
-	          		.suggestSimilar(term, count, reader,
-	          				didyoumeanfield, true);
-	          if (ts != null && ts.length > 0) {
-	            result.put(term, ts);
-	          }
-	        }
-	      } catch (IOException ex) {
-	        log.error("Could not suggest terms", ex);
-	      }
-	    }
-    } else {
-    	log.error("Spellchecker has not properly been initialized.");
+    for (Term t : termlist) {
+      if(all) {
+        uniquetermset.add(t.text());
+      } else {
+        //ONLY ADD TERM IF IT COMES FROM A DYM FIELD
+        if(dym_fields.contains(t.field())) {
+          uniquetermset.add(t.text());
+        }
+      }
+    }
+    log.debug("Will use the following fields for dym: "+dym_fields.toString());
+    for(String term : uniquetermset) {
+      try {
+        if(checkForExistingTerms || !this.spellchecker.exist(term)) {
+          String[] ts = this.spellchecker.suggestSimilar(term, count, reader,
+              didyoumeanfield, true);
+          if (ts!=null && ts.length>0) {
+            result.put(term, ts);
+          }
+        }
+      } catch(IOException ex) {
+        log.error("Could not suggest terms",ex);
+      }
     }
     return result;
   }
 
-  private synchronized void reIndex() throws IOException {
+  private void reIndex() throws IOException
+  {
     // build a dictionary (from the spell package) 
     log.debug("Starting to reindex didyoumean index.");
     IndexReader sourceReader = IndexReader.open(source);

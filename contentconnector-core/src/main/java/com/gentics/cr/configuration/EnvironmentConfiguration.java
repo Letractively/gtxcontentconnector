@@ -19,22 +19,17 @@ import com.gentics.cr.util.CRUtil;
  *
  */
 public final class EnvironmentConfiguration {
-	/**
-	 * Confpath.
-	 */
-  public static final String CONFPATH = "${" + CRUtil.PORTALNODE_CONFPATH 
-  	+ "}";
-   /**
+  /**
    * Path to the default log4j property file.
    */
   private static final String LOGGER_FILE_PATH =
-	  CONFPATH + "/nodelog.properties";
+    "${com.gentics.portalnode.confpath}/nodelog.properties";
 
   /**
    * Path to the jcs configuration file.
    */
   private static final String CACHE_FILE_PATH =
-	  CONFPATH + "/cache.ccf";
+    "${com.gentics.portalnode.confpath}/cache.ccf";
 
   /**
    * Configuration key if we should use the same caches as Gentics
@@ -105,7 +100,7 @@ public final class EnvironmentConfiguration {
   public static void loadCacheProperties() {
     String errorMessage = "Could not load cache configuration. Perhaps you are "
       + "missing the file cache.ccf in " + CRUtil.resolveSystemProperties(
-          CONFPATH + "/") + "!";
+          "${" + CRUtil.PORTALNODE_CONFPATH + "}/") + "!";
     try {
       //LOAD CACHE CONFIGURATION
       String confpath = CRUtil.resolveSystemProperties(CACHE_FILE_PATH);
