@@ -7,9 +7,3 @@
     * [http://www.gentics.com/Content.Node/products/portalnodesdk/gentics_portalnode_4_sdk_ueberblick.php Gentics Portal.Node SDK]
     * Basic HTML, CSS and JQuery know how
   [HowTo_JQuery JQuery Sample]
-= Use API in Java =
-(TODO)
-= Setup indexing with lucene =
-(TODO)
-= Setup enterprise indexing with lucene (distributed indexing) =
-(TODO)
