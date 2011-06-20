@@ -22,6 +22,8 @@ Release date: 2011.06.15
 
 [http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-lucene/1.8.0 contentconnector-lucene]
 
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-lucene-autocomplete/1.8.0 contentconnector-lucene-autocomplete]
+
 [http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-poi-transformer/1.8.0 contentconnector-poi-transformer]
 
 [http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-portlet/1.8.0 contentconnector-portlet]
