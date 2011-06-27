@@ -47,7 +47,7 @@ public class VelocityContentRepository extends ContentRepository {
    * Velocity Template to use for rendering a sucessful response.
    */
   private ITemplate template;
-
+  
   /**
    * Velocity Template used for rendering the error response.
    */
@@ -117,11 +117,11 @@ public class VelocityContentRepository extends ContentRepository {
       loadTemplate();
       templateManager.put("resolvables", this.resolvableColl);
       HashMap<String, Object> additionalObjects = 
-    	  this.getAdditionalDeployableObjects();
+        this.getAdditionalDeployableObjects();
       if (additionalObjects != null) {
-    	  for (Entry<String, Object> e : additionalObjects.entrySet()) {
-    		  templateManager.put(e.getKey(), e.getValue());
-    	  }
+        for (Entry<String, Object> e : additionalObjects.entrySet()) {
+          templateManager.put(e.getKey(), e.getValue());
+        }
       }
       String encoding = this.getResponseEncoding();
       templateManager.put("encoding", encoding);
@@ -208,7 +208,7 @@ public class VelocityContentRepository extends ContentRepository {
       file = new File(CRConfigUtil.DEFAULT_TEMPLATE_PATH + File.separator
           + templatePath);
     }
-    return new FileTemplate(new FileInputStream(file));
+    return new FileTemplate(new FileInputStream(file), file);
   }
 
 }
