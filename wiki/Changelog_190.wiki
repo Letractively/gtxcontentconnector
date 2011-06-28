@@ -6,7 +6,7 @@
 
 = Features =
 
-* added posibility to add a frame template arround the rendered code of the VelocityContentRepository
+ * added posibility to add a frame template arround the rendered code of the VelocityContentRepository
 {{{
  #this can be used to integrate a design in the responce
  #the placeholder [Searchresult] is replaced by the rendered template content
