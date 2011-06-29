@@ -117,7 +117,6 @@ public class VelocityTransformer extends ContentTransformer {
 		String template = (String) config.get(TRANSFORMER_TEMPLATE_KEY);
 		targetAttribute = (String) config.get(TRANSFORMER_TARGETATTRIBUTE_KEY);
 		sourceAttribute = (String) config.get(TRANSFORMER_SOURCEATTRIBUTE_KEY);
-		String additionalContextVars = (String) config.get(TRANSFORMER_ADDITIONAL_CONTEXTVARS);
 		
 		if (sourceAttribute != null) {
 			// we use the source attribute as template ...
@@ -139,6 +138,15 @@ public class VelocityTransformer extends ContentTransformer {
 						+ " for my config.");
 			}
 		}
+		readAdditionalContextVars(config);
+	}
+
+	/**
+	 * read the additiona context vars from the configuration property.
+	 */
+	private void readAdditionalContextVars(final GenericConfiguration config) {
+		String additionalContextVars = (String) config
+				.get(TRANSFORMER_ADDITIONAL_CONTEXTVARS);
 		if (additionalContextVars != null) {
 			Properties props = new Properties();
 			try {
