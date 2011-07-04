@@ -3,7 +3,6 @@
 	<name>contentconnector-servlet-sample</name>
 	<comment></comment>
 	<projects>
-		<project>contentconnector-servlet</project>
 		<project>contentconnector-social-networking</project>
 		<project>contentconnector-jtidy</project>
 		<project>contentconnector-lucene-autocomplete</project>
@@ -16,6 +15,7 @@
 		<project>contentconnector-rss</project>
 		<project>contentconnector-lucene</project>
 		<project>contentconnector-http</project>
+		<project>contentconnector-servlet</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
