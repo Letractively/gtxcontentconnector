@@ -4,6 +4,34 @@
 = Introduction =
 On this page you can find all the download specific information.
 
+= Version 1.8.1 =
+
+Release date: 2011.08.10
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-core/1.8.1 contentconnector-core]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-apihelper/1.8.1 contentconnector-apihelper]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-http/1.8.1 contentconnector-http]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-json/1.8.1 contentconnector-json]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-jtidy/1.8.1 contentconnector-jtidy]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-language/1.8.1 contentconnector-language]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-lucene/1.8.0 contentconnector-lucene]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-lucene-autocomplete/1.8.1 contentconnector-lucene-autocomplete]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-poi-transformer/1.8.1 contentconnector-poi-transformer]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-portlet/1.8.1 contentconnector-portlet]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-rss/1.8.1 contentconnector-rss]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-servlet/1.8.1 contentconnector-servlet]
+
 = Version 1.8.0 =
 
 Release date: 2011.06.15
