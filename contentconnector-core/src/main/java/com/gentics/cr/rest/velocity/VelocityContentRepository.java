@@ -182,7 +182,9 @@ public class VelocityContentRepository extends ContentRepository {
 			loadTemplate();
 			templateManager.put("resolvables", this.resolvableColl);
 			putObjectsIntoTemplateManager(this.getAdditionalDeployableObjects());
-			putObjectsIntoTemplateManager(((GenericConfiguration) config.get(VARIABLES_KEY)).getProperties());
+			if (config.get(VARIABLES_KEY) != null) {
+				putObjectsIntoTemplateManager(((GenericConfiguration) config.get(VARIABLES_KEY)).getProperties());
+			}
 			String encoding = this.getResponseEncoding();
 			templateManager.put("encoding", encoding);
 			String output = templateManager.render(template.getKey(),
