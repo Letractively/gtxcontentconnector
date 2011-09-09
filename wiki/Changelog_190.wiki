@@ -4,8 +4,8 @@
 
  * The CRQueryParser now applies the wordmatch request parameter only to the searched attributes given in the constructor. This way we prevent the QuerParser from adding wildcards to category limiters.
   * see also 
-   * [CRRequest] #WORDMATCH_KEY
-   * [CRQueryParser] #addWildcardsForWordmatchParameter(String)
+   * CRRequest#WORDMATCH_KEY
+   * CRQueryParser#addWildcardsForWordmatchParameter(String)
  
 = Configuration changes =
 
