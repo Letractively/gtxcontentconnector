@@ -1,6 +1,11 @@
 #summary This Page describes the major changes from Version 1.8.0 to 1.9.0
 
 = Important Changes = 
+
+ * The CRQueryParser now applies the wordmatch request parameter only to the searched attributes given in the constructor. This way we prevent the QuerParser from adding wildcards to category limiters.
+  * see also 
+   * [CRRequest.WORDMATCH_KEY]
+   * [CRQueryParser#addWildcardsForWordmatchParameter(String)]
  
 = Configuration changes =
 
