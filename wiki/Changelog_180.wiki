@@ -21,7 +21,8 @@ rp.1.autocompletereopenupdate=true
 <pre>
 rp.1.queryparser.lowercaseexpandedterms=false
 </pre>
-  
+  * If you set didyoumean_activatelimit to -1 didyoumean is always axecuted regardless of the count of the results comming back
+
 = Bugfixes =
   * Fixed display of memory consumption in the indexer servlet
   * Fixed debug output when a configuration file in a config subfolder would not be found
