@@ -9,6 +9,11 @@
  
 = Configuration changes =
 
+  * If you set didyoumean_activatelimit to -1 didyoumean is always axecuted regardless of the count of the results comming back
+{{{
+rp.1.didyoumean_activatelimit = -1
+}}}
+
 = Features =
 
  * added posibility to add a frame template arround the rendered code of the VelocityContentRepository
