@@ -18,10 +18,13 @@ rp.1.autocompletereopenupdate=true
 }}}
   * Now marking failed index jobs and display the error message in the indexer servlet.
   * You can now configure the query parser to not convert wildcardqueries to lower case. This ios usefull if you index a column with the WhitespaceAnalyzer which doesn't convert the terms to lowercase when indexing.
-<pre>
+{{{
 rp.1.queryparser.lowercaseexpandedterms=false
-</pre>
+}}}
   * If you set didyoumean_activatelimit to -1 didyoumean is always axecuted regardless of the count of the results comming back
+{{{
+rp.1.didyoumean_activatelimit = -1
+}}}
 
 = Bugfixes =
   * Fixed display of memory consumption in the indexer servlet
