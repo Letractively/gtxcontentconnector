@@ -117,7 +117,7 @@ public class XLSContentTransformer extends ContentTransformer{
 		{
 			throw new CRException(e);
 		}
-		
+		log.debug("finished xls transformation");
 		return(contents);
 	}
 	
@@ -126,6 +126,7 @@ public class XLSContentTransformer extends ContentTransformer{
 	public void processBean(CRResolvableBean bean) throws CRException{
 		if(this.attribute!=null)
 		{
+			log.debug("processing xls file" + bean);
 			Object obj = bean.get(this.attribute);
 			if(obj!=null)
 			{
