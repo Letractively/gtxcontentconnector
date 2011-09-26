@@ -20,7 +20,7 @@ Release date: 2011.08.10
 
 [http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-language/1.8.1 contentconnector-language]
 
-[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-lucene/1.8.0 contentconnector-lucene]
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-lucene/1.8.1 contentconnector-lucene]
 
 [http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-lucene-autocomplete/1.8.1 contentconnector-lucene-autocomplete]
 
