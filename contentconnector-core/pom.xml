@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>contentconnector</groupId>
 	<artifactId>contentconnector-core</artifactId>
-	<version>1.9.0-SNAPSHOT</version>
+	<version>1.8.1</version>
 	<packaging>jar</packaging>
 	<name>Gentics Content.Connector - Core</name>
 	<description>This is the Core to the Gentics Content.Connector Suite</description>
@@ -113,7 +113,7 @@
 		<dependency>
 			<groupId>contentconnector</groupId>
 			<artifactId>contentconnector-apihelper</artifactId>
-			<version>1.9.0-SNAPSHOT</version>
+			<version>1.8.1</version>
 		</dependency>
 		<dependency>
 			<groupId>jamon</groupId>
@@ -126,16 +126,6 @@
 	      <version>4.8.1</version>
 	      <scope>test</scope>
 	    </dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-compress</artifactId>
-			<version>1.2</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.0.1</version>
-		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>

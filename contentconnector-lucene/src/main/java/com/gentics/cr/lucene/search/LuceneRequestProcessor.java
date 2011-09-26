@@ -98,16 +98,7 @@ public class LuceneRequestProcessor extends RequestProcessor {
 	 */
 	public static final String HIGHLIGHT_QUERY_KEY = "highlightquery";
 
-	/**
-	 * Configuration key for the attributes to be searched when no explizit
-	 * attribute is given in the query.
-	 */
-	public static final String SEARCHED_ATTRIBUTES_KEY = "searchedAttributes";
-	
-	/**
-	 * Key to store the parsed query in the meta resolvable.
-	 */
-	public static final String PARSED_QUERY_KEY = "parsed_query";
+	private static final String SEARCHED_ATTRIBUTES_KEY = "searchedAttributes";
 
 	/**
 	 * Create new instance of LuceneRequestProcessor.
@@ -211,7 +202,7 @@ public class LuceneRequestProcessor extends RequestProcessor {
 			Object metaKey = request.get(META_RESOLVABLE_KEY);
 			if (metaKey != null && (Boolean) metaKey) {
 				CRResolvableBean metaBean = new CRMetaResolvableBean(
-						searchResult, request, parsedQuery, start, count);
+						searchResult, request, start, count);
 				result.add(metaBean);
 			}
 			ucProcessSearchMeta.stop();
@@ -353,10 +344,7 @@ public class LuceneRequestProcessor extends RequestProcessor {
 			final Object obj) {
 		return (LinkedHashMap<Document, Float>) obj;
 	}
-
-	/**
-	 * @return the attributes to search in from the condfig.
-	 */
+	
 	private String[] getSearchedAttributes() {
 		String sa = (String) this.config.get(SEARCHED_ATTRIBUTES_KEY);
 		String[] ret = null;
@@ -368,7 +356,8 @@ public class LuceneRequestProcessor extends RequestProcessor {
 
 	@Override
 	public void finalize() {
-		
+		if(this.searcher!=null)this.searcher.finalize();
 	}
 
+	
 }

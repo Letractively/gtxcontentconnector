@@ -1,6 +1,5 @@
 package com.gentics.cr.lucene;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Hashtable;
@@ -14,12 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.gentics.cr.CRConfigUtil;
-import com.gentics.cr.lucene.indexer.index.LockedIndexException;
-import com.gentics.cr.lucene.indexer.index.LuceneSingleIndexLocation;
 import com.gentics.cr.lucene.information.SpecialDirectoryRegistry;
 import com.gentics.cr.monitoring.MonitorFactory;
 import com.gentics.cr.servlet.VelocityServlet;
-import com.gentics.cr.util.file.ArchiverUtil;
 import com.gentics.cr.util.indexing.AbstractUpdateCheckerJob;
 import com.gentics.cr.util.indexing.IndexController;
 import com.gentics.cr.util.indexing.IndexJobQueue;
@@ -75,118 +71,72 @@ public class IndexJobServlet extends VelocityServlet {
 
 		String action = getAction(request);
 		String index = request.getParameter("idx");
-		if ("download".equals(action)) {
-			generateArchive(index, response);
-			skipRenderingVelocity();
-		} else {
-			if (doNag) {
-				response.setContentType("text/plain");
-				Hashtable<String, IndexLocation> indexTable = indexer.getIndexes();
-				for (Entry<String, IndexLocation> e : indexTable.entrySet()) {
-					if (e.getKey().equalsIgnoreCase(index)) {
-						IndexLocation loc = e.getValue();
-						IndexJobQueue queue = loc.getQueue();
-						if (queue != null && queue.isRunning()) {
-							response.getWriter().write("WorkerThread:OK\n");
-						} else {
-							response.getWriter().write("WorkerThread:NOK\n");
-						}
-						response.getWriter().write("ObjectsInIndex:" + loc.getDocCount()
-								+ "\n");
-						AbstractUpdateCheckerJob j = queue.getCurrentJob();
-						if (j != null) {
-							response.getWriter().write("CurrentJobObjectsToIndex:"
-									+ j.getObjectsToIndex() + "\n");
-						}
+
+		if (doNag) {
+			response.setContentType("text/plain");
+			Hashtable<String, IndexLocation> indexTable = indexer.getIndexes();
+			for (Entry<String, IndexLocation> e : indexTable.entrySet()) {
+				if (e.getKey().equalsIgnoreCase(index)) {
+					IndexLocation loc = e.getValue();
+					IndexJobQueue queue = loc.getQueue();
+					if (queue != null && queue.isRunning()) {
+						response.getWriter().write("WorkerThread:OK\n");
+					} else {
+						response.getWriter().write("WorkerThread:NOK\n");
+					}
+					response.getWriter().write("ObjectsInIndex:" + loc.getDocCount()
+							+ "\n");
+					AbstractUpdateCheckerJob j = queue.getCurrentJob();
+					if (j != null) {
+						response.getWriter().write("CurrentJobObjectsToIndex:"
+								+ j.getObjectsToIndex() + "\n");
 					}
 				}
-				skipRenderingVelocity();
-			} else {
-				response.setContentType("text/html");
-				Hashtable<String, IndexLocation> indexTable = indexer.getIndexes();
-				
-				setTemplateVariables(request);
-				
-				for (Entry<String, IndexLocation> e : indexTable.entrySet()) {
-				IndexLocation loc = e.getValue();
-					IndexJobQueue queue = loc.getQueue();
-					Hashtable<String, CRConfigUtil> map = loc.getCRMap();
-					if (e.getKey().equalsIgnoreCase(index)) {
-						if ("stopWorker".equalsIgnoreCase(action)) {
-							queue.pauseWorker();
-						}
-						if ("startWorker".equalsIgnoreCase(action)) {
-							queue.resumeWorker();
-						}
-						if ("clear".equalsIgnoreCase(action))	{
-							loc.createClearJob();
-						}
-						if ("optimize".equalsIgnoreCase(action))	{
-							loc.createOptimizeJob();
-						}
-						if ("addJob".equalsIgnoreCase(action)) {
-							String cr = request.getParameter("cr");
-							if ("all".equalsIgnoreCase(cr)) {
-								loc.createAllCRIndexJobs();
-							} else {
-								if (cr != null) {
-									CRConfigUtil crc = map.get(cr);
-									loc.createCRIndexJob(crc, map);
-								}
+			}
+			skipRenderingVelocity();
+		} else {
+			response.setContentType("text/html");
+			Hashtable<String, IndexLocation> indexTable = indexer.getIndexes();
+			
+			setTemplateVariables(request);
+			
+			for (Entry<String, IndexLocation> e : indexTable.entrySet()) {
+			IndexLocation loc = e.getValue();
+				IndexJobQueue queue = loc.getQueue();
+				Hashtable<String, CRConfigUtil> map = loc.getCRMap();
+				if (e.getKey().equalsIgnoreCase(index)) {
+					if ("stopWorker".equalsIgnoreCase(action)) {
+						queue.pauseWorker();
+					}
+					if ("startWorker".equalsIgnoreCase(action)) {
+						queue.resumeWorker();
+					}
+					if ("clear".equalsIgnoreCase(action))	{
+						loc.createClearJob();
+					}
+					if ("optimize".equalsIgnoreCase(action))	{
+						loc.createOptimizeJob();
+					}
+					if ("addJob".equalsIgnoreCase(action)) {
+						String cr = request.getParameter("cr");
+						if ("all".equalsIgnoreCase(cr)) {
+							loc.createAllCRIndexJobs();
+						} else {
+							if (cr != null) {
+								CRConfigUtil crc = map.get(cr);
+								loc.createCRIndexJob(crc, map);
 							}
 						}
 					}
 				}
 			}
-			render(response);
 		}
+		render(response);
 		// endtime
 		long e = new Date().getTime();
-		this.log.info("Executiontime for getting " + action + " " + (e - s));
+		this.log.info("Executiontime for getting Status " + (e - s));
 	}
 	
-	private void generateArchive(String index, HttpServletResponse response) {
-		IndexLocation location = indexer.getIndexes().get(index);
-		if (location instanceof LuceneSingleIndexLocation) {
-			LuceneSingleIndexLocation indexLocation = (LuceneSingleIndexLocation) location;
-			File indexDirectory = new File(indexLocation.getReopenFilename()).getParentFile();
-			File writeLock = null;
-			boolean weWroteTheWriteLock = false;
-			try {
-				indexLocation.checkLock();
-				if (indexDirectory.canWrite()) {
-					writeLock = new File(indexDirectory, "write.lock");
-					if (writeLock.createNewFile()) {
-						weWroteTheWriteLock = true;
-					} else {
-						throw new LockedIndexException(new Exception("the write lock file already exists in the index."));
-					}
-					//set to read only so the index jobs will not delete it.
-					writeLock.setReadOnly();
-					response.setContentType("application/x-compressed, application/x-tar");
-					response.setHeader("Content-Disposition","attachment; filename=" + index + ".tar.gz");
-					ArchiverUtil.generateGZippedTar(response.getOutputStream(), indexDirectory);
-				} else {
-					log.error("Cannot lock the index directory to ensure the consistency of the archive.");
-				}
-			} catch (IOException e) {
-				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-				log.error("Cannot generate the archive correctly.", e);
-			} catch (LockedIndexException e) {
-				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-				log.error("Cannot generate the archive while the index is locked.", e);
-			} finally {
-				if (writeLock != null && writeLock.exists() && weWroteTheWriteLock) {
-					writeLock.delete();
-				}
-			}
-			
-		} else {
-			log.error("generating an archive for " + location + " not supported yet.");
-		}
-		
-	}
-
 	/**
      * set variables for velocity template
      */
@@ -203,10 +153,8 @@ public class IndexJobServlet extends VelocityServlet {
 		setTemplateVariable("indexes", indexTable.entrySet());
 		setTemplateVariable("nc", nc);
 		setTemplateVariable("selectedIndex", selectedIndex);
-		String action = getAction(request);
-		if ("report".equalsIgnoreCase(action))
-			setTemplateVariable("report", MonitorFactory.getSimpleReport());
-		setTemplateVariable("action", action);
+		setTemplateVariable("report", MonitorFactory.getSimpleReport());
+		setTemplateVariable("action", getAction(request));
 		setTemplateVariable("maxmemory", maxMemory);
 		setTemplateVariable("totalmemory", totalMemory);
 		setTemplateVariable("freememory", freeMemory);

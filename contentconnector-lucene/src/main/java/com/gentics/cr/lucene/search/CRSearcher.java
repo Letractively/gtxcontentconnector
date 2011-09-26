@@ -2,11 +2,9 @@ package com.gentics.cr.lucene.search;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -40,7 +38,6 @@ import com.gentics.cr.lucene.didyoumean.DidYouMeanProvider;
 import com.gentics.cr.lucene.indexaccessor.IndexAccessor;
 import com.gentics.cr.lucene.indexer.index.LuceneAnalyzerFactory;
 import com.gentics.cr.lucene.indexer.index.LuceneIndexLocation;
-import com.gentics.cr.lucene.search.query.BooleanQueryRewriter;
 import com.gentics.cr.lucene.search.query.CRQueryParserFactory;
 import com.gentics.cr.util.StringUtils;
 import com.gentics.cr.util.generics.Instanciator;
@@ -92,25 +89,14 @@ public class CRSearcher {
 	public static final String RESULT_BESTQUERYHITS_KEY = "bestqueryhits";
 	
 	/**
-	 * Key to store the map for the suggestion terms as strings in the result.
+	 * Key to store the hitcount of the bestquery in the result.
 	 */
 	public static final String RESULT_SUGGESTIONS_KEY = "suggestions";
-	
-	/**
-	 * Key to store the map for the suggestion terms in the result.
-	 */
-	public static final String RESULT_SUGGESTIONTERMS_KEY = "suggestionTerms";
-	
 	
 	/**
 	 * Key to put the suggested term for the bestresult into the result.
 	 */
 	public static final String RESULT_SUGGESTEDTERM_KEY = "suggestedTerm";
-	
-	/**
-	 * Key to put the orignal term for the suggested term into the bestresult.
-	 */
-	private static final String RESULT_ORIGTERM_KEY = "originalTerm";
 
 	/**
 	 * Key to configure the limit of results we activate the didyoumean code. 
@@ -249,6 +235,14 @@ private TopDocsCollector<?> createCollector(final Searcher searcher,
 		ret = new Sort(sf.toArray(new SortField[]{}));
 
 		return ret;
+	}
+
+	public void finalize() {
+		LuceneIndexLocation idsLocation =
+			LuceneIndexLocation.getIndexLocation(this.config);
+		if (idsLocation != null) {
+			idsLocation.stop();
+		}
 	}
 
 	/**
@@ -391,17 +385,17 @@ private TopDocsCollector<?> createCollector(final Searcher searcher,
 
 				if (start == 0 && didyoumeanenabled
 						&& didyoumeanEnabledForRequest
-						&& (totalhits <= didyoumeanactivatelimit || didyoumeanactivatelimit == -1
+						&& (totalhits <= didyoumeanactivatelimit
 								|| maxScore == Float.NaN
 								|| maxScore < this.didyoumeanminscore)) {
 					String parsedQueryString = parsedQuery.toString().replaceAll("\\(\\)", "");
-
+					
 					HashMap<String, Object> didyoumeanResult =
 						didyoumean(query, parsedQuery, indexAccessor, parser,
 								searcher, sorting, userPermissions);
 					result.putAll(didyoumeanResult);
 				}
-
+				
 				//PLUG IN DIDYOUMEAN END
 				int size = 0;
 				if (coll != null) {
@@ -444,8 +438,8 @@ private TopDocsCollector<?> createCollector(final Searcher searcher,
 			Set<Term> termset = new HashSet<Term>();
 			rwQuery.extractTerms(termset);
 			
-			Map<Term, Term[]> suggestions = this.didyoumeanprovider
-					.getSuggestionTerms(termset, this.didyoumeansuggestcount,
+			Map<String, String[]> suggestions = this.didyoumeanprovider
+					.getSuggestions(termset, this.didyoumeansuggestcount,
 							reader);
 			boolean containswildcards = (originalQuery.indexOf('*') != -1);
 			if (suggestions.size() == 0 && containswildcards) {
@@ -458,7 +452,7 @@ private TopDocsCollector<?> createCollector(final Searcher searcher,
 					rwQuery = rwQuery.rewrite(reader);
 					rwQuery.extractTerms(termset);
 					suggestions = this.didyoumeanprovider
-					.getSuggestionTerms(termset, this.didyoumeansuggestcount,
+					.getSuggestions(termset, this.didyoumeansuggestcount,
 							reader);
 					
 				} catch (ParseException e) {
@@ -466,11 +460,12 @@ private TopDocsCollector<?> createCollector(final Searcher searcher,
 				}
 				
 			}
-			result.put(RESULT_SUGGESTIONTERMS_KEY, suggestions);
-			result.put(RESULT_SUGGESTIONS_KEY, this.didyoumeanprovider.getSuggestionsStringFromMap(suggestions));
+			result.put(RESULT_SUGGESTIONS_KEY, suggestions);
 			
 			log.debug("DYM Suggestions took "
 					+ (System.currentTimeMillis() - dymStart) + "ms");
+			String rewrittenQuery =
+				rwQuery.toString().replaceAll("\\(\\)", "");
 			indexAccessor.release(reader, false);
 			
 			if (didyoumeanbestquery || advanceddidyoumeanbestquery) {
@@ -478,24 +473,23 @@ private TopDocsCollector<?> createCollector(final Searcher searcher,
 				//TODO Test if the query will be altered and if any suggestion
 				//have been made... otherwise don't execute second query and
 				//don't include the bestquery
-				for (Entry<Term, Term[]> e : suggestions.entrySet()) {
-					Term term = e.getKey();
-					Term[] suggestionsForTerm = e.getValue();
+				for (Entry<String, String[]> e : suggestions.entrySet()) {
+					String term = e.getKey();
+					String[] suggestionsForTerm = e.getValue();
 					if (advanceddidyoumeanbestquery) {
 						TreeMap<Integer, HashMap<String, Object>>
 							suggestionsResults = new TreeMap<Integer,
 								HashMap<String, Object>>(
 										Collections.reverseOrder());
-						for (Term suggestedTerm : suggestionsForTerm) {
-							Query newquery = BooleanQueryRewriter.replaceTerm(rwQuery, term, suggestedTerm);
-
+						for (String suggestedTerm : suggestionsForTerm) {
+							String newquery =
+								rewrittenQuery.replaceAll(term, suggestedTerm);
 							HashMap<String, Object> resultOfNewQuery =
-								getResultsForQuery(newquery, searcher,
+								getResultsForQuery(newquery, parser, searcher,
 										sorting, userPermissions);
 							if (resultOfNewQuery != null) {
 								resultOfNewQuery.put(RESULT_SUGGESTEDTERM_KEY,
-										suggestedTerm.text());
-								resultOfNewQuery.put(RESULT_ORIGTERM_KEY, term.text());
+										suggestedTerm);
 								Integer resultCount =
 									(Integer) resultOfNewQuery
 											.get(RESULT_BESTQUERYHITS_KEY);
@@ -508,9 +502,10 @@ private TopDocsCollector<?> createCollector(final Searcher searcher,
 						}
 						result.put(RESULT_BESTQUERY_KEY, suggestionsResults);
 					} else {
-						Query newquery = BooleanQueryRewriter.replaceTerm(rwQuery, term, suggestionsForTerm[0]);
+						String newquery = rewrittenQuery
+								.replaceAll(term, suggestionsForTerm[0]);
 						HashMap<String, Object> resultOfNewQuery = 
-							getResultsForQuery(newquery, searcher,
+							getResultsForQuery(newquery, parser, searcher,
 									sorting, userPermissions);
 						result.putAll(resultOfNewQuery);
 					}
@@ -524,28 +519,21 @@ private TopDocsCollector<?> createCollector(final Searcher searcher,
 		}
 		return null;
 	}
-
+	
 	private HashMap<String, Object> getResultsForQuery(final String query,
 			final QueryParser parser, final Searcher searcher,
 			final String[] sorting, final String[] userPermissions){
-		try {
-			return getResultsForQuery(parser.parse(query), searcher, sorting, userPermissions);
-		} catch (ParseException e) {
-			log.error("Cannot parse query to get results for.", e);
-		}
-		return null;
-	}
-	
-	private HashMap<String, Object> getResultsForQuery(final Query query, final Searcher searcher,
-			final String[] sorting, final String[] userPermissions){
 		HashMap<String, Object> result = new HashMap<String, Object>(3);
 		try {
+			Query bestQuery = parser.parse(query);
 			TopDocsCollector<?> bestcollector = createCollector(searcher, 1,
 					sorting, computescores, userPermissions);
-			runSearch(bestcollector, searcher, query, false, 1, 0);
-			result.put(RESULT_BESTQUERY_KEY, query);
+			runSearch(bestcollector, searcher, bestQuery, false, 1, 0);
+			result.put(RESULT_BESTQUERY_KEY, bestQuery);
 			result.put(RESULT_BESTQUERYHITS_KEY, bestcollector.getTotalHits());
 			return result;
+		} catch (ParseException e) {
+			log.error("Cannot parse query to get results for.", e);
 		} catch (IOException e) {
 			log.error("Cannot create collector to get results for query.", e);
 		}

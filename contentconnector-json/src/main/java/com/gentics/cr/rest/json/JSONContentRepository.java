@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -206,9 +205,7 @@ public class JSONContentRepository extends ContentRepository {
 						}
 						value.addAll(arr);
 						attrContainer.element(entry, value);
-					} else if(bValue instanceof Map<?, ?>) {
-						attrContainer.element(entry, bValue);
-					}
+					} 
 					//dealt with single value attributes (String, Number, ByteArray)
 					else
 					{

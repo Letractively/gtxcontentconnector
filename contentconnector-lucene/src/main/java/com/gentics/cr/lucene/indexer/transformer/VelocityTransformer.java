@@ -2,8 +2,6 @@ package com.gentics.cr.lucene.indexer.transformer;
 
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringBufferInputStream;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,7 +9,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Map.Entry;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 import com.gentics.cr.CRConfigUtil;
@@ -153,7 +150,7 @@ public class VelocityTransformer extends ContentTransformer {
 		if (additionalContextVars != null) {
 			Properties props = new Properties();
 			try {
-				props.load(IOUtils.toInputStream(additionalContextVars));
+				props.load(new StringReader(additionalContextVars));
 				Iterator<Entry<Object, Object>> i = props.entrySet().iterator();
 				additionalAttributes = new HashMap<String, Object>();
 				while (i.hasNext()) {

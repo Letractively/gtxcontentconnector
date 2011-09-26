@@ -464,7 +464,7 @@ public class CRLuceneIndexJob extends AbstractUpdateCheckerJob {
 				if (indexAccessor != null && indexWriter != null) {
 						indexAccessor.release(indexWriter);
 				}
-				if (indexAccessor != null && indexReader != null) {
+				if (indexAccessor != null && indexWriter != null) {
 						indexAccessor.release(indexReader, false);
 				}
 				
@@ -472,11 +472,8 @@ public class CRLuceneIndexJob extends AbstractUpdateCheckerJob {
 				if (objectCount > 0) {
 					indexLocation.createReopenFile();
 				}
-				UseCase ucFireEvent = MonitorFactory.startUseCase(
-						"indexCR(" + crid + ") fire IndexingFinishedEvent"); 
 				EventManager.getInstance().fireEvent(
 						new IndexingFinishedEvent(indexLocation));
-				ucFireEvent.stop();
 			}
 		} catch (LockedIndexException ex) {
 			log.debug("LOCKED INDEX DETECTED. TRYING AGAIN IN NEXT JOB.");
