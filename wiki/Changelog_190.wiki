@@ -23,6 +23,15 @@ rp.1.didyoumean_activatelimit = -1
  cr.velocity.frame=http://mydomain/searchresults.htm
  cr.velocity.frameplaceholder=[Searchresult]
 }}}
+ * added the JsonRequestProcessor in contentconnector-json
+{{{
+ rp.1.rpClass=com.gentics.cr.rest.json.JSONRequestProcessor
+ rp.1.objects={objects:[\
+				{name: "first object"},\
+				{name: "second object"},\
+				{name: "third object"}\
+			]}
+}}}
    
 = Bugfixes =
   
