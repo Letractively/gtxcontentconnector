@@ -1,0 +1,16 @@
+#summary This Page describes the major changes from Version 1.9.0 to 1.9.1
+= Introduction =
+
+= Important Changes = 
+  see Bugfixes 
+
+= Configuration changes = 
+
+    * To return the parsedQuery with LuceneRequestProcessor
+
+      rp.1.showparsedquery = true
+
+= Bugfixes = 
+  * the LuceneRequestProcessor only returns parsed_query if explicit 
+configured
+    * if no configuration is done 1.9.1 has same behavior as 1.8.0
