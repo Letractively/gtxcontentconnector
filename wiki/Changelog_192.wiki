@@ -16,13 +16,14 @@ index.<INDEX_NAME>.extensions.DIDYOUMEAN.class=com.gentics.cr.lucene.didyoumean.
 # location of the dym index
 index.<INDEX_NAME>.extensions.DIDYOUMEAN.didyoumeanlocation.indexLocationClass=com.gentics.cr.lucene.indexer.index.LuceneSingleIndexLocation
 index.<INDEX_NAME>.extensions.DIDYOUMEAN.didyoumeanlocation.indexLocations.0.path=${com.gentics.portalnode.confpath}/index/didyoumean
-index.<INDEX_NAME>.extensions.DIDYOUMEAN.didyoumeanlocation.reopencheck=true
+index.<INDEX_NAME>.extensions.DIDYOUMEAN.didyoumeanlocation.reopencheck=timestamp
+index.<INDEX_NAME>.extensions.DIDYOUMEAN.didyoumeanlocation.writereopenfile=true
 
 # location of the source index. Optional - if not provided the main LuceneIndexLocation is used by default 
 index.<INDEX_NAME>.extensions.DIDYOUMEAN.srcindexlocation.indexLocationClass=com.gentics.cr.lucene.indexer.index.LuceneSingleIndexLocation
 index.<INDEX_NAME>.extensions.DIDYOUMEAN.srcindexlocation.indexLocations.0.path=${com.gentics.portalnode.confpath}/index/index
 index.<INDEX_NAME>.extensions.DIDYOUMEAN.srcindexlocation.analyzerconfig=${com.gentics.portalnode.confpath}/rest/analyzer.properties
-index.<INDEX_NAME>.extensions.DIDYOUMEAN.srcindexlocation.reopencheck=true
+index.<INDEX_NAME>.extensions.DIDYOUMEAN.srcindexlocation.reopencheck=timestamp
 
 # Fields, that will be used to find the suggestions. Default: "All"
 index.<INDEX_NAME>.extensions.DIDYOUMEAN.didyoumeanfields=content,binarycontent,name,text,titel
@@ -42,7 +43,12 @@ rp.1.didyoumeanUseIndexExtension=true
  ...
 
 # you don't need to configure the source IndexLocation (rp.1.srcindexlocation) 
+
+...
+
 # the configuration for the didyoumean-location (rp.1.didyoumeanlocation) remains unchanged.
+# set the reopencheck attribute accordingly to the configuration in the indexer.properties (true/false or "timestamp")
+rp.1.didyoumeanlocation.reopencheck=timestamp
 
  ...
 
