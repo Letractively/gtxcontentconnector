@@ -16,6 +16,7 @@ index.<INDEX_NAME>.extensions.DIDYOUMEAN.class=com.gentics.cr.lucene.didyoumean.
 # location of the dym index
 index.<INDEX_NAME>.extensions.DIDYOUMEAN.didyoumeanlocation.indexLocationClass=com.gentics.cr.lucene.indexer.index.LuceneSingleIndexLocation
 index.<INDEX_NAME>.extensions.DIDYOUMEAN.didyoumeanlocation.indexLocations.0.path=${com.gentics.portalnode.confpath}/index/didyoumean
+index.<INDEX_NAME>.extensions.DIDYOUMEAN.didyoumeanlocation.analyzerconfig=${com.gentics.portalnode.confpath}/rest/analyzerdidyoumean.properties
 index.<INDEX_NAME>.extensions.DIDYOUMEAN.didyoumeanlocation.reopencheck=timestamp
 index.<INDEX_NAME>.extensions.DIDYOUMEAN.didyoumeanlocation.writereopenfile=true
 
@@ -46,7 +47,10 @@ rp.1.didyoumeanUseIndexExtension=true
 
 ...
 
-# the configuration for the didyoumean-location (rp.1.didyoumeanlocation) remains unchanged.
+# location of the dym index
+rp.1.didyoumeanlocation.indexLocationClass=com.gentics.cr.lucene.indexer.index.LuceneSingleIndexLocation
+rp.1.didyoumeanlocation.indexLocations.0.path=${com.gentics.portalnode.confpath}/index/didyoumean
+rp.1.didyoumeanlocation.analyzerconfig=${com.gentics.portalnode.confpath}/rest/analyzerdidyoumean.properties
 # set the reopencheck attribute accordingly to the configuration in the indexer.properties (true/false or "timestamp")
 rp.1.didyoumeanlocation.reopencheck=timestamp
 
