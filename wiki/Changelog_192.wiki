@@ -5,8 +5,8 @@ New DidyoumeanIndexExtension to provide a separation of indexing jobs and search
 = Important Changes = 
  * DidyoumeanIndexExtension:
   * added the didyoumean index extension to provide clear separation between indexing jobs and search task concerning the didyoumean functionality of the contentconnector-lucene
-  * the extensions provides the reIndex job - it is used to reIndex the the didyoumean index 
-  * the job can be configured to be started always after a main index job is finished or it can be controlled via the indexer servlet 
+  * the extensions provides a reIndex-job - it is used to reIndex the the didyoumean index, and a clear-Job which is used to delete all entries from the didyoumean-index.
+  * the reIndex-job can be configured to be started always after a main index job is finished or it can be controlled via the indexer servlet - the clear-job has to be started manually 
 
 = Configuration changes = 
   * To configure the new DidyoumeanIndexExtension following additional parameters need to be added to the indexer.properties file:
