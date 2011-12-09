@@ -4,6 +4,37 @@
 = Introduction =
 On this page you can find all the download specific information.
 
+= Version 1.9.3 =
+
+Release date: 2011.12.09
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-core/1.9.3 contentconnector-core]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-apihelper/1.9.3 contentconnector-apihelper]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-http/1.9.3 contentconnector-http]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-json/1.9.3 contentconnector-json]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-jtidy/1.9.3 contentconnector-jtidy]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-language/1.9.3 contentconnector-language]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-lucene/1.9.3 contentconnector-lucene]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-lucene-autocomplete/1.9.3 contentconnector-lucene-autocomplete]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-poi-transformer/1.9.3 contentconnector-poi-transformer]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-portlet/1.9.3 contentconnector-portlet]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-rss/1.9.3 contentconnector-rss]
+
+[http://archiva.gentics.com:8081/archiva/browse/contentconnector/contentconnector-servlet/1.9.3 contentconnector-servlet]
+
+
+
+
 = Version 1.9.1 =
 
 Release date: 2011.11.03
