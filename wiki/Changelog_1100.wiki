@@ -1,0 +1,17 @@
+#summary This Page describes the major changes from Version 1.9.0 to 1.10.0
+
+= Important Changes = 
+  
+= Configuration changes =
+
+= Features =
+ * the velocity tools are now available in the VelocityContentRepository via $tools so now you can use the following code to prevent xss in your search template
+{{{
+$tools.esc.html($yourquery)
+}}}
+
+= Bugfixes =
+  
+
+ 
+ 
