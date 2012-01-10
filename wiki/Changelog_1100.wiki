@@ -14,7 +14,11 @@ $tools.esc.html($yourquery)
 #throw an exception if the maxclausecount is reached and catched, this is useful for handling in the ContentRepository#respondWithError()
 rp.1.failOnMaxClauses=true
 }}}
-
+ * Now it is possible to deactivate the crcontent cache with setting the crcontentcache property of the RequestPocessor to false, default is true:
+{{{
+#deatctivate the content cache of the request processor
+rp.1.crcontentcache=false
+}}}
 
 = Bugfixes =
   
