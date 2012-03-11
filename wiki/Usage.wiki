@@ -1,96 +1,90 @@
 #labels Usage
-This page is only available in german and will be translated soon.
+= Introduction =
 
-= Einleitung =
+A request to a content connector component can be done via three methods
 
-Eine Anfrage an eine Content Connecter Komponente
-Grundsätzlich ist eine Anfrage an eine Content Connector Komponente mittels drei Methoden möglich:
-
-    * Über eine Contentid
-    * Über Filterrule
-    * Über eine beautiful URL
+    * via ContentID
+    * via Filterrule
+    * via Beautiful URL
 
 
-== Über Contentid ==
-Ermittelt das Ergebnis mittels einer Contentid. Diese ist eindeutig und liefert daher immer nur ein Objekt zurück.
+== Via ContentID ==
+You get a result via a ContentID. This is determined and you receive one object.
 
-Folgender Aufruf liefert das Objekt mit der Contentid 90033.305 zurück.
+This call delivers an object with the ContentID 90033.305.
 
 ?contentid=90033.305
 
 
+== Via Filterrule ==
+If you want to request more results, you can use a filterrule.
 
-== Über eine Filterrule ==
-Solle eine größere Ergebnismenge abgefragt werden, so kann dies mittels einer Filterrule geschehen.
-
-Wie eine solche Rule zusammengebaut wird und welche Operatoren verfügbar sind, können Sie auf folgenden Seiten nachlesen:
+How you can create such a rule and what operators you can use, can be read in the following pages:
 
 » [http://www.gentics.com/help/topic/com.gentics.portalnode.sdk.doc/misc/doc/reference/xhtml/ch04s10.html?resultof=%22%45%78%70%72%65%73%73%69%6f%6e%70%61%72%73%65%72%22%20%22%65%78%70%72%65%73%73%69%6f%6e%70%61%72%22%20 GenticsHelpExpressionParser]
 
 » [http://www.gentics.com/help/topic/com.gentics.portalnode.sdk.doc/misc/doc/reference/xhtml/ref-implementation-rules.html GenticsHelpRules]
 
-Folgender Aufruf liefert alle Objekte des Typs 90033 zurück.
+This call delivers objects of the type 90033.
 
 ?filter=object.obj_type==90033
 
+If you use this component in Gentics Portal.Node as a GenticsPortlet, you can use all portal variables in the rules.
 
-Wird die Komponente in Portal.Node als GenticsPortlet eingesetzt, so stehen in den Rules auch alle Portalvariablen zur Verfügung.
-
-Mit folgender Rule könnte der Content für einen Portalbenutzer personalisiert werden.
+With the following rule you can personalize content for a portal user.
 
 ((object.public == 1) || (object.permissions CONTAINSONEOF portal.user.systemrole))
 
 
-== Über eine beautiful URL ==
-Bei einer Anfrage über eine beautiful URL wird der Publizierungspfad eines Objektes dazu verwendet, es über die Anfrage zu finden.
+== via Beautiful URL ==
+If you request an object via a beautiful URL the publishing path will be used to find the right object.
 
-Bei folgender Anfrage würde das Content Connector Servlet mit dem Namen cc_servlet den Publizierungspfad /home/bilder/ verwenden um die Datei start.jpg zu finden.
+In this example request the Content Connector Servlet with the name cc_servlet uses the publishing path /home/images/ to find a file called start.jpg.
 
-http://yourserver.com/cc_servlet/home/bilder/start.jpg
+http://yourserver.com/cc_servlet/home/images/start.jpg
 
-
-
-== Zusätzliche Parameter == 
+== Additional parameters == 
 *start*
-Der Eintrag an dem eine anfrage mit Paging beginnt. Beispiel start=0 (Optional)
+The entry where the request should start with paging. Example start=0 (optional)
 
 *count*
-Die Anzahl der zurückgelieferten Datensätze. Beispiel count=20 (Optional)
+The number of results delivered. Example count=20 (optional)
 
 *sorting*
-Die ein Object nachd dem sortiert wird und eine Sortierrichtung. Ex. sorting=obj_type:desc,firstname:asc (Optional)
+Object for sorting and the sort order. Example sorting=obj_typ:desc,firstname:asc (optional)
 
 *attributes*
-Die Attribute, die geliefert werden sollten. Beispiel attributes=content&attributes=filename (Optional)
+All attributes which should be in the results. Example attributes=content&attributes=filename (optional)
 
 *mimetypeattribute*
-Attribut, mittels dessen der Mimetyp des Objektes ermittelt wird. Beispiel mimetypeattribute=mimetype (Optional)
+Attribute for defining the Mimetypes of the objects delivered. Example:  mimetypeattribute=mimetype (optional)
 
-== Abrufen von Content-Objekten == 
+== Requesting content objects == 
 
-Um eine liste von Content-Objekten abzurufen wird die getObjects() Funktion des RequestProcessors so ausgeführt, dass alle Elemente, die der angeführten Rule entsprechen geladen werden. Diese können mit einem beliebigen Renderer geladen werden => Siehe Renderer.
-Diese Funktionalität ist im Simplecontainer abgebildet.
+To get a list of content objects back, getObjects() (function of requestprocessor) will executed in a way that all elements which match a certain rule will be delivered.
 
-== Abrufen von Content ===
+They can be loaded with a renderer --> see renderer. This function is in simplecontainer.
 
-Um Content abzurufen wird die getContent() Funktion des RequestProcessors ausgeführt
-Diese Funktionalität ist im Binarycontainer abgebildet.
+== Requesting content ===
 
-== Abrufen von Hierarchien ==
+To request content, the function getContent() of the requestprocessor is called. This function is in binarycontainer.
 
-Um Hierarchien abzurufen wird die getObjects() Funktion des RequestProcessors so ausgeführt, dass alle Kindelemente und wiederum dessen Kindelemente usw. geladen werden.
-Diese Funktionalität ist im Nagivationscontainer abgebildet.
+== Requesting hierarchies ==
 
-== Die verschiedenen Renderer == 
+To request hierarchies, getObjects() is called, so that all child elements and their children are loaded. This function is in navigationcontainer.
 
-Derzeit werden 4 Renderer unterstützt, diese rendern je nach Typ die entsprechenden Antworten und können über den Parameter type selektiert werden. Wenn kein Wert für type angegeben wird, werden die Content-Objekte als XML gerendert.
+
+== Renderers == 
+
+Currently we support 4 renderers, they render depending on the type all results and can be chosen via the parameter "type". If you do not select a type, XML is chosen.
 
 Parameter: type
 
-Mögliche Werte: XML, PHP, JSON, JavaXML
+Possible values: XML, PHP, JSON, JavaXML
 
 e.g.: ?filter=object.obj_type==90033&type=PHP
 
+If errors occur, please read the page "known errors".
 
-Sollten bei der Anwendung Fehler auftauchen, so konsultieren Sie bitte die Seite » Bekannte Fehler
-Wenn Sie dort keine Lösung finden, schicken Sie bitte eine E-Mail mit einer genauen Fehlerbeschreibung an solution@gentics.com. 
+If you can't find any solution, contact us (solution@gentics.com).
+
