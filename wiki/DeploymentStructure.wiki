@@ -1,7 +1,4 @@
-= Introduction =
-
-Describes the Deploymentstructure for the Lucene Webapp.
-
+This articles describes the deployment structure for the Apache Lucene Webapp.
 
 = Details =
 ==Webapp==
