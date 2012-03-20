@@ -9,10 +9,10 @@ The Gentics Content Connector includes also these components which are needed to
  * 2 servlets (for search and auto suggestions)
 
 == Infrastructure ==
-[Read the article about how to install a good search and indexer infrastructure.]
+[http://code.google.com/p/gtxcontentconnector/wiki/PossibleSearchInfrastructure Read the article about how to install a good search and indexer infrastructure.]
 
 == Configuration ==
-[Read more about the configuration of the various functions of the search and the indexer.]
+[http://code.google.com/p/gtxcontentconnector/wiki/Configuration Read more about the configuration of the various functions of the search and the indexer.]
 
 == Indexer ==
 The search contains of two main functionalities (the searcher and the indexer). The indexer might run on the CMS server and creates 
