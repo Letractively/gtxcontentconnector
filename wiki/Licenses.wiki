@@ -1,8 +1,7 @@
-#This page describes the licenses of libraries used in this Project
-
+This article describes the licenses of libraries used in this project
 
 Most parts are published under the Apache License. For some parts BSD License is used.
 
 JTidy is licensed under [http://jtidy.sourceforge.net/license.html this license]
 
-Gentics Portal.Connector is published under a commercial license. This license can be optained from sales@gentics.com
+[http://www.gentics.com Gentics Portal Connector] is published under a commercial license. This license can be optained from sales@gentics.com.
