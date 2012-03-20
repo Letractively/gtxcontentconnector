@@ -13,7 +13,7 @@ You get a result via a ContentID. This is determined and you receive one object.
 
 This call delivers an object with the ContentID 90033.305.
 
-?contentid=90033.305
+/ccr/ccr?contentid=90033.305
 
 
 == Via Filterrule ==
@@ -27,7 +27,7 @@ How you can create such a rule and what operators you can use, can be read in th
 
 This call delivers objects of the type 90033.
 
-?filter=object.obj_type==90033
+/ccr/ccr?filter=object.obj_type==90033
 
 If you use this component in Gentics Portal.Node as a GenticsPortlet, you can use all portal variables in the rules.
 
@@ -41,7 +41,7 @@ If you request an object via a beautiful URL the publishing path will be used to
 
 In this example request the Content Connector Servlet with the name cc_servlet uses the publishing path /home/images/ to find a file called start.jpg.
 
-Example:http://yourserver.com/cc_servlet/home/images/start.jpg
+Example: http[s]://yourserver.com/cc_servlet/home/images/start.jpg
 
 == Additional parameters == 
 *start*
@@ -82,7 +82,7 @@ Parameter: type
 
 Possible values: XML, PHP, JSON, JavaXML
 
-e.g.: ?filter=object.obj_type==90033&type=PHP
+e.g.: /ccr/ccr?filter=object.obj_type==90033&type=PHP
 
 If errors occur, please read the page "known errors".
 
