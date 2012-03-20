@@ -1,7 +1,4 @@
 #labels Featured
-This article contains a list of maven projects in the Gentics Content Connector project.
-
-= Introduction =
 This is the list of maven artifacts in the Gentics Content Connector project. Here you can find what they can be used for
 
 
