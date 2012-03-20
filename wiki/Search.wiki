@@ -1,29 +1,28 @@
-#Describes the search functionality and how to set it up.
+This article describes the search functionality and how to set it up.
 
 = Introduction =
 
 The next few lines describe how to set up a search infrastructure with an index server and a search application.
 
-
 = Infrastructure =
 
-The infrastructure of a search application can be devided in two important parts: the indexer and the searcher.
+The infrastructure of a search application can be divided in two important parts: the indexer and the searcher.
 
- [http://farm3.static.flickr.com/2614/4111841413_6f266ca3f6_o_d.png]
+[http://farm3.static.flickr.com/2614/4111841413_6f266ca3f6_o_d.png]
 
 == The Indexer ==
 
-The Indexer periodically scans the defined content and builds up an index to speed up searches. The content has to be converted to text before it can be indexed. This means that one has to extract text from Files like PDF, DOC, DOCX and so on, before the content of the files is being passed to the indexer.
+The indexer periodically scans the defined content and builds up an index to speed up searches. The content has to be converted to text before it can be indexed. This means that one has to extract text from files like PDF, DOC, DOCX and so on, before the content of the files is being passed to the indexer.
 
 == The Searcher ==
 
-The Searcher runs the searches against the index for the user. It highlights the text snippets in the result and passes the result back to the search application where it can be displayed to the user.
+The searcher runs the searches against the index for the user. It highlights the text snippets in the result and passes the result back to the search application where it can be displayed to the user.
 
 = Index content =
 
 [http://farm3.static.flickr.com/2531/4112482688_3db75f673e_o_d.png]
 
-While the structure is sill like displayed in the picture above, the configuration has slightly changed.
+While the structure is still displayed like in the picture above, the configuration has slightly changed.
 
 
 Here a small example:
@@ -185,7 +184,7 @@ rp.1.highlighter.1.fragmentseperator=...
 
 [http://farm3.static.flickr.com/2773/4111717305_c6408d11c5_o_d.png]
 
-If you do not want to store much data in the index you can enrich searched objects by additional attributes from another datasource (e.g. Content Repository). This can be done using the RPMergerRequestProcessor.
+If you do not want to store much data in the index, you can enrich searched objects by additional attributes from another datasource (e.g. Content Repository). This can be done using the RPMergerRequestProcessor.
 
   # Like in the basic search, the query agains the index is being executed and returnes the found objects.
   # The found objects are then looked up in the second configured datasource.
