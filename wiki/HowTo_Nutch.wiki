@@ -1,5 +1,5 @@
 #labels Featured,Thirdpartyextension
-#This page describes how you can use nutch to crawl a website and generate a lucene index that can be used by the gentics content connector.
+This page describes how you can use nutch to crawl a website and generate a lucene index that can be used by the gentics content connector.
 
 
 = Requirements =
