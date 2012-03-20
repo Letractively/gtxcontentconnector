@@ -1,14 +1,10 @@
-#Describes how differential indexing can be enabled and configured
-
-= Introduction =
-
 This page describes how you can enable differential indexing with your search installation.
-
 
 = Configuration =
 
-Now a updateattribute has to be configured to enable differential indexing.
-This attribute will be used to check for changes. Every time the attribute of the fetched objects (from the contentrepository) is not equal to the according object in the index, the object will be reindexed.
+Now a updatetimestamp - attribute has to be configured to enable differential indexing.
+
+This attribute will be used to check for changes. Every time the attribute of the fetched objects (from the content repository) is not equal to the according object in the index, the object will be reindexed.
 
 {{{
 # Enables the differential indexing and uses the attribute set in this option
