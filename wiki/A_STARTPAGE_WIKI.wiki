@@ -18,6 +18,7 @@ Easy and fast.
 
 
 == Gentics Search ==
+ * [http://code.google.com/p/gtxcontentconnector/wiki/HowtoUseSearchIndexer How to use Search and Indexer]
  * [http://code.google.com/p/gtxcontentconnector/wiki/Search Gentics Search]
  * [http://code.google.com/p/gtxcontentconnector/wiki/PossibleSearchInfrastructure Possible Search Infrastructure]
  * [http://code.google.com/p/gtxcontentconnector/wiki/HighlighterDescription Highlighter]
