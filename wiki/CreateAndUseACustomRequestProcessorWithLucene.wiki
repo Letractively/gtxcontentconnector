@@ -1,15 +1,15 @@
-#summary This Article describes how to create and use a custom RequestProcessor and use it with the indexer to index custom datasources.
+This article describes how to create and use a custom RequestProcessor and use it with the indexer to index custom datasources.
 
 = Introduction =
 
-The Lucene Indexer in this framework uses different instances of the RequestProcessor class to access all datasources that need to be indexed. It queries them with the configured rule periodically and expects them to return all the objects that should be contained in the index (for this datasource. e.g. matching the provided rule). When using differential indexing, it is important that the RequestProcessor always returns all Objects (otherwise the missing objects would be removed from the index).
+The Apache Lucene indexer in this framework uses different instances of the RequestProcessor class to access all datasources that need to be indexed. It queries them with the configured rule periodically and expects them to return all the objects that should be contained in the index (for this datasource. e.g. matching the provided rule). When using differential indexing, it is important that the RequestProcessor always returns all objects (otherwise the missing objects would be removed from the index).
 
 
 = Creating the RequestProcessor =
 
 Extend the existing RequestProcessor class to create an abstraction for your own datasource.
 
-Here we created a dummy request processor that returns dummy objects. These Objects could also be loaded from a database or generated from a XML-File,...
+Here we created a dummy RequestProcessor that returns dummy objects. These objects can also be loaded from a database or generated from a XML-File, ...
 
 {{{
 package com.gentics.cr;
@@ -90,11 +90,11 @@ public class DummyRequestProcessor extends RequestProcessor {
 
 == The Request Object ==
 
-The request Object passed to the method getObjects contains all request specific information that can be used to fetch the queried objects.
+The Request Object passed to the method getObjects contains all request specific information that can be used to fetch the queried objects.
 
 
 Important parameters:
-  * FilterRule (getFilterRule): This could be a SQL statement, Content Repository Rule or anything the like. All returned objects have to match that rule.
+  * FilterRule (getFilterRule): This can be a SQL statement, Content Repository Rule or anything like that. All returned objects have to match that rule.
   * AttributeArray (getAttributeArray): This array contains the attributes that should be contained in the result (if they exist).
   * Start (getStart): This is a number and states the number of the object, the result should be start with e.g. (in MySQL) LIMIT *10* , 10
   * Count (getCount): This is a number and state the number of objects the result should be limited to e.g. (in MySQL) LIMIT 10, *10*
