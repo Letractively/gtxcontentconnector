@@ -1,11 +1,12 @@
 #labels Usage
 = Introduction =
 
-You can request content object from the Content Connector through three different ways.
+You can request content object from the Content Connector through different ways.
 
     * via ContentID
     * via Filterrule
     * via Beautiful URL
+    * via Lucene Query Language
 
 
 == request via ContentID ==
@@ -74,6 +75,9 @@ To request content, the function getContent() of the request processor is called
 
 To request hierarchies, getObjects() is called, so that all child elements and their children are loaded. This function is in navigation container.
 
+== Request content via Search servlet ==
+
+Using the [http://lucene.apache.org/core/old_versioned_docs/versions/3_0_0/queryparsersyntax.html Lucene Query Language]
 
 == Renderers == 
 
