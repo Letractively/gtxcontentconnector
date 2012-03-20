@@ -3,7 +3,7 @@
 
 = You want to access via jQuery? =
 Nothing is simpler than that. First you have to get all the dependencies you need:
-  * The lates jQuery [http://docs.jquery.com/Downloading_jQuery release]
+  * The latest jQuery [http://docs.jquery.com/Downloading_jQuery release]
   * [http://www.gentics.com/Content.Node/products/portalnodesdk/gentics_portalnode_4_sdk_ueberblick.php Gentics Portal.Node SDK] (here short GPN SDK)
   * Gentics Portal.Node SDK Licence Key
 
@@ -20,7 +20,7 @@ Click File->New->Project in your GPN SDK and select "Dynamic Web Project". Go to
 
 
 === Fix two small Bugs ===
-Unfortunately there is a small issue in the delivered sample project so you have to make a change in the project settings.
+Unfortunately there is a small issue in the delivered sample project, so you have to make a change in the project settings.
 
 <wiki:video url="http://www.youtube.com/watch?v=w4T3f-VwxBs"/>
 
@@ -71,7 +71,7 @@ Activate the "J2EE-Perspective" with Window->Open Perspective->Other and select 
 
 <wiki:video url="http://www.youtube.com/watch?v=PSfDRFF9JvQ"/>
 
-Now that the Project is deployed, you are ready to start the Server with a right click on the instance which brings up a context menu. Now select "Start" and on it goes.
+Now that the Project is deployed, you are ready to start the server with a right click on the instance which brings up a context menu. Now select "Start" and on it goes.
 
 If you have problems on a slow machine and your server is abborting the startup you may increase the allowed startup time of the server:
 
