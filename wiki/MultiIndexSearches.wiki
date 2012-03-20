@@ -1,6 +1,5 @@
 #labels Configuration,index,search
-#This Article describes how you can set up your search engine to search in multiple index directories
-
+This article describes how you can set up your search engine to search in multiple index directories
 
 = Configuration =
 
@@ -40,5 +39,7 @@ rp.1.highlighter.1.fragmentseperator=...
 
 = Notes =
 The LuceneMultiIndexLocation is not able to write to the index. 
-The Performance of multi index searches is slightly below the normal search performance when using a single index.
+
+The performance of multi index searches is slightly below the normal search performance when using a single index.
+
 You should use the same analyzers for searching as for indexing
