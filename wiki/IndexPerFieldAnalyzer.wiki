@@ -1,10 +1,9 @@
 #labels Configuration
-#This Article describes how an analyzer can be configured per field in the index
+This article describes how an analyzer can be configured per field in the index
 
 = Introduction =
 
-In order to enable this feature you have to add the following line to your indexer/searcher configuration.
-You have to specify a configuration file where each field that you want to customize is configured.
+In order to enable this feature you have to add the following line to your indexer/searcher configuration. You have to specify a configuration file where each field that you want to customize is configured.
 
 `index.1.analyzerconfig=${com.gentics.portalnode.confpath}/rest/analyzer.properties`
 
@@ -21,7 +20,7 @@ The configuration syntax is as follows:
 <unique_name>.fieldname=<fieldname>
 }}}
 
-E.g.:
+for example:
 {{{
 name.analyzerclass=com.gentics.cr.test.lucene.analysis.TestAnalyzer
 name.fieldname=name
@@ -31,7 +30,7 @@ You can specify more than those parameters. They will be available in the analyz
 
 = Writing your own analyzer =
 
-You can easily write and configure your own analyzer. Here we will show you how to wrap the Snowball stemmer in order to use a configured language.
+You can easily write and configure your own analyzer. Here we will show you, how to wrap the Snowball stemmer in order to use a configured language.
 
 {{{
 package com.gentics.cr.lucene.analysis;
@@ -55,7 +54,7 @@ public class WrappedSnowballAnalyzer extends SnowballAnalyzer {
 
 }}}
 
-The configuration for this Analyzer would look like this:
+The configuration for this analyzer would look like this:
 
 {{{
 content.analyzerclass=com.gentics.cr.lucene.analysis.WrappedSnowballAnalyzer
