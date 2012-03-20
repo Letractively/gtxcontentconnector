@@ -1,8 +1,8 @@
-#summary How to refactor a package or a class
+How to refactor a package or a class
 
 = Introduction =
 
-This are the guidlines how refactoring should be done in this project.
+This is the guideline how refactoring should be done in this project.
 
 = Details =
 
