@@ -41,7 +41,7 @@ If you request an object via a beautiful URL the publishing path will be used to
 
 In this example request the Content Connector Servlet with the name cc_servlet uses the publishing path /home/images/ to find a file called start.jpg.
 
-Example: http[s]://yourserver.com/cc_servlet/home/images/start.jpg
+Example: http/s://yourserver.com/cc_servlet/home/images/start.jpg
 
 == Additional parameters == 
 *start*
