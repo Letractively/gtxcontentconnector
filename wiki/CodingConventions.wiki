@@ -1,11 +1,9 @@
-#summary This page describes how to write code for the content connector
+This article describes how to write code for the Gentics Content Connector
 
 = Basics =
-
-  * Make use of javadoc
+  * Make use of Javadoc
   * Use Checkstyle in your Eclipse to validate your code.
 
 
 == Checkstyle ==
-
   * [http://eclipse-cs.sourceforge.net/ Checkstyle Plugin Homepage]
