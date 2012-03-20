@@ -1,6 +1,6 @@
 #labels Configuration,Config,Repository,Database,db
 =Configuration=
-The following page describes how to configure an instance of the Content Connector Suite.
+The following page describes how to configure an instance of the Gentics Content Connector.
 
 == Property File ==
 
@@ -24,3 +24,6 @@ rp.1.binarytype=10008
 rp.1.foldertype=10002
 rp.1.pagetype=10007
 }}}
+
+== Example Files ==
+[http://code.google.com/p/gtxcontentconnector/source/browse/#svn%2Ftrunk%2Fcontentconnector%2Fcontentconnector-config-sample%2Fgentics%2Frest Find example configuration files for CCR and search here]
