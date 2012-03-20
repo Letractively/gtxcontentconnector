@@ -79,6 +79,11 @@ To request hierarchies, getObjects() is called, so that all child elements and t
 
 Using the [http://lucene.apache.org/core/old_versioned_docs/versions/3_0_0/queryparsersyntax.html Lucene Query Language]
 
+== Content objects in Gentics Content Repository ==
+10002 … folders
+10007 … pages (html, php, jsp, css, js, xml, text, …)
+10008 … binary files (images, files, can be css, js)
+
 == Renderers == 
 
 Currently we support 4 renderers, they render depending on the type all results and can be chosen via the parameter "type". If you do not select a type, XML is chosen.
