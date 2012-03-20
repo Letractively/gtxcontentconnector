@@ -1,10 +1,10 @@
 #labels Installation,Development,GettingStarted
 = Getting started =
 
-1. Download and Install Gentics Portal.Node SDK
+1. Download and install Gentics Portal.Node SDK
 	http://www.gentics.com
 
-   Or use the newes Version of Eclipse instead
+   Or use the newest version of Eclipse instead
 	http://www.eclipse.org/downloads/
 	Eclipse IDE for Java EE Developers
 
