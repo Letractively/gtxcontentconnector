@@ -1,8 +1,4 @@
-#This page contains the planning for the ContentConnector Version 2
-
-= Introduction =
-
-This page contains the planning for the ContentConnector Version 2. It describes how the new Version should look like and how it will be restructured.
+This article contains the planning for the Gentics Content Connector Version 2. It describes how the new version should look like and how it will be restructured.
 
 
 = Core Elements =
@@ -29,3 +25,4 @@ FKA ContentRepository
 
 == Utils ==
 
+to be continued
