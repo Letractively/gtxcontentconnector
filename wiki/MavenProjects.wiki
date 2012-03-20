@@ -1,5 +1,5 @@
-#summary List of maven projects in the gentics contentconnector project.
 #labels Featured
+This article contains a list of maven projects in the Gentics Content Connector project.
 
 = Introduction =
 This is the list of maven artifacts in the Gentics Content Connector project. Here you can find what they can be used for
@@ -7,18 +7,18 @@ This is the list of maven artifacts in the Gentics Content Connector project. He
 
 = Artifacts =
 
- * contentconnector-apihelper: TODO description
- * contentconnector-config-sample: TODO description
- * contentconnector-core: TODO description
- * contentconnector-http: TODO description
- * contentconnector-json: TODO description
- * contentconnector-jtidy: TODO description
- * contentconnector-language: TODO description
+ * contentconnector-apihelper
+ * contentconnector-config-sample
+ * contentconnector-core
+ * contentconnector-http
+ * contentconnector-json
+ * contentconnector-jtidy
+ * contentconnector-language
  * contentconnector-lucene: artifact with all lucene specific parts. can be used for indexing and/or searching a lucene index in the same way you use the other request processors.
- * contentconnector-lucene-autocomplete: TODO description
- * contentconnector-poi-transformer: TODO description
- * contentconnector-portlet: TODO description
- * contentconnector-rss: TODO description
+ * contentconnector-lucene-autocomplete
+ * contentconnector-poi-transformer
+ * contentconnector-portlet
+ * contentconnector-rss
  * contentconnector-servlet: contains the restfull servlets used to access repositories over http. not necessary if you only use the java api to get objects from the repositories.
- * contentconnector-servlet-sample: TODO description
- * contentconnector-social-networking: TODO description
+ * contentconnector-servlet-sample
+ * contentconnector-social-networking
