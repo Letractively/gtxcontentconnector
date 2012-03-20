@@ -6,46 +6,47 @@ Easy and fast.
  * [http://code.google.com/p/gtxcontentconnector/wiki/Features Features of Gentics Content Connector]
  * [http://archiva.gentics.com:8081/archiva/browse/com.gentics/contentconnector-servlet-sample/ Download current build]
  * [http://code.google.com/p/gtxcontentconnector/wiki/SystemRequirements System Requirements]
- * [http://code.google.com/p/gtxcontentconnector/wiki/Configuration]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/Configuration Configuration]
  * [http://code.google.com/p/gtxcontentconnector/wiki/DeploymentStructure Deployment Structure]
- * [http://code.google.com/p/gtxcontentconnector/wiki/Licenses]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/Licenses Licenses]
 
 
 == Examples for Gentics Content Connector ==
  * [http://code.google.com/p/gtxcontentconnector/wiki/Usage Usage of Gentics Content Connector]
  * [http://code.google.com/p/gtxcontentconnector/wiki/HowTo_JQuery How to use with jQuery]
- * [http://code.google.com/p/gtxcontentconnector/wiki/TwitterSearch]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/TwitterSearch TwitterSearch Java]
 
 
 == Gentics Search ==
  * [http://code.google.com/p/gtxcontentconnector/wiki/Search Gentics Search]
  * [http://code.google.com/p/gtxcontentconnector/wiki/PossibleSearchInfrastructure Possible Search Infrastructure]
- * [http://code.google.com/p/gtxcontentconnector/wiki/HighlighterDescription]
- * [http://code.google.com/p/gtxcontentconnector/wiki/DifferentialIndexing]
- * [http://code.google.com/p/gtxcontentconnector/wiki/MultiIndexSearches]
- * [http://code.google.com/p/gtxcontentconnector/wiki/Stemming]
- * [http://code.google.com/p/gtxcontentconnector/wiki/IndexPerFieldAnalyzer]
- * [http://code.google.com/p/gtxcontentconnector/wiki/HowTo_Nutch]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/HighlighterDescription Highlighter]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/DifferentialIndexing Differential Indexing]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/MultiIndexSearches Multi Index Searches]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/Stemming Stemming]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/IndexPerFieldAnalyzer Index per Field Analyzer]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/HowTo_Nutch How to Nutch]
  * [http://code.google.com/p/gtxcontentconnector/wiki/CreateAndUseACustomRequestProcessorWithLucene Custom Request Processor w/ Lucene]
- * [http://code.google.com/p/gtxcontentconnector/wiki/LucenePerformance Lucene Performance]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/LucenePerformance Apache Lucene Performance]
 
 
 == Using Gentics Content Connector somewhere ==
+ * It runs in Gentics Enterprise Portal, of course ;)
  * [http://code.google.com/p/gtxcontentconnector/wiki/RunningInLiferayPortal Run in Liferay Portal]
  * [http://code.google.com/p/gtxcontentconnector/wiki/RunningInJBossPortal Run in JBoss Portal]
 
 
 == Enhancing Gentics Content Connector ==
- * [http://code.google.com/p/gtxcontentconnector/wiki/CodingConventions]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/CodingConventions Coding Conventions]
  * [http://code.google.com/p/gtxcontentconnector/wiki/HowToSetup Want to build it on your own?]
- * [http://code.google.com/p/gtxcontentconnector/wiki/MavenProjects]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/MavenProjects Maven Projects]
  * [http://code.google.com/p/gtxcontentconnector/wiki/DeploymentStructure Deployment Structure]
- * [http://code.google.com/p/gtxcontentconnector/wiki/Refactoring_of_Packages_and_Classes]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/Refactoring_of_Packages_and_Classes Refactoring]
 
 
 == Roadmap ==
  * [http://code.google.com/p/gtxcontentconnector/wiki/Statistics Project Statistics]
  * [http://code.google.com/p/gtxcontentconnector/w/list?can=1&q=&sort=pagename&colspec=PageName%20Summary%20Changed%20ChangedBy Changelogs]
- * [http://code.google.com/p/gtxcontentconnector/wiki/DownloadVersions]
- * [http://code.google.com/p/gtxcontentconnector/wiki/ContentConnector_2_Plan]
- * [http://code.google.com/p/gtxcontentconnector/wiki/Contributers]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/DownloadVersions Download versions]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/ContentConnector_2_Plan Plan for Version 2]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/Contributers Contributers]
