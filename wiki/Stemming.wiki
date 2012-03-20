@@ -1,5 +1,5 @@
 #labels Stemming,Analytics
-#This Article describes how to set up stemming in your lucene search.
+This article describes how to set up stemming in your lucene search.
 
 = Introduction =
 
