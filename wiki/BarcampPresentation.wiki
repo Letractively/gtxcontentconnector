@@ -2,3 +2,5 @@
 = Content Connector @ Gentics BarCamp =
 
 [http://docs.google.com/EmbedSlideshow?docid=dhcpjbbp_0hkr62phm Presentation]
+
+<iframe src="https://docs.google.com/a/apps.gentics.com/present/embed?id=dhcpjbbp_0hkr62phm" frameborder="0" width="410" height="342"></iframe>
