@@ -2,7 +2,9 @@ This article lists the main contributers
 
 == Christopher Supnig ==
 Gentics Developer, Enterprise Portal and Apache Lucene expert
+
 [http://www.supnig.com Supnig Blog]
+
 [http://twitter.com/csupnig]
 
 == Andreas Perhab ==
