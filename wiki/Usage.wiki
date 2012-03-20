@@ -81,8 +81,11 @@ Using the [http://lucene.apache.org/core/old_versioned_docs/versions/3_0_0/query
 
 == Content objects in Gentics Content Repository ==
 10002 … folders
+
 10007 … pages (html, php, jsp, css, js, xml, text, …)
+
 10008 … binary files (images, files, can be css, js)
+
 
 == Renderers == 
 
