@@ -1,9 +1,14 @@
 This article lists the main contributers
 
 == Christopher Supnig ==
+Gentics Developer, Enterprise Portal and Apache Lucene expert
 [http://www.supnig.com Supnig Blog]
+[http://twitter.com/csupnig]
 
 == Andreas Perhab ==
+Senior Developer of BRZ, former Gentics Developer, Enterprise Portal and Apache Lucene expert
 
 == Haymo Meran ==
-Starter
+CTO of Gentics, Founder of the CCR initiative, brain and heart of various other Open Source projects like [http://www.aloha-editor.org]
+
+[http://twitter.com/draftkraft]
