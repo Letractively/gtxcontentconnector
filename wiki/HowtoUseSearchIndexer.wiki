@@ -20,6 +20,7 @@ one or many indexes. These indexes are needed by the searcher. Calculate a minim
 on a separate servlet container (i.e. Tomcat). Deploy the indexer.war there.
 
 The indexer also provides an HTML interface where several indexing and searching statistics can be displayed. Don't forget to secure this. The additional indexes for Didyoumean-functionality and Autosuggestion-functionality are also created by the indexer.
+
 /indexer/indexer?action=show&t=1309889140650
 
 == Searcher ==
@@ -33,12 +34,15 @@ Create quick-search-form, advanced search-form and search results on your fronte
 If the search form is empty, show error message. If the search term is < 3 characters, show error message.
 
 If this is ok, then send the REST-request:
+
 /searcher/search?filter=content:searchterm
 
 Based on the node_id you can limit to single projects or you create one index per project.
+
 /searcher/search?filter=content:searchterm&node_id:3
 
 There are several other search parameters to limit for example based on the path or on the file format (mimetype)
+
 /searcher/search?filter=content:searchterm&node_id:3&mimetype:*pdf*
 
 Use the Apache Lucene Query Language to create more complex search queries:
@@ -56,6 +60,7 @@ Limit the search results based on attribute "languagecode". Apache Lucene also p
 A lot of search parameters can be defined in the search-configuration-properties files. [So, read the configuration section]
 
 You have to create another request based on jQuery for providing the autosuggestion:
+
 /searcher/autocomplete?filter=un
 
 Have a look at the sample search app which will be delivered with the package you can download.
@@ -75,5 +80,7 @@ Use <startnoindex> ..... </endnoindex> to prevent the content between these tags
 
 === Examples ===
 [http://www.uniqa.at/uniqaat/cms/search.de.xhtml UNIQA Search]
+
 [http://www.advantageaustria.org/us/zentral/system/searchresult.en.html?query=opportunities Advantageaustria Search]
+
 [https://www.usp.gv.at/Portal.Node/usp/public?gentics.am=search.searchresults_teaser&gentics.pb=search&p.key=1332280612186&gentics.ts=1332280612&p.search.search.searchresults_teaser.c.2.1.search-trigger-button.btn0.v=Suche Unternehmersearchportal Suche]
