@@ -1,29 +1,29 @@
 #labels Usage
 = Introduction =
 
-A request to a content connector component can be done via three methods
+You can request content object from the Content Connector through three different ways.
 
     * via ContentID
     * via Filterrule
     * via Beautiful URL
 
 
-== Via ContentID ==
-You get a result via a ContentID. This is determined and you receive one object.
+== request via ContentID ==
+You get a result based on a ContentID. You receive one object.
 
 This call delivers an object with the ContentID 90033.305.
 
 /ccr/ccr?contentid=90033.305
 
 
-== Via Filterrule ==
-If you want to request more results, you can use a filterrule.
+== request via Filterrule ==
+If you want to request more results based on filters, you can use a filterrule.
 
 How you can create such a rule and what operators you can use, can be read in the following pages:
 
-» [http://www.gentics.com/help/topic/com.gentics.portalnode.sdk.doc/misc/doc/reference/xhtml/ch04s10.html?resultof=%22%45%78%70%72%65%73%73%69%6f%6e%70%61%72%73%65%72%22%20%22%65%78%70%72%65%73%73%69%6f%6e%70%61%72%22%20 GenticsHelpExpressionParser]
+[http://www.gentics.com/help/index.jsp?topic=/com.gentics.portalnode.sdk.doc/misc/doc/reference/xhtml/ch04s10.html Gentics Help Expression Parser]
 
-» [http://www.gentics.com/help/topic/com.gentics.portalnode.sdk.doc/misc/doc/reference/xhtml/ref-implementation-rules.html GenticsHelpRules]
+[http://www.gentics.com/help/topic/com.gentics.portalnode.sdk.doc/misc/doc/reference/xhtml/ref-implementation-rules.html Gentics Help Rules]
 
 This call delivers objects of the type 90033.
 
@@ -33,13 +33,14 @@ If you use this component in Gentics Portal.Node as a GenticsPortlet, you can us
 
 With the following rule you can personalize content for a portal user.
 
+If the content is public or the user's permissions match the content's permissions
 ((object.public == 1) || (object.permissions CONTAINSONEOF portal.user.systemrole))
 
 
-== via Beautiful URL ==
-If you request an object via a beautiful URL the publishing path will be used to find the right object.
+== request via Beautiful URL ==
+If you request an object via a beautiful URL, the publishing path will be used to find the right object.
 
-In this example request the Content Connector Servlet with the name cc_servlet uses the publishing path /home/images/ to find a file called start.jpg.
+In this example the Content Connector Servlet with the name cc_servlet uses the publishing path /home/images/ to find a file called start.jpg.
 
 Example: http/s://yourserver.com/cc_servlet/home/images/start.jpg
 
@@ -67,11 +68,11 @@ They can be loaded with a renderer --> see renderer. This function is in simplec
 
 == Requesting content ===
 
-To request content, the function getContent() of the requestprocessor is called. This function is in binarycontainer.
+To request content, the function getContent() of the request processor is called. This function is in binary container.
 
 == Requesting hierarchies ==
 
-To request hierarchies, getObjects() is called, so that all child elements and their children are loaded. This function is in navigationcontainer.
+To request hierarchies, getObjects() is called, so that all child elements and their children are loaded. This function is in navigation container.
 
 
 == Renderers == 
