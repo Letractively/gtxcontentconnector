@@ -3,7 +3,8 @@
 
 = JQuery with JSON =
   * Setup a simple Application requesting data via JQuery
+
   * requires:
     * [http://www.gentics.com/Content.Node/products/portalnodesdk/gentics_portalnode_4_sdk_ueberblick.php Gentics Portal.Node SDK]
     * Basic HTML, CSS and JQuery know how
-  [HowTo_JQuery JQuery Sample]
+    * [http://code.google.com/p/gtxcontentconnector/wiki/HowTo_JQuery HowTo_JQuery JQuery Sample]
