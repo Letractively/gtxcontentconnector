@@ -1,0 +1,51 @@
+= Gentics Content Connector =
+A web app to request content objects from the Gentics Content Repository and query indexed content objects from Gentics Content Repository via Apache Lucene.
+Easy and fast. 
+
+== How to start? ==
+ * [http://code.google.com/p/gtxcontentconnector/wiki/Features Features of Gentics Content Connector]
+ * [http://archiva.gentics.com:8081/archiva/browse/com.gentics/contentconnector-servlet-sample/ Download current build]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/SystemRequirements System Requirements]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/Configuration]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/DeploymentStructure Deployment Structure]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/Licenses]
+
+
+== Examples for Gentics Content Connector ==
+ * [http://code.google.com/p/gtxcontentconnector/wiki/Usage Usage of Gentics Content Connector]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/HowTo_JQuery How to use with jQuery]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/TwitterSearch]
+
+
+== Gentics Search ==
+ * [http://code.google.com/p/gtxcontentconnector/wiki/Search Gentics Search]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/PossibleSearchInfrastructure Possible Search Infrastructure]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/HighlighterDescription]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/DifferentialIndexing]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/MultiIndexSearches]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/Stemming]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/IndexPerFieldAnalyzer]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/HowTo_Nutch]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/CreateAndUseACustomRequestProcessorWithLucene Custom Request Processor w/ Lucene]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/LucenePerformance Lucene Performance]
+
+
+== Using Gentics Content Connector somewhere ==
+ * [http://code.google.com/p/gtxcontentconnector/wiki/RunningInLiferayPortal Run in Liferay Portal]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/RunningInJBossPortal Run in JBoss Portal]
+
+
+== Enhancing Gentics Content Connector ==
+ * [http://code.google.com/p/gtxcontentconnector/wiki/CodingConventions]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/HowToSetup Want to build it on your own?]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/MavenProjects]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/DeploymentStructure Deployment Structure]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/Refactoring_of_Packages_and_Classes]
+
+
+== Roadmap ==
+ * [http://code.google.com/p/gtxcontentconnector/wiki/Statistics Project Statistics]
+ * [http://code.google.com/p/gtxcontentconnector/w/list?can=1&q=&sort=pagename&colspec=PageName%20Summary%20Changed%20ChangedBy Changelogs]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/DownloadVersions]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/ContentConnector_2_Plan]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/Contributers]
