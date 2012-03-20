@@ -1,0 +1,55 @@
+= Gentics Content Connector and Gentics Search (based on Apache Lucene) =
+
+This web app gives access to the content objects in the Gentics Content Repository and offers you the full functionality of the world-famous search framework Apache Lucene enhanced with a lot of functionality.
+
+Find important information on this topic here:
+[http://code.google.com/p/gtxcontentconnector/wiki/A_STARTPAGE_WIKI Startpage of Wiki]
+
+ * for Content Connector - use expression parser filter rules
+ * for Search - use lucene query language
+ * for Flat Tables - use SQL
+	
+How to use Gentics Content Connector?
+[http://code.google.com/p/gtxcontentconnector/wiki/Usage Usage of CCR]
+
+How to use Gentics Search?
+[http://code.google.com/p/gtxcontentconnector/wiki/HowtoUseSearchIndexer Usage of Search and Indexer]
+
+ * 10002 … folders
+ * 10007 … pages (html, php, jsp, css, js, xml, text, …)
+ * 10008 … binary files (images, files, can be css, js)
+
+=== Examples ===
+
+Request all images (LIKE)
+
+/ccr/ccr?filter=object.url%20LIKE%20%22%jpg%22
+
+Request binary content
+To get a binary-content-object request an 10008-object (files, images, not pages) i.e. as json. Request the “obj_type” and “mimetype” as attributes. Before you display the binary content make an additional request for the binary-content to the content-servlet. Send the mime type in the header and then display the binary content.
+
+Request the content of a binary file via content servlet (for reducing load of json-encoding). Binary content might crash the app, because it’s encoded.
+
+/ccr/content?contentid=10008.93
+
+Publishing modes
+ * Into file system only
+ * Into file system and content repository
+ * Into content repository only (in this case links are rendered as plinks (to have the possibility to make portal software specific urls, in this case the Gentics Content Connector can render beautiful URLs with a Velocity template) ... /conf/gentics/templates
+
+=== Structure of Gentics Content Connector ===
+Each servlet in the Gentics Content Connector has its own special function. For each servlet a properties file exists in the configuration ... /conf/gentics/rest/. Servlets are configured in the web.xml
+
+In this default web app you can find:
+ * ccr -  Filtering and displaying content of Gentics Content.Node (Enterprise CMS)
+ * content - Serving binary content for files and images
+ * search - use Apache Lucene for searching
+ * search-autosuggestion  - suggest search terms in the search field.
+
+Configuration property files:
+If the servlet name is “ccr”, the properties file is called ccr.properties (here you can configure various datasources)
+
+Deploy it on Tomcat 6.x with the name ccr.war. Datasources do the caching for content objects. 
+
+The Gentics Portal Connector (this is the raw Java API to the Gentics Content Repository) is a commercial library of the Gentics Content Connector.
+
