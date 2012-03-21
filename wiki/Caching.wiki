@@ -1,8 +1,8 @@
-#Describes how caching works with the content connector
+This article describes how caching works with the Gentics Content Connector
 
 = Caching =
 
-Caching of objects and in content connector is done by the portal connector datasource.
+Caching of objects and in Gentics Content Connector is done by the Gentics Portal Connector datasource.
 
 Additionally rendered contents and plinks are cached.
 TODO: describe this in more detail.
