@@ -1,0 +1,31 @@
+#Describes how caching works with the content connector
+
+= Caching =
+
+Add your content here.
+
+
+= Configuraiton =
+
+{{{
+#With this parameter, the datasource cache can be switched on. Datasource cache will increase performance when accessing objects coming from this datasource.	DEFAULT: false
+cache=false
+
+#When enabling the datasource cache for datasources that are filled by Gentics Content.Node;, you should set this to true . When syncchecking is enabled, Gentics Portal.Node checks frequently for an updated contentrepository and will clear all relevant caches.	DEFAULT: false
+cache.syncchecking=false
+
+#Interval in seconds for background checks whether the updatetimestamp of a Content Repository has changed (when cache.syncchecking is enabled).	DEFAULT: 10
+cache.syncchecking.interval=10	
+
+#When the datasource parameters cache and cache.syncchecking are enabled for this datasource, setting this parameter to true will modify the behaviour of clearing the caches when datasource modifications are detected: By default, all datasource caches (queries, objects, attributes) are cleared, but with differential syncchecking, only the modified objects (and their attributes) are removed from the cache (together with all query results).	DEFAULT: true
+cache.syncchecking.differential=true	 
+
+#When caching for this datasource is activated, all attributes would be cached. With this setting, the caching for the attribute attributename can be deactivated.	DEFAULT true
+cache.attribute.[attributename]=true
+
+#With this parameter, the cache region for attribute attributename can be defined. This can be used to have better control of how specific attributes will be cached.	 DEFAULT gentics-portal-contentrepository-atts	 
+cache.attribute.[attributename].region=gentics-portal-contentrepository-atts	 
+
+#Setting this parameter to true will enable the caching also for foreign link attributes (when the cache is enabled at all). This should not be done for writeable datasources, because the cache for foreign linked attributes can not be dirted correctly and this will most likely lead to inconsistent cache data. If you use caching for a datasource filled from Gentics Content.Node; and have cache.syncchecking set to true, you should also set cache.foreignlinkattributes to true.	DEFAULT:false
+cache.foreignlinkattributes=false	
+}}}
