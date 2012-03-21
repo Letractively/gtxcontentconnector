@@ -7,7 +7,7 @@ Deploy the Sample Webapp to an application server of your liking and start it wi
 
 For some more information on how to configure the application, have a look at [Configuration].
 
-Once the server has started, point your browser to */servlet-sample/* on it (in most cases this is [http://localhost:8080/servlet-sample/].
+Once the server has started, point your browser to */servlet-sample/* on it (in most cases this is [http://localhost:8080/servlet-sample/]).
 
 The Sample Webapp contains the following servlets:
 
