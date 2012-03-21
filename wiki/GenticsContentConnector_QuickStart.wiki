@@ -7,6 +7,17 @@ Deploy the Sample Webapp to an application server of your liking and start it wi
 
 For some more information on how to configure the application, have a look at [Configuration].
 
+Once the server has started, point your browser to */servlet-sample/* on it (in most cases this is [http://localhost:8080/servlet-sample/].
+
+The Sample Webapp contains the following servlets:
+
+ * /servlet-sample/ or /servlet-sample/velocity - the welocme servlet, also a fully functional search with results, paging, dym and autocompletion
+ * /servlet-sample/indexer - it will load on startup and contains the index functionality for the lucene search
+ * /servlet-sample/search - the default search servlet. it can return xml, json and serialized php
+ * /servlet-sample/autocomplete - the autocomplete servlet that is being used for the autocompletion in the welcome servlet
+ * /servlet-sample/content - can deliver content and renders the plinks so that they point to the content portlet itself
+ * /servlet-sample/ccr - can deliver lists / results from the contentrepository in xml, json, and serialized php
+
 == Getting Started ==
 
 This web app gives access to the content objects in the Gentics Content Repository and offers you the full functionality of the world-famous search framework Apache Lucene enhanced with a lot of functionality.
@@ -32,14 +43,14 @@ How to use Gentics Search?
 
 Request all images (LIKE)
 
-/ccr/ccr?filter=object.url%20LIKE%20%22%jpg%22
+/servlet-sample/ccr?filter=object.url%20LIKE%20%22%jpg%22
 
 Request binary content
 To get a binary-content-object request an 10008-object (files, images, not pages) i.e. as json. Request the “obj_type” and “mimetype” as attributes. Before you display the binary content make an additional request for the binary-content to the content-servlet. Send the mime type in the header and then display the binary content.
 
 Request the content of a binary file via content servlet (for reducing load of json-encoding). Binary content might crash the app, because it’s encoded.
 
-/ccr/content?contentid=10008.93
+/servlet-sample/content?contentid=10008.93
 
 Publishing modes
  * Into file system only
