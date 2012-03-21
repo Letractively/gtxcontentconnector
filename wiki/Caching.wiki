@@ -2,11 +2,22 @@
 
 = Caching =
 
-Add your content here.
+Caching of objects and in content connector is done by the portal connector datasource.
+
+Additionally rendered contents and plinks are cached.
+TODO: describe this in more detail.
 
 
 = Configuraiton =
 
+Example:
+{{{
+rp.1.ds.cache=true
+rp.1.ds.cache.foreignlinkattributes=true
+rp.1.ds.cache.syncchecking=true
+}}}
+
+Explained:
 {{{
 #With this parameter, the datasource cache can be switched on. Datasource cache will increase performance when accessing objects coming from this datasource.	DEFAULT: false
 cache=false
