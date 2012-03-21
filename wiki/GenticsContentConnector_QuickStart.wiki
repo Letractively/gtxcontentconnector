@@ -37,7 +37,7 @@ Publishing modes
  * Into file system and content repository
  * Into content repository only (in this case links are rendered as plinks (to have the possibility to make portal software specific urls, in this case the Gentics Content Connector can render beautiful URLs with a Velocity template) ... /conf/gentics/templates
 
-=== Structure of Gentics Content Connector ===
+=== Structure of Gentics Content Connector and the sample webapp ===
 Each servlet in the Gentics Content Connector has its own special function. For each servlet a properties file exists in the configuration ... /conf/gentics/rest/. Servlets are configured in the web.xml
 
 In this default web app you can find:
@@ -52,4 +52,3 @@ If the servlet name is “ccr”, the properties file is called ccr.properties (
 Deploy it on Tomcat 6.x with the name ccr.war. Datasources do the caching for content objects. 
 
 The Gentics Portal Connector (this is the raw Java API to the Gentics Content Repository) is a commercial library of the Gentics Content Connector.
-
