@@ -7,7 +7,7 @@ Easy and fast.
 == How to start? ==
  * [http://code.google.com/p/gtxcontentconnector/wiki/GenticsContentConnector_QuickStart Gentics Content Connector Quick Start]
  * [http://code.google.com/p/gtxcontentconnector/wiki/Features Features of Gentics Content Connector]
- * [http://archiva.gentics.com:8081/archiva/browse/com.gentics/contentconnector-servlet-sample/ Download current build]
+ * [http://archiva.gentics.com:8081/archiva/browse/com.gentics/contentconnector-servlet-sample/ Download current build of the sample webapp]
  * [http://code.google.com/p/gtxcontentconnector/wiki/SystemRequirements System Requirements]
  * [http://code.google.com/p/gtxcontentconnector/wiki/Configuration Configuration]
  * [http://code.google.com/p/gtxcontentconnector/wiki/DeploymentStructure Deployment Structure]
