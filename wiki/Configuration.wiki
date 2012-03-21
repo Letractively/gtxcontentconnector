@@ -34,3 +34,15 @@ rp.1.pagetype=10007
 
 == Example Files ==
 Download the latest [http://archiva.gentics.com:8081/archiva/browse/com.gentics/contentconnector-config-sample/ Sample Configuration] here and extract the ZIP file to a folder of your liking. Then link the com.gentics.portalnode.confpath to the "config" folder that is contained in the ZIP as described in *Configuration Folder*.
+
+The *config* folder contains the following resources:
+
+The *rest* folder contains several configuration files that will expect a contentrepository running on a mysql on your local machine on port 3306. The database should be called lucene_datasource with a user node that can access it.
+
+The *template* contains the velocity templates for our search response page.
+
+The *index* directory will contain the index, once the indexer did its job.
+
+The *cache.ccf* file can be used to configure the JCS cache. Have a look at [http://commons.apache.org/jcs/ the JCS homepage] for further information.
+
+The *nodelog.properties* file contains the configuration for Log4J.
