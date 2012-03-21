@@ -1,5 +1,14 @@
 = Gentics Content Connector and Gentics Search (based on Apache Lucene) =
 
+== Installation and Setup ==
+Download the [http://archiva.gentics.com:8081/archiva/browse/com.gentics/contentconnector-servlet-sample Sample Webapp] and the [http://archiva.gentics.com:8081/archiva/browse/com.gentics/contentconnector-config-sample/ Sample Configuration].
+
+Deploy the Sample Webapp to an application server of your liking and start it with the -Dcom.gentics.portalnode.confpath set to the extracted config directory of the Sample Configuration.
+
+For some more information on how to configure the application, have a look at [Configuration].
+
+== Getting Started ==
+
 This web app gives access to the content objects in the Gentics Content Repository and offers you the full functionality of the world-famous search framework Apache Lucene enhanced with a lot of functionality.
 
 Find important information on this topic here:
