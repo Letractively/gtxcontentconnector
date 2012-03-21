@@ -12,6 +12,7 @@ Easy and fast.
  * [http://code.google.com/p/gtxcontentconnector/wiki/Configuration Configuration]
  * [http://code.google.com/p/gtxcontentconnector/wiki/DeploymentStructure Deployment Structure]
  * [http://code.google.com/p/gtxcontentconnector/wiki/Licenses Licenses]
+ * [http://code.google.com/p/gtxcontentconnector/w/list Wiki Contents]
 
 
 == Examples for Gentics Content Connector ==
