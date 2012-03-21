@@ -86,6 +86,8 @@ Using the [http://lucene.apache.org/core/old_versioned_docs/versions/3_0_0/query
 
 10008 … binary files (images, files, can be css, js)
 
+== Debugging ==
+If your queries are responding with errors, you can add &debug=true as parameter to receive the full stack trace of the exception.
 
 == Renderers == 
 
