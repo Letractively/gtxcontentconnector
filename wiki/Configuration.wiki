@@ -2,11 +2,18 @@
 =Configuration=
 The following page describes how to configure an instance of the Gentics Content Connector.
 
+== Configuration Folder ==
+
+The application you want to use / deploy the contentconnector to, should be started with the following JAVA_OPTS
+{{{
+-Dcom.gentics.portalnode.confpath="path/to/your/configuration/folder"
+}}}
+
 == Property File ==
 
-Place a property file with the name of the instance in the {com.gentics.portalnode.confpath}/rest
+Place a property file with the name of the instance (usually the servlet name) in the configuration folder.
 
-The configuration file could look like this:
+A typical configuration file could look like this:
 
 {{{
 #RequestProcessor1 gets the elements from Contentrepository
@@ -26,4 +33,4 @@ rp.1.pagetype=10007
 }}}
 
 == Example Files ==
-[http://code.google.com/p/gtxcontentconnector/source/browse/#svn%2Ftrunk%2Fcontentconnector%2Fcontentconnector-config-sample%2Fgentics%2Frest Find example configuration files for CCR and search here]
+Download the latest [http://archiva.gentics.com:8081/archiva/browse/com.gentics/contentconnector-config-sample/ Sample Configuration] here and extract the ZIP file to a folder of your liking. Then link the com.gentics.portalnode.confpath to the "config" folder that is contained in the ZIP as described in *Configuration Folder*.
