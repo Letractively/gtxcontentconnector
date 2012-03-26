@@ -4,7 +4,7 @@ This article describes how caching works with the Gentics Content Connector
 
 Caching of objects and in Gentics Content Connector is done by the Gentics Portal Connector datasource.
 
-Additionally rendered contents and plinks are cached.
+Additionally rendered contents and plinks are cached in the crcontent cache.
 TODO: describe this in more detail.
 
 
@@ -39,4 +39,10 @@ cache.attribute.[attributename].region=gentics-portal-contentrepository-atts
 
 #Setting this parameter to true will enable the caching also for foreign link attributes (when the cache is enabled at all). This should not be done for writeable datasources, because the cache for foreign linked attributes can not be dirted correctly and this will most likely lead to inconsistent cache data. If you use caching for a datasource filled from Gentics Content.Node; and have cache.syncchecking set to true, you should also set cache.foreignlinkattributes to true.	DEFAULT:false
 cache.foreignlinkattributes=false	
+}}}
+
+It is possible to deactivate the crcontent cache with setting the crcontentcache property of the RequestPocessor to false, default is true:
+{{{
+#deactivate the content cache of the request processor
+rp.1.crcontentcache=false
 }}}
