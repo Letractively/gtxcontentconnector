@@ -75,6 +75,8 @@ To request content, the function getContent() of the request processor is called
 
 To request hierarchies, getObjects() is called, so that all child elements and their children are loaded. This function is in navigation container.
 
+http://localhost:8080/ccr/nav?rootfilter=object.contentid==10002.278&attributes=name,name_de,name_en,startpage,url,languagecode,node_id,sortorder,permissions&navigation=true&childfilter=object.obj_type==10002
+
 == Request content via Search servlet ==
 
 Using the [http://lucene.apache.org/core/old_versioned_docs/versions/3_0_0/queryparsersyntax.html Lucene Query Language]
