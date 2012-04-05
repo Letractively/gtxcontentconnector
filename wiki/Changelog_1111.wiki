@@ -6,6 +6,11 @@
 = Configuration changes =
 
 = Features =
+  * You can now fetch update timestamp of the youngest Element with a rule (also supports tree structures).
+{{{
+#add this to your configuration. you can the use it with &type=YOUNGEST
+cr.youngest=com.gentics.cr.rest.misc.YoungestTimestampContentRepository
+}}}
 
 = Bugfixes =
   
