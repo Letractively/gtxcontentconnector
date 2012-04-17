@@ -38,3 +38,4 @@ FKA ContentRepository
 
   * all calls to finalize() should be removed / changed to destroy()/shutdown()/...
   * rendering of content should be pulled to a single position
+  * Abstraction containers (RESTSimpleContainer, RESTBinaryContainer,...) should be redone.
