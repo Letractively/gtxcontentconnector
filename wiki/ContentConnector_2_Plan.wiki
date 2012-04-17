@@ -8,6 +8,8 @@ This article contains the planning for the Gentics Content Connector Version 2. 
 == Datasources == 
 
 FKA RequestProcessor
+Note: Extract the doNavigation option into a standard abstract class that can be used by all request processors
+with the option to overwrite the doNavigation function
 
 === Readable === 
 
@@ -23,6 +25,16 @@ FKA ContentRepository
 
 == Scheduler ==
 
+=== Dynamic Update Checker ===
+
 == Utils ==
 
-to be continued
+== Servlets == 
+
+== Portlets ==
+
+
+= General restructuring = 
+
+  * all calls to finalize() should be removed / changed to destroy()/shutdown()/...
+  * rendering of content should be pulled to a single position
