@@ -1,0 +1,7 @@
+#summary Describes a possible road map to implementing JCR.
+
+= Introduction =
+
+  * Implementing the interfaces
+  * Making repositories writeable
+  * Implementing XPath
