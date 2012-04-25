@@ -5,3 +5,5 @@
   * Implementing the interfaces
   * Making repositories writeable
   * Implementing XPath
+
+Testing JCR implementation http://subashsdm.blogspot.com/2010/05/how-to-setup-and-test-custom-jcr.html
