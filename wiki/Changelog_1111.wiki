@@ -6,6 +6,10 @@
 = Configuration changes =
 
 = Features =
+  * You can now configure lazyinit for the databases. If this is set to true, the datasource will not be initialized while loading the configuration file, but on the first request. This can be useful if the database relies on JNDI objects that are not available at startup.
+{{{
+rp.1.dblazyinit=true # Default = false
+}}}
   * You can now fetch update timestamp of the youngest Element with a rule (also supports tree structures).
 {{{
 #add this to your configuration. you can the use it with &type=YOUNGEST
