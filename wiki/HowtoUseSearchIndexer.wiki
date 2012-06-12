@@ -39,11 +39,11 @@ If this is ok, then send the REST-request:
 
 Based on the node_id you can limit to single projects or you create one index per project.
 
-/searcher/search?filter=content:searchterm&node_id:3
+/searcher/search?filter=content:searchterm+AND+node_id:3
 
 There are several other search parameters to limit for example based on the path or on the file format (mimetype)
 
-/searcher/search?filter=content:searchterm&node_id:3&mimetype:*pdf*
+/searcher/search?filter=content:searchterm+AND+node_id:3+AND+mimetype:*pdf*
 
 Use the Apache Lucene Query Language to create more complex search queries:
  * [http://lucene.apache.org/java/3_0_0/queryparsersyntax.html Lucene Query Syntax]
