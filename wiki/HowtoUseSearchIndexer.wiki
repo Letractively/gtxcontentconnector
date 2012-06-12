@@ -65,7 +65,7 @@ You have to create another request based on jQuery for providing the autosuggest
 
 Have a look at the sample search app which will be delivered with the package you can download.
 
-Use <startnoindex> ..... </endnoindex> to prevent the content between these tags from being indexed.
+Use &lt;startnoindex&gt; ..... &lt;/endnoindex&gt; to prevent the content between these tags from being indexed.
 
 === Further features of the search ===
  * multi site support (with several configurations)
