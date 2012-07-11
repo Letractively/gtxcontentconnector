@@ -6,6 +6,7 @@
 = Configuration changes =
 
 = Features =
+  * Introduced a cache clear servlet, that can be used to clear datasource caches after one or more items have been changed.
   * You can now configure lazyinit for the databases. If this is set to true, the datasource will not be initialized while loading the configuration file, but on the first request. This can be useful if the database relies on JNDI objects that are not available at startup.
 {{{
 rp.1.dblazyinit=true # Default = false
