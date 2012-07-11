@@ -46,3 +46,37 @@ It is possible to deactivate the crcontent cache with setting the crcontentcache
 #deactivate the content cache of the request processor
 rp.1.crcontentcache=false
 }}}
+
+= Clearing the cache =
+
+The cache can either be cleared directly using Java and the class CRDatabaseFactory, or you can configure a cache clear servlet, that provides this functionality.
+
+{{{
+	<servlet>
+		<servlet-name>clearcache</servlet-name>
+		<servlet-class>com.gentics.cr.servlet.system.ClearCacheServlet</servlet-class>
+	</servlet>
+}}}
+
+You have to configure the datasource for the servlet that should be affected by the cache clear:
+
+{{{
+#Datasource
+ds-handle.type=jdbc
+ds-handle.driverClass=com.mysql.jdbc.Driver
+ds-handle.url=jdbc:mysql://localhost:3306/lucene_datasource?user=node
+ds.cache=true
+ds.cache.foreignlinkattributes=true
+ds.cache.syncchecking=true
+dblazyinit=true
+}}}
+
+There are two possible modes.
+
+Clear the cache for one item:
+
+/servlet-sample/clearcache?contentid=10007.123
+
+Clear the complete cache for the datasource
+
+/servlet-sample/clearcache?all=true
