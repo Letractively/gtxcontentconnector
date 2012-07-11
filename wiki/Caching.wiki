@@ -75,8 +75,8 @@ There are two possible modes.
 
 Clear the cache for one item:
 
-/servlet-sample/clearcache?contentid=10007.123
+`/servlet-sample/clearcache?contentid=10007.123`
 
 Clear the complete cache for the datasource
 
-/servlet-sample/clearcache?all=true
+`/servlet-sample/clearcache?all=true`
