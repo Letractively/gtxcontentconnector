@@ -30,6 +30,7 @@ Easy and fast.
  * [http://code.google.com/p/gtxcontentconnector/wiki/DifferentialIndexing Differential Indexing]
  * [http://code.google.com/p/gtxcontentconnector/wiki/MultiIndexSearches Multi Index Searches]
  * [http://code.google.com/p/gtxcontentconnector/wiki/Stemming Stemming]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/Boosting Boosting]
  * [http://code.google.com/p/gtxcontentconnector/wiki/IndexPerFieldAnalyzer Index per Field Analyzer]
  * [http://code.google.com/p/gtxcontentconnector/wiki/HowTo_Nutch How to Nutch]
  * [http://code.google.com/p/gtxcontentconnector/wiki/CreateAndUseACustomRequestProcessorWithLucene Custom Request Processor w/ Lucene]
