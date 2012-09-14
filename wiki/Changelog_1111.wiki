@@ -6,6 +6,11 @@
 = Configuration changes =
 
 = Features =
+  * It is now possible to boost complete documents when indexing. An attribute name can be configured and the indexer will then use the value behind this attribute to set the boost value for the document.
+{{{
+# The field that contains the boostvalue for the current object. 1.0 is default if this attribute is not set or not present.
+index.DEFAULT.CR.PAGES.boostAttribute=searchboost
+}}}
   * Introduced a cache clear servlet, that can be used to clear datasource caches after one or more items have been changed.
   * You can now configure lazyinit for the databases. If this is set to true, the datasource will not be initialized while loading the configuration file, but on the first request. This can be useful if the database relies on JNDI objects that are not available at startup.
 {{{
