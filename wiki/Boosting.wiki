@@ -1,0 +1,34 @@
+This article describes how to set up boosting in your lucene search.
+
+= Introduction =
+
+Boosting can be used to give special documents and fields a greater relevance in order to bring them higher up in the results once the document is found.
+
+The default boost factor is always 1.0.
+
+= Query Boosting =
+You can add a boosting to query fields using the lucene query syntax.
+
+The following example will boost the term jakarta.
+{{{
+content:(jakarta^4 apache)
+}}}
+
+= Field Boosting =
+
+You can define severyl fields in the indexer configuration, that should be boosted. 
+
+{{{
+# The fields/attributes that should be boosted with the value that is stated after the "^"
+index.DEFAULT.CR.PAGES.BoostedAttributes=name^10.0,content^5.0
+}}}
+
+= Document Boosting =
+
+You can also define an attribute, that will contain the boost factor for each document.
+
+{{{
+# The field that contains the boostvalue for the current object. 
+# 1.0 is default if this attribute is not set or not present.
+index.DEFAULT.CR.PAGES.boostAttribute=searchboost
+}}}
