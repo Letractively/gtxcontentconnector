@@ -36,15 +36,15 @@ It is also possible to connect to a database.
 
 {{{
 # configure the SQL Processor to search in mysql-db
-index.TMAI.CR.EMPDB.rp.1.rpClass=com.gentics.cr.SQLRequestProcessor
-index.TMAI.CR.EMPDB.rp.1.ds-handle.type=jdbc
-index.TMAI.CR.EMPDB.rp.1.ds-handle.driverClass=com.mysql.jdbc.Driver
-index.TMAI.CR.EMPDB.rp.1.ds-handle.url=jdbc:mysql://localhost:3306/DBNAME?user=USER&password=SECRET
+rp.1.rpClass=com.gentics.cr.SQLRequestProcessor
+rp.1.ds-handle.type=jdbc
+rp.1.ds-handle.driverClass=com.mysql.jdbc.Driver
+rp.1.ds-handle.url=jdbc:mysql://localhost:3306/DBNAME?user=USER&password=SECRET
 
 # SQL Options
-index.TMAI.CR.EMPDB.rp.1.ds.table=TABLENAME
-index.TMAI.CR.EMPDB.rp.1.ds.columns=TABLECOLUMNS
-index.TMAI.CR.EMPDB.rp.1.ds.idcolumn=TABLEID / PRIMARY
+rp.1.ds.table=TABLENAME
+rp.1.ds.columns=TABLECOLUMNS
+rp.1.ds.idcolumn=TABLEID / PRIMARY
 }}}
 
 == Example Files ==
