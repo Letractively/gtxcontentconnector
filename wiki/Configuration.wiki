@@ -32,6 +32,21 @@ rp.1.foldertype=10002
 rp.1.pagetype=10007
 }}}
 
+It is also possible to connect to a database.
+
+{{{
+# configure the SQL Processor to search in mysql-db
+index.TMAI.CR.EMPDB.rp.1.rpClass=com.gentics.cr.SQLRequestProcessor
+index.TMAI.CR.EMPDB.rp.1.ds-handle.type=jdbc
+index.TMAI.CR.EMPDB.rp.1.ds-handle.driverClass=com.mysql.jdbc.Driver
+index.TMAI.CR.EMPDB.rp.1.ds-handle.url=jdbc:mysql://localhost:3306/DBNAME?user=USER&password=SECRET
+
+# SQL Options
+index.TMAI.CR.EMPDB.rp.1.ds.table=TABLENAME
+index.TMAI.CR.EMPDB.rp.1.ds.columns=TABLECOLUMNS
+index.TMAI.CR.EMPDB.rp.1.ds.idcolumn=TABLEID / PRIMARY
+}}}
+
 == Example Files ==
 Download the latest [http://archiva.gentics.com:8081/archiva/browse/com.gentics/contentconnector-config-sample/ Sample Configuration] here and extract the ZIP file to a folder of your liking. Then link the com.gentics.portalnode.confpath to the "config" folder that is contained in the ZIP as described in *Configuration Folder*.
 
