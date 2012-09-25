@@ -3,6 +3,11 @@
 = Important Changes = 
   * We now use a maven multi module projet to reduce complexity.
   * group ids changed to com.gentics
+  * We changed the default behaviour for returning the bestqueries for didyoumean results. The default setting is now to not return them, because serializing them would lead to exceptions when using type JSON/PHP/XML. You can enable this by adding the following line to your search config
+{{{
+# Enables or disables the bestquery calculation (1 Result)
+rp.1.didyoumeanbestquery=true
+}}}
 = Configuration changes =
 
 = Features =
