@@ -11,6 +11,14 @@ rp.1.didyoumeanbestquery=true
 = Configuration changes =
 
 = Features =
+  * We can now configura a LockFactory for lucene indexes. Take care, this factory has to be configured for index extensions as well!
+{{{
+#LockFactory configuration.
+index.DEFAULT.lockFactoryClass=org.apache.lucene.store.SimpleFSLockFactory
+
+# Be sure to configure the lock factory for all index extensions. eg.:
+index.DEFAULT.extensions.AUTOCOMPLETE.srcindexlocation.lockFactoryClass=org.apache.lucene.store.SimpleFSLockFactory
+}}}
   * Introduced a FastContentRenderer that uses the PLinkOutputStream to replace Plinks and therefore is much faster than the common ContentRenderer.
   * It is now possible to boost complete documents when indexing. An attribute name can be configured and the indexer will then use the value behind this attribute to set the boost value for the document.
 
