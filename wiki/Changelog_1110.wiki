@@ -1,0 +1,14 @@
+#summary This Page describes the major changes from Version 1.10.0 to 1.11.x
+
+= Important Changes = 
+
+= Configuration Changes =
+
+= Features =
+
+= Bugfixes =
+ * 1.11.12 DefaultIndexAccessor - reduced memory and cpu usage by reducing unused threads per index accessor
+ * 1.11.12 RestServlet - output the runtime and url also for requests that caused an error
+
+ 
+ 
