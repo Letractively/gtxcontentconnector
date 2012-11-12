@@ -16,6 +16,7 @@
  * 1.11.10 added finalizers for CRSearcher and LuceneRequestProcessor to be able to shutdown the lucene implmentation correctly
  * 1.11.12 DefaultIndexAccessor - reduced memory and cpu usage by reducing unused threads per index accessor
  * 1.11.12 RestServlet - output the runtime and url also for requests that caused an error
+ * IndexLocation.createAllCRIndexJobs: Now Index-Jobs will be created in alphabetical order
 
  
  
