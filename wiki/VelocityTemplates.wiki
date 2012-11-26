@@ -6,10 +6,11 @@ After each request (like searching for a term or conditions) you'll get a veloci
 Create a normal template for your application and add your velocity-code.
 
 Example:
-
+{{{
 <form action="velocity" method="post">
 	Query: <input type="text" name="filter" id="input_search"/> <input type="submit" name="submit" value="Go"/>
 </form>
+}}}
 
 After sending an request to the velocity-template, you have a lot variables available.
 
