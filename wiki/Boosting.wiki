@@ -32,3 +32,41 @@ You can also define an attribute, that will contain the boost factor for each do
 # 1.0 is default if this attribute is not set or not present.
 index.DEFAULT.CR.PAGES.boostAttribute=searchboost
 }}}
+
+= Boosting recent entries =
+
+With the CRRecencyBoostingQueryParser it's possible to boost entries in a specific time-range.
+
+Necessary for this option is one timestamp field, for example boosttimestamp.
+
+With translator, you can define of each part this timestamp, if your fields are different named.
+Example:
+{{{
+index.XXX.CR.PAGES.transformer.4.rule=true==true
+index.XXX.CR.PAGES.transformer.4.sourceattribute=field_source
+index.XXX.CR.PAGES.transformer.4.targetattribute=targetTimeStamp
+index.XXX.CR.PAGES.transformer.4.transformerclass=com.gentics.cr.lucene.indexer.transformer.other.CopyValueTransformer
+}}}
+
+In order to boost this field, you have to config the search.properties file.
+Firstly, the query parser have to be configs like this:
+{{{
+rp.1.queryparser.class=com.gentics.cr.lucene.search.query.CRRecencyBoostingQueryParser
+rp.1.queryparser.boostAttribute=updatetimestamp
+rp.1.queryparser.timerange=4320000
+rp.1.queryparser.multiplicatorBoost=5
+}}}
+All entries between today and today - timerange gets a boost. 
+Newer entries gets a better boost then older entries, which are also in the timerange.
+
+All entries later then the timerange don't get a boost.
+
+
+Highlighting
+
+For a correct highlighting we need an own query parser for this, because it isn't implemented in lucene to highlight own custom score queries like the RecencyBoostingQuery.
+So we have to define a highlightqueryparser, e.g.:
+{{{
+rp.1.highlightqueryparser.class=org.apache.lucene.queryParser.QueryParser
+}}}
+ 
