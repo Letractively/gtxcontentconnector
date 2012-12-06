@@ -35,6 +35,7 @@ Easy and fast.
  * [http://code.google.com/p/gtxcontentconnector/wiki/HowTo_Nutch How to Nutch]
  * [http://code.google.com/p/gtxcontentconnector/wiki/CreateAndUseACustomRequestProcessorWithLucene Custom Request Processor w/ Lucene]
  * [http://code.google.com/p/gtxcontentconnector/wiki/LucenePerformance Apache Lucene Performance]
+ * [http://code.google.com/p/gtxcontentconnector/wiki/Synonyms Synonyms]
 
 
 == Using Gentics Content Connector anywhere ==
