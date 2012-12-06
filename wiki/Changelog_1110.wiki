@@ -9,6 +9,7 @@
  * 1.11.4 Implement simple filtering for the StaticObjectHolderRequestProcessor
  * 1.11.5 DirectoryScanner now works with sub directories
  * 1.11.6 the nagios servlet now has the option to pass the idx parameter with a wildcard `*` to see all index states with one call
+ * 1.11.14 Synonyms, you can now Index Synonyms (SynonymIndexExtentsion) and add them to search query (SynonymQueryParser), for configuration and further information see the wiki page
 
 = Bugfixes =
  * 1.11.3 IndexAccessorFactory can now be destroyed
@@ -16,7 +17,7 @@
  * 1.11.10 added finalizers for CRSearcher and LuceneRequestProcessor to be able to shutdown the lucene implmentation correctly
  * 1.11.12 DefaultIndexAccessor - reduced memory and cpu usage by reducing unused threads per index accessor
  * 1.11.12 RestServlet - output the runtime and url also for requests that caused an error
- * IndexLocation.createAllCRIndexJobs: Now Index-Jobs will be created in alphabetical order
+ * 1.11.13 IndexLocation.createAllCRIndexJobs: Now Index-Jobs will be created in alphabetical order
 
  
  
