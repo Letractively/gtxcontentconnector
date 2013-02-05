@@ -17,8 +17,12 @@
 3. Checkout the projects you want to use
 	http://code.google.com/p/gtxcontentconnector/source/checkout
 
-Enable maven dependency support for the checked out project and you will be set to start programming, deploying or whatever you like to do.
+== Maven Settings ==
 
+Configure Access to the Gentics Maven Repository:
+        https://maven.gentics.com/
+
+Enable maven dependency support for the checked out project and you will be set to start programming, deploying or whatever you like to do.
 
 == WTP Deployment ==
 The m2eclipse plugin also supports the WTP deployment for your integrated tomcat server. Unfortunately this feature is still beta and has some glitches from time to time. The best way to remove any errors is to just restart eclipse and rebuild your workspace.
