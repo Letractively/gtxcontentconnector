@@ -32,17 +32,17 @@ public class SynonymIndexJob extends AbstractUpdateCheckerJob {
 	 * Reference to the SynonymIndexExtension.
 	 */
 	private SynonymIndexExtension synonym;
-	
+
 	/**
 	 * Config-Key for Rule in Config.
 	 */
 	private static final String RULE_KEY = "rule";
-	
+
 	/**
 	 * Config-Key for Deskriptor in Config-File.
 	 */
 	public static final String DESCRIPTOR_NAME_KEY = "descriptorColumnName";
-	
+
 	/**
 	 * Config-Key for Synonym in Config-File.
 	 */
@@ -95,7 +95,7 @@ public class SynonymIndexJob extends AbstractUpdateCheckerJob {
 	 */
 	private synchronized void reIndex() throws IOException {
 		UseCase ucReIndex = MonitorFactory.startUseCase("reIndex()");
-		
+
 		// build a dictionary (from the spell package)
 		log.debug("Starting to reindex SYN index.");
 		IndexAccessor synonymAccessor = synonym.getSynonymLocation().getAccessor();
@@ -116,7 +116,6 @@ public class SynonymIndexJob extends AbstractUpdateCheckerJob {
 				rule = "1 == 1";
 			}
 
-
 			try {
 				CRRequest req = new CRRequest();
 				req.setRequestFilter(rule);
@@ -125,7 +124,6 @@ public class SynonymIndexJob extends AbstractUpdateCheckerJob {
 			} catch (Exception e) {
 				log.error("ERROR while cleaning SYN index", e);
 			}
-
 
 			if (objectsToIndex == null) {
 				log.debug("SYN Rule returned no objects to index. Skipping...");
@@ -137,7 +135,6 @@ public class SynonymIndexJob extends AbstractUpdateCheckerJob {
 
 			String descriptorName = (String) config.get(DESCRIPTOR_NAME_KEY);
 			String synonymName = (String) config.get(SYNONYM_NAME_KEY);
-
 
 			status.setCurrentStatusString("Starting to index slices.");
 			int objCount = 0;
@@ -163,12 +160,10 @@ public class SynonymIndexJob extends AbstractUpdateCheckerJob {
 					}
 				}
 			} finally {
-				// if documents where added to the index create a reopen file and
-				// optimize the writer
 				log.debug("Number of indexed Synonyms finished: " + synonymWriter.numDocs());
 				synonymAccessor.release(synonymWriter);
 			}
-	
+
 			log.debug("Finished reindexing synonym index.");
 			ucReIndex.stop();
 		} catch (Exception e) {

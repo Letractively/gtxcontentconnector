@@ -33,8 +33,7 @@ public class AutocompleteIndexJob extends AbstractUpdateCheckerJob implements Au
 
 	private AutocompleteIndexExtension autocompleter;
 
-	public AutocompleteIndexJob(CRConfig updateCheckerConfig, IndexLocation indexLoc,
-		AutocompleteIndexExtension autocompleter) {
+	public AutocompleteIndexJob(CRConfig updateCheckerConfig, IndexLocation indexLoc, AutocompleteIndexExtension autocompleter) {
 		super(updateCheckerConfig, indexLoc, null);
 
 		this.identifyer = identifyer.concat(":reIndex");
@@ -101,11 +100,9 @@ public class AutocompleteIndexJob extends AbstractUpdateCheckerJob implements Au
 				Document doc = new Document();
 				doc.add(new Field(SOURCE_WORD_FIELD, word, Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS)); // orig term
 				doc.add(new Field(GRAMMED_WORDS_FIELD, word, Field.Store.YES, Field.Index.ANALYZED)); // grammed
-				doc.add(new Field(COUNT_FIELD, Integer.toString(wordsMap.get(word)), Field.Store.YES,
-						Field.Index.NOT_ANALYZED_NO_NORMS)); // count
+				doc.add(new Field(COUNT_FIELD, Integer.toString(wordsMap.get(word)), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS)); // count
 				writer.addDocument(doc);
 			}
-			writer.optimize();
 			autocompleteLocation.createReopenFile();
 		} finally {
 
