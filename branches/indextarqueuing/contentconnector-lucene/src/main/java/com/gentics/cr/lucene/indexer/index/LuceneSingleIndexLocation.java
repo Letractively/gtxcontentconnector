@@ -6,7 +6,6 @@ import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.store.AlreadyClosedException;
 import org.apache.lucene.store.Directory;
 
 import com.gentics.cr.CRConfig;
@@ -47,7 +46,7 @@ public class LuceneSingleIndexLocation extends LuceneIndexLocation implements Ta
 	public LuceneSingleIndexLocation(final CRConfig config) {
 		super(config);
 		indexLocation = getFirstIndexLocation(config);
-		dir = createDirectory(indexLocation, config);
+		dir = createDirectory(indexLocation);
 		//Create index accessor
 		IndexAccessorFactory iAFactory = IndexAccessorFactory.getInstance();
 		if (!iAFactory.hasAccessor(dir)) {
@@ -65,7 +64,7 @@ public class LuceneSingleIndexLocation extends LuceneIndexLocation implements Ta
 		if (useFacets) {
 			log.debug("Facets are active");
 			taxonomyLocation = retrieveTaxonomyLocation(config);
-			taxonomyDir = createDirectory(taxonomyLocation, config);
+			taxonomyDir = createDirectory(taxonomyLocation);
 			TaxonomyAccessorFactory taFactory = TaxonomyAccessorFactory.getInstance();
 			if (!taFactory.hasAccessor(taxonomyDir)) {
 				try {
@@ -81,29 +80,11 @@ public class LuceneSingleIndexLocation extends LuceneIndexLocation implements Ta
 		}
 	}
 
-	/**
-	 * Does not reopen the IndexAccessorFactory if already closed.
-	 */
 	@Override
 	protected final IndexAccessor getAccessorInstance() {
-		return getAccessorInstance(false);
-	}
-
-	@Override
-	protected final IndexAccessor getAccessorInstance(final boolean reopenClosedFactory) {
 		Directory directory = this.getDirectory();
 
-		IndexAccessor indexAccessor = null;
-		try {
-			indexAccessor = IndexAccessorFactory.getInstance().getAccessor(directory);
-		} catch (AlreadyClosedException e) {
-			if (reopenClosedFactory) {
-				IndexAccessorFactory.getInstance().reopen();
-				indexAccessor = IndexAccessorFactory.getInstance().getAccessor(directory);
-			} else {
-				throw e;
-			}
-		}
+		IndexAccessor indexAccessor = IndexAccessorFactory.getInstance().getAccessor(directory);
 		return indexAccessor;
 	}
 
@@ -144,6 +125,10 @@ public class LuceneSingleIndexLocation extends LuceneIndexLocation implements Ta
 	 */
 	public final String getReopenFilename() {
 		return this.indexLocation + "/" + REOPEN_FILENAME;
+	}
+
+	public String getIndexLocation() {
+		return this.indexLocation;
 	}
 
 	/**
@@ -273,7 +258,7 @@ public class LuceneSingleIndexLocation extends LuceneIndexLocation implements Ta
 	 */
 	public static Directory createTaxonomyDirectory(final CRConfig config) {
 		String path = getFirstIndexLocation(config);
-		return createDirectory(path, config);
+		return createDirectory(path);
 	}
 
 	/**

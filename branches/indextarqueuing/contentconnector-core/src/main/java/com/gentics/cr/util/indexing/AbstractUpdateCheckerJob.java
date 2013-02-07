@@ -235,7 +235,7 @@ public abstract class AbstractUpdateCheckerJob implements Runnable {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return this.identifyer.hashCode();
@@ -265,15 +265,13 @@ public abstract class AbstractUpdateCheckerJob implements Runnable {
 			final boolean forceFullUpdate, final IndexUpdateChecker indexUpdateChecker) {
 		Collection<CRResolvableBean> updateObjects = new Vector<CRResolvableBean>();
 
-		UseCase objectsToUpdateCase = MonitorFactory.startUseCase("AbstractUpdateCheck.getObjectsToUpdate("
-				+ request.get("CRID") + ")");
+		UseCase objectsToUpdateCase = MonitorFactory.startUseCase("AbstractUpdateCheck.getObjectsToUpdate(" + request.get("CRID") + ")");
 		try {
 			if (forceFullUpdate || "".equals(timestampAttribute)) {
 				try {
 					updateObjects = (Collection<CRResolvableBean>) rp.getObjects(request);
 				} catch (CRException e) {
-					String message = "Error getting objects to full index from " + "RequestProcessor. "
-							+ e.getMessage();
+					String message = "Error getting objects to full index from " + "RequestProcessor. " + e.getMessage();
 					log.error(message, e);
 					status.setError(message);
 				}
@@ -302,11 +300,7 @@ public abstract class AbstractUpdateCheckerJob implements Runnable {
 						Object crElementTimestamp = crElement.get(timestampAttribute);
 						//TODO: if any transformers change an attribute that is used for the update check we have to run the transformers
 						//before
-						if (!indexUpdateChecker.isUpToDate(
-							crElementID,
-							crElementTimestamp,
-							timestampAttribute,
-							crElement)) {
+						if (!indexUpdateChecker.isUpToDate(crElementID, crElementTimestamp, timestampAttribute, crElement)) {
 							updateObjects.add(crElement);
 						}
 					}
@@ -318,10 +312,7 @@ public abstract class AbstractUpdateCheckerJob implements Runnable {
 			}
 			//Finally delete all Objects from Index that are not checked for an
 			//Update
-			//fixing possible npe
-			if (indexUpdateChecker != null) {
-				indexUpdateChecker.deleteStaleObjects();
-			}
+			indexUpdateChecker.deleteStaleObjects();
 		} finally {
 			objectsToUpdateCase.stop();
 		}
@@ -358,5 +349,4 @@ public abstract class AbstractUpdateCheckerJob implements Runnable {
 		}
 		this.duration = System.currentTimeMillis() - start;
 	}
-
 }

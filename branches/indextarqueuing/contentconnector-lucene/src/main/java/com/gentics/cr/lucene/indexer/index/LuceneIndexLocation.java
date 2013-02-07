@@ -164,18 +164,17 @@ public abstract class LuceneIndexLocation extends com.gentics.cr.util.indexing.I
 	 */
 	public static Directory createDirectory(CRConfig config) {
 		String loc = getFirstIndexLocation(config);
-		return createDirectory(loc, config);
+		return createDirectory(loc);
 	}
 
 	/**
 	 * Create a Lucene directory from a path.
 	 * 
 	 * @param indexLocation location
-	 * @param config configuration.
 	 * @return directory
 	 */
-	public static Directory createDirectory(final String indexLocation, final CRConfig config) {
-		return LuceneDirectoryFactory.getDirectory(indexLocation, config);
+	public static Directory createDirectory(final String indexLocation) {
+		return LuceneDirectoryFactory.getDirectory(indexLocation);
 	}
 
 	/**
@@ -202,8 +201,6 @@ public abstract class LuceneIndexLocation extends com.gentics.cr.util.indexing.I
 
 	protected abstract IndexAccessor getAccessorInstance();
 
-	protected abstract IndexAccessor getAccessorInstance(boolean reopenClosedFactory);
-
 	/**
 	 * Returns an index Accessor, which can be used to share access to an index
 	 * over multiple threads.
@@ -211,11 +208,7 @@ public abstract class LuceneIndexLocation extends com.gentics.cr.util.indexing.I
 	 * @return IndexAccessor for this index
 	 */
 	public final IndexAccessor getAccessor() {
-		return getAccessor(false);
-	}
-
-	public final IndexAccessor getAccessor(final boolean reopenClosedFactory) {
-		IndexAccessor indexAccessor = getAccessorInstance(reopenClosedFactory);
+		IndexAccessor indexAccessor = getAccessorInstance();
 		reopenCheck(indexAccessor, getTaxonomyAccessor());
 		return indexAccessor;
 	}
