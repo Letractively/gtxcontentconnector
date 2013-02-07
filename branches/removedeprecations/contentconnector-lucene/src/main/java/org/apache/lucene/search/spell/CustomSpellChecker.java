@@ -26,9 +26,9 @@ import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.IndexReader.FieldOption;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.index.IndexReader.FieldOption;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
@@ -162,8 +162,7 @@ public class CustomSpellChecker implements java.io.Closeable {
 	 * @param sspellIndex the spell index directory
 	 * @throws IOException if spellchecker can not open the directory
 	 */
-	public CustomSpellChecker(final LuceneIndexLocation sspellIndex, final Float xminScore, final Integer xminDfreq)
-		throws IOException {
+	public CustomSpellChecker(final LuceneIndexLocation sspellIndex, final Float xminScore, final Integer xminDfreq) throws IOException {
 		this(sspellIndex, new LevensteinDistance());
 		if (xminScore != null) {
 			this.minScore = xminScore;
@@ -554,12 +553,6 @@ public class CustomSpellChecker implements java.io.Closeable {
 				}
 
 			} finally {
-				// if documents where added to the index create a reopen file and
-				// optimize the writer
-				if (obj_count > 0) {
-					writer.optimize();
-					this.spellIndex.createReopenFile();
-				}
 				accessor.release(writer);
 				accessor.release(indexSearcher);
 			}

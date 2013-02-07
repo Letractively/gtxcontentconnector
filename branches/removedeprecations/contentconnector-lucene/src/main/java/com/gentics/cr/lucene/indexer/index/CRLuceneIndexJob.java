@@ -74,16 +74,7 @@ public class CRLuceneIndexJob extends AbstractUpdateCheckerJob {
 	private RequestProcessor rp = null;
 
 	/**
-	 * indicates if the lucene index should be optimized after indexing.
-	 */
-	private boolean optimize = false;
-
-	/**
-	 * indicates the maximum amount of segments (files) used storing the index.
-	 */
-	private String maxSegmentsString = null;
-	/**
-	 * indicates if facets are activated
+	 * indicates if facets are activated.
 	 */
 	private boolean useFacets = false;
 
@@ -95,11 +86,6 @@ public class CRLuceneIndexJob extends AbstractUpdateCheckerJob {
 	 */
 	public CRLuceneIndexJob(final CRConfig config, final IndexLocation indexLoc, final ConcurrentHashMap<String, CRConfigUtil> configmap) {
 		super(config, indexLoc, configmap);
-		String ignoreoptimizeString = config.getString(OPTIMIZE_KEY);
-		if (ignoreoptimizeString != null) {
-			optimize = Boolean.parseBoolean(ignoreoptimizeString);
-		}
-		maxSegmentsString = config.getString(MAXSEGMENTS_KEY);
 		String storeVectorsString = config.getString(STORE_VECTORS_KEY);
 		if (storeVectorsString != null) {
 			storeVectors = Boolean.parseBoolean(storeVectorsString);
@@ -157,16 +143,6 @@ public class CRLuceneIndexJob extends AbstractUpdateCheckerJob {
 	 * Configuration key for the attributes which are indexed.
 	 */
 	private static final String INDEXED_ATTRIBUTES_KEY = "INDEXEDATTRIBUTES";
-
-	/**
-	 * Configuration key defines if the index should be optimized.
-	 */
-	private static final String OPTIMIZE_KEY = "optimize";
-
-	/**
-	 * Configuration key for {@link #maxSegmentsString}.
-	 */
-	private static final String MAXSEGMENTS_KEY = "maxsegments";
 
 	/**
 	 * Configuration key to define if vectors are stored in the index or not.
@@ -423,30 +399,6 @@ public class CRLuceneIndexJob extends AbstractUpdateCheckerJob {
 						taxonomyWriter,
 						taxonomyAccessor);
 				}
-				if (!interrupted) {
-					// Only Optimize the Index if the thread 
-					// has not been interrupted
-					if (optimize) {
-						log.debug("Executing optimize command.");
-						UseCase uc = MonitorFactory.startUseCase("optimize(" + crid + ")");
-						try {
-							indexWriter.optimize();
-						} finally {
-							uc.stop();
-						}
-					} else if (maxSegmentsString != null) {
-						log.debug("Executing optimize command with max" + " segments: " + maxSegmentsString);
-						int maxs = Integer.parseInt(maxSegmentsString);
-						UseCase uc = MonitorFactory.startUseCase("optimize(" + crid + ")");
-						try {
-							indexWriter.optimize(maxs);
-						} finally {
-							uc.stop();
-						}
-					}
-				} else {
-					log.debug("Job has been interrupted and will now be closed." + " Missing objects " + "will be reindexed next run.");
-				}
 				finishedIndexJobSuccessfull = true;
 			} catch (Exception ex) {
 				log.error("Could not complete index run... indexed Objects: " + status.getObjectsDone()
@@ -671,13 +623,11 @@ public class CRLuceneIndexJob extends AbstractUpdateCheckerJob {
 				try {
 					newDoc.setBoost(Float.parseFloat(boostingValue));
 				} catch (Exception e) {
-					LOG.error("Could not pars boosting information "
-							+ "from resolvable.", e);
+					LOG.error("Could not pars boosting information " + "from resolvable.", e);
 				}
 			}
 		}
 
-		
 		for (Entry<String, Boolean> entry : attributes.entrySet()) {
 			String attributeName = (String) entry.getKey();
 			boolean filled = (newDoc.get(attributeName) != null);

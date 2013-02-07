@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -23,9 +23,9 @@ import com.gentics.cr.monitoring.MonitorFactory;
 import com.gentics.cr.servlet.VelocityServlet;
 import com.gentics.cr.util.file.ArchiverUtil;
 import com.gentics.cr.util.indexing.IndexController;
+import com.gentics.cr.util.indexing.IndexExtension;
 import com.gentics.cr.util.indexing.IndexJobQueue;
 import com.gentics.cr.util.indexing.IndexLocation;
-import com.gentics.cr.util.indexing.IndexExtension;
 
 /**
  * @author Christopher Supnig
@@ -90,9 +90,6 @@ public class IndexJobServlet extends VelocityServlet {
 					if ("clear".equalsIgnoreCase(action)) {
 						loc.createClearJob();
 					}
-					if ("optimize".equalsIgnoreCase(action)) {
-						loc.createOptimizeJob();
-					}
 					if ("addJob".equalsIgnoreCase(action)) {
 						String cr = request.getParameter("cr");
 						if ("all".equalsIgnoreCase(cr)) {
@@ -145,8 +142,7 @@ public class IndexJobServlet extends VelocityServlet {
 					if (writeLock.createNewFile()) {
 						weWroteTheWriteLock = true;
 					} else {
-						throw new LockedIndexException(
-								new Exception("the write lock file already exists in the index."));
+						throw new LockedIndexException(new Exception("the write lock file already exists in the index."));
 					}
 					//set to read only so the index jobs will not delete it.
 					writeLock.setReadOnly();

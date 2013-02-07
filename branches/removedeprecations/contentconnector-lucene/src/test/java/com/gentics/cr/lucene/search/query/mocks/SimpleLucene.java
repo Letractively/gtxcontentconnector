@@ -28,8 +28,7 @@ public class SimpleLucene {
 
 	public static final String CONTENT_ATTRIBUTE = "content";
 
-	private static final StandardAnalyzer ANALYZER = new StandardAnalyzer(LuceneVersion.getVersion(),
-			CharArraySet.EMPTY_SET);
+	private static final StandardAnalyzer ANALYZER = new StandardAnalyzer(LuceneVersion.getVersion(), CharArraySet.EMPTY_SET);
 
 	IndexSearcher searcher;
 
@@ -47,7 +46,6 @@ public class SimpleLucene {
 		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(LuceneVersion.getVersion(), ANALYZER);
 		IndexWriter writer = new IndexWriter(index, indexWriterConfig);
 		writer.addDocument(document);
-		writer.optimize();
 		writer.close();
 	}
 
@@ -74,8 +72,7 @@ public class SimpleLucene {
 		for (String field : fields) {
 			String name = field.replaceAll(":.*", "");
 			String value = field.substring(name.length() + 1);
-			document.add(new Field(name, value, Field.Store.YES, Field.Index.ANALYZED,
-					TermVector.WITH_POSITIONS_OFFSETS));
+			document.add(new Field(name, value, Field.Store.YES, Field.Index.ANALYZED, TermVector.WITH_POSITIONS_OFFSETS));
 		}
 		add(document);
 		return document;

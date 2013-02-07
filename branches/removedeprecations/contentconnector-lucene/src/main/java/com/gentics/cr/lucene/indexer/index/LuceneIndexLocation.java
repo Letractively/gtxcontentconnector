@@ -53,21 +53,6 @@ public abstract class LuceneIndexLocation extends com.gentics.cr.util.indexing.I
 	}
 
 	/**
-	 * Requests an optimize command on the index.
-	 */
-	public void optimizeIndex() {
-		IndexAccessor indexAccessor = getAccessor();
-		IndexWriter indexWriter;
-		try {
-			indexWriter = indexAccessor.getWriter();
-			indexWriter.optimize(true);
-			indexAccessor.release(indexWriter);
-		} catch (IOException e) {
-			log.error(e.getMessage(), e);
-		}
-	}
-
-	/**
 	 * Forcibly removes locks from the subsequent directories This code should
 	 * only be used by failure recovery code... when it is certain that no other
 	 * thread is accessing the index.
@@ -88,7 +73,7 @@ public abstract class LuceneIndexLocation extends com.gentics.cr.util.indexing.I
 	}
 
 	/**
-	 * Checks Lock and throws Exception if Lock exists
+	 * Checks Lock and throws Exception if Lock exists.
 	 * 
 	 * @throws LockedIndexException
 	 */
@@ -98,8 +83,9 @@ public abstract class LuceneIndexLocation extends com.gentics.cr.util.indexing.I
 		if (dirs != null) {
 			for (Directory dir : dirs) {
 				try {
-					if (IndexWriter.isLocked(dir))
+					if (IndexWriter.isLocked(dir)) {
 						throw new LockedIndexException();
+					}
 				} catch (IOException e) {
 					log.error(e.getMessage(), e);
 				}
