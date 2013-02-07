@@ -2,6 +2,7 @@
 
 = Important Changes = 
  * 1.11.3 Transformers where moved from contentconnector-lucene to contentconnector-core
+ * 1.11.24 Removed deprecated method CRResolvableBean#getMother, method used a non API return type
 
 = Configuration Changes =
 
