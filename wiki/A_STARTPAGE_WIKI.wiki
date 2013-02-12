@@ -9,6 +9,7 @@ Easy and fast.
  * [http://code.google.com/p/gtxcontentconnector/wiki/Features Features of Gentics Content Connector]
  * [http://archiva.gentics.com:8081/archiva/browse/com.gentics/contentconnector-servlet-sample/ Download current build of the sample webapp]
  * [http://code.google.com/p/gtxcontentconnector/wiki/SystemRequirements System Requirements]
+ * [MavenProjects Use Gentics Content Connector as maven dependency]
  * [Configuration]
  * [Caching]
  * [http://code.google.com/p/gtxcontentconnector/wiki/DeploymentStructure Deployment Structure]
