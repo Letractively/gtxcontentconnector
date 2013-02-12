@@ -19,3 +19,6 @@ This is the list of maven artifacts in the Gentics Content Connector project. He
  * contentconnector-servlet: contains the restfull servlets used to access repositories over http. not necessary if you only use the java api to get objects from the repositories.
  * contentconnector-servlet-sample
  * contentconnector-social-networking
+
+= Maven Settings =
+In order to retrieve all dependencies (Gentics Portal.Node) you have to have a valid license key. It has to be referenced in your settings.xml. For further Information visit https://maven.gentics.com/
