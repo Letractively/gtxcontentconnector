@@ -20,5 +20,8 @@
  * 1.11.12 RestServlet - output the runtime and url also for requests that caused an error
  * 1.11.13 IndexLocation.createAllCRIndexJobs: Now Index-Jobs will be created in alphabetical order
 
+= Other =
+ * 1.11.25 Test Release with Jenkins and Maven Release Plugin
+
  
  
