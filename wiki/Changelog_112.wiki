@@ -1,29 +1,16 @@
-#summary This Page describes the major changes from Verstion 1.1.1 to 1.1.2
+#summary This Page describes the major changes from Version 1.12.0 to 1.12.x
 
-= Configuration changes =
+= Important Changes = 
+ * 1.12.0 - We now reference Gentics Portal.Node (4.1.0) as a proper maven dependency. You will have to add the license key to your maven configuration in order to retrieve the artifact from the maven repository. Visit https://maven.gentics.com/ for further information.
 
+= Configuration Changes =
 
 = Features =
-
-  * The DIDYOUMEAN-Functionality can now be further configured in order to restrict the suggestions
-{{{
-# Sets the the worddistancescore that has to be reached (default = 0.5)
-rp.1.didyoumeanmindistancescore=0.75
-# Sets the minimal frequecy the suggested term must have (default = 1)
-rp.1.didyoumeanmindocfreq=10
-}}}
-
-  * The max number of clauses for BooleanQueries can now be configured
-{{{
-# Sets the maximal possible clauses per boolean query (expert setting)
-rp.1.maxqueryclauses=4096
-}}}
-
-  * The VectorBolder now supports Wildcardqueries e.g.: *word*
-  * Active "Indexes" will now be highlighted in the IndexerServlet
-
-
+ 
 = Bugfixes =
-  * dym will now only be performend in the configured dym fields (query terms)
-  * VectorBolder will now read highlightprefix and postfix correctly from its config
-  * Improved highlighter performance (removed IO that was not needed)
+
+= Other =
+
+
+ 
+ 
