@@ -1,8 +1,26 @@
 #labels Featured
 This is the list of maven artifacts in the Gentics Content Connector project. Here you can find what they can be used for
 
+= POM = 
+{{{
+  <dependency>
+      <groupId>com.gentics</groupId>
+      <artifactId>[Artifact ID]</artifactId>
+      <version>[Version]</version>
+    </dependency>
+}}}
 
-= Artifacts =
+= Example dependency =
+
+{{{
+  <dependency>
+      <groupId>com.gentics</groupId>
+      <artifactId>contentconnector-core</artifactId>
+      <version>1.12.0</version>
+  </dependency>
+}}}
+
+= Artifact IDs =
 
  * contentconnector-apihelper
  * contentconnector-config-sample
