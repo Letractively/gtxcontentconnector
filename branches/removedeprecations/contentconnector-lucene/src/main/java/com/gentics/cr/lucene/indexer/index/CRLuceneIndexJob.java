@@ -17,13 +17,13 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.Field.TermVector;
-import org.apache.lucene.facet.index.CategoryDocumentBuilder;
 import org.apache.lucene.facet.taxonomy.CategoryPath;
 import org.apache.lucene.facet.taxonomy.TaxonomyWriter;
-import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.AtomicReader;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.DocsEnum;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.index.TermDocs;
 
 import com.gentics.api.lib.resolving.Resolvable;
 import com.gentics.cr.CRConfig;
@@ -232,7 +232,7 @@ public class CRLuceneIndexJob extends AbstractUpdateCheckerJob {
 
 		IndexAccessor indexAccessor = null;
 		IndexWriter indexWriter = null;
-		IndexReader indexReader = null;
+		DirectoryReader indexReader = null;
 		TaxonomyAccessor taxonomyAccessor = null;
 		TaxonomyWriter taxonomyWriter = null;
 		LuceneIndexUpdateChecker luceneIndexUpdateChecker = null;
@@ -464,7 +464,7 @@ public class CRLuceneIndexJob extends AbstractUpdateCheckerJob {
 	 * @throws CRException TODO javadoc
 	 * @throws IOException TODO javadoc
 	 */
-	private void indexSlice(final String crid, final IndexWriter indexWriter, final IndexReader indexReader,
+	private void indexSlice(final String crid, final IndexWriter indexWriter, final AtomicReader indexReader,
 			final Collection<CRResolvableBean> slice, final Map<String, Boolean> attributes, final RequestProcessor rp,
 			final boolean create, final CRConfigUtil config, final List<ContentTransformer> transformerlist,
 			final List<String> reverseattributes, final TaxonomyWriter taxonomyWriter, final TaxonomyAccessor taxonomyAccessor)
@@ -555,10 +555,11 @@ public class CRLuceneIndexJob extends AbstractUpdateCheckerJob {
 	 * @param searchCRID crid.
 	 * @return document.
 	 */
-	private Document getUniqueDocument(final IndexReader indexReader, final Term idTerm, final String searchCRID) {
+	private Document getUniqueDocument(final AtomicReader indexReader, final Term idTerm, final String searchCRID) {
 		try {
-			TermDocs docs = indexReader.termDocs(idTerm);
-			while (docs.next()) {
+			DocsEnum docs = indexReader.termDocsEnum(idTerm);
+			int index;
+			while ((index = docs.nextDoc()) != DocsEnum.NO_MORE_DOCS) {
 				Document doc = indexReader.document(docs.doc());
 				String crID = doc.get(CR_FIELD_KEY);
 				if (crID != null && crID.equals(searchCRID)) {

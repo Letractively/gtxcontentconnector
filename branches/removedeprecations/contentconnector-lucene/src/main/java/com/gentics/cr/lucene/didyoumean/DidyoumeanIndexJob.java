@@ -1,9 +1,9 @@
 package com.gentics.cr.lucene.didyoumean;
 
 import java.io.IOException;
-import java.util.Collection;
 
 import org.apache.log4j.Logger;
+import org.apache.lucene.index.FieldInfos;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.spell.CustomSpellChecker;
 import org.apache.lucene.search.spell.LuceneDictionary;
@@ -52,10 +52,10 @@ public class DidyoumeanIndexJob extends AbstractUpdateCheckerJob {
 		IndexAccessor sourceAccessor = didyoumean.getSourceLocation().getAccessor();
 		IndexReader sourceReader = sourceAccessor.getReader(false);
 		CustomSpellChecker spellchecker = didyoumean.getSpellchecker();
-		Collection<String> fields = null;
+		FieldInfos fields = null;
 
 		if (didyoumean.isAll()) {
-			fields = sourceReader.getFieldNames(IndexReader.FieldOption.ALL);
+			fields = sourceReader.getFieldInfos();
 		} else {
 			fields = didyoumean.getDym_fields();
 		}

@@ -2,38 +2,36 @@ package com.gentics.cr.lucene.facets.taxonomy;
 
 import java.io.IOException;
 
-import org.apache.lucene.facet.taxonomy.TaxonomyWriter;
 import org.apache.lucene.facet.taxonomy.directory.DirectoryTaxonomyWriter;
 import org.apache.lucene.facet.taxonomy.writercache.TaxonomyWriterCache;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.LockObtainFailedException;
 
+import com.gentics.cr.lucene.LuceneVersion;
+
 /**
  * This is an extension of the {@link LuceneTaxonomyWriter} to provide a delete
- * taxonomy function
+ * taxonomy function.
  * 
  * @author Sebastian Vogel <s.vogel@gentics.com>
- * 
  */
 public class DefaultDirectoryTaxonomyWriter extends DirectoryTaxonomyWriter {
-	
+
 	private Directory dir;
 	private OpenMode openMode;
 
 	// convenience constructor
-	public DefaultDirectoryTaxonomyWriter(Directory directory)
-			throws CorruptIndexException, LockObtainFailedException,
-			IOException {
+	public DefaultDirectoryTaxonomyWriter(Directory directory) throws CorruptIndexException, LockObtainFailedException, IOException {
 		super(directory);
 		this.dir = directory;
-		
 	}
 
 	/**
-	 * Overwrite constructor of {@link LuceneTaxonomyWriter}
+	 * Overwrite constructor of {@link LuceneTaxonomyWriter}.
 	 * 
 	 * @see LuceneTaxonomyWriter#LuceneTaxonomyWriter(Directory, OpenMode)
 	 * @param directory
@@ -43,16 +41,15 @@ public class DefaultDirectoryTaxonomyWriter extends DirectoryTaxonomyWriter {
 	 * @throws LockObtainFailedException
 	 * @throws IOException
 	 */
-	public DefaultDirectoryTaxonomyWriter(Directory directory, OpenMode openMode,
-			TaxonomyWriterCache cache) throws CorruptIndexException,
-			LockObtainFailedException, IOException {
+	public DefaultDirectoryTaxonomyWriter(Directory directory, OpenMode openMode, TaxonomyWriterCache cache) throws CorruptIndexException,
+		LockObtainFailedException, IOException {
 		super(directory, openMode, cache);
 		this.dir = directory;
 		this.openMode = openMode;
 	}
 
 	/**
-	 * Overwrite constructor of {@link LuceneTaxonomyWriter}
+	 * Overwrite constructor of {@link LuceneTaxonomyWriter}.
 	 * 
 	 * @see LuceneTaxonomyWriter#LuceneTaxonomyWriter(Directory, OpenMode, TaxonomyWriterCache)
 	 * @param directory
@@ -61,9 +58,8 @@ public class DefaultDirectoryTaxonomyWriter extends DirectoryTaxonomyWriter {
 	 * @throws LockObtainFailedException
 	 * @throws IOException
 	 */
-	public DefaultDirectoryTaxonomyWriter(Directory directory, OpenMode openMode)
-			throws CorruptIndexException, LockObtainFailedException,
-			IOException {
+	public DefaultDirectoryTaxonomyWriter(Directory directory, OpenMode openMode) throws CorruptIndexException, LockObtainFailedException,
+		IOException {
 		super(directory, openMode);
 		this.dir = directory;
 		this.openMode = openMode;
@@ -84,17 +80,16 @@ public class DefaultDirectoryTaxonomyWriter extends DirectoryTaxonomyWriter {
 	 * @throws IllegalStateException
 	 * @author Sebastian Vogel <s.vogel@gentics.com>
 	 */
-	public synchronized IndexWriter getIndexWriter() throws IOException,
-			IllegalStateException {
+	public synchronized IndexWriter getIndexWriter() throws IOException, IllegalStateException {
 		this.close();
-		IndexWriter indexWriter = this.openIndexWriter(this.dir, this.openMode);
-		
+
+		IndexWriterConfig config = new IndexWriterConfig(LuceneVersion.getVersion(), null);
+		config.setOpenMode(openMode);
+		IndexWriter indexWriter = this.openIndexWriter(this.dir, config);
 		if (indexWriter != null) {
 			return indexWriter;
-						
 		} else {
 			throw new IllegalStateException("TaxonomyIndexWriter ist null");
 		}
 	}
-
 }

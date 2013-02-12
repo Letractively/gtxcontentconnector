@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -21,13 +20,13 @@ import org.apache.lucene.facet.search.FacetsCollector;
 import org.apache.lucene.facet.taxonomy.TaxonomyReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.Explanation;
+import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.MultiCollector;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.Searcher;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
@@ -175,7 +174,7 @@ public class CRSearcher {
 	 * @return
 	 * @throws IOException
 	 */
-	TopDocsCollector<?> createCollector(final Searcher searcher, final int hits, final String[] sorting, final boolean computescores,
+	TopDocsCollector<?> createCollector(final IndexSearcher searcher, final int hits, final String[] sorting, final boolean computescores,
 			final String[] userPermissions) throws IOException {
 		TopDocsCollector<?> coll = null;
 		String collectorClassName = (String) config.get(COLLECTOR_CLASS_KEY);
@@ -235,7 +234,7 @@ public class CRSearcher {
 				if ("score".equalsIgnoreCase(sort[0])) {
 					sortFields.add(SortField.FIELD_SCORE);
 				} else {
-					sortFields.add(new SortField(sort[0], Locale.getDefault(), reverse));
+					sortFields.add(new SortField(sort[0], SortField.Type.STRING, reverse));
 				}
 			}
 
@@ -256,8 +255,8 @@ public class CRSearcher {
 	 * @param start
 	 * @return ArrayList of results
 	 */
-	private HashMap<String, Object> executeSearcher(final TopDocsCollector<?> collector, final Searcher searcher, final Query parsedQuery,
-			final boolean explain, final int count, final int start) {
+	private HashMap<String, Object> executeSearcher(final TopDocsCollector<?> collector, final IndexSearcher searcher,
+			final Query parsedQuery, final boolean explain, final int count, final int start) {
 		return executeSearcher(collector, searcher, parsedQuery, explain, count, start, null);
 	}
 
@@ -273,8 +272,8 @@ public class CRSearcher {
 	 * @param facetsCollector a {@link FacetsCollector} 
 	 * @return ArrayList of results
 	 */
-	private HashMap<String, Object> executeSearcher(final TopDocsCollector<?> collector, final Searcher searcher, final Query parsedQuery,
-			final boolean explain, final int count, final int start, final FacetsCollector facetsCollector) {
+	private HashMap<String, Object> executeSearcher(final TopDocsCollector<?> collector, final IndexSearcher searcher,
+			final Query parsedQuery, final boolean explain, final int count, final int start, final FacetsCollector facetsCollector) {
 		try {
 			// wrap the TopDocsCollector and the FacetsCollector to one
 			// MultiCollector and perform the search
@@ -354,7 +353,7 @@ public class CRSearcher {
 	public final HashMap<String, Object> search(final String query, final String[] searchedAttributes, final int count, final int start,
 			final boolean explain, final String[] sorting, final CRRequest request) throws IOException, CRException {
 
-		Searcher searcher;
+		IndexSearcher searcher;
 		Analyzer analyzer;
 		// Collect count + start hits
 		int hits = count + start;	// we want to retrieve the startcount (start) to endcount (hits)
@@ -476,13 +475,10 @@ public class CRSearcher {
 			}
 
 		} finally {
-			 /*
-			  * if facets are activated cleanup the resources
-			  * needed for faceted search
-			  * 
-			  * Always cleanup/release the taxonomy Reader/Writer 
-			  * before the Reader/Writers of the main index!
-			  */
+			/*
+			 * if facets are activated cleanup the resources needed for faceted search Always cleanup/release the taxonomy Reader/Writer
+			 * before the Reader/Writers of the main index!
+			 */
 			if (taAccessor != null && taReader != null) {
 				taAccessor.release(taReader);
 			}
@@ -507,7 +503,7 @@ public class CRSearcher {
 	 * @return Map containing the replacement for the searchterm and the result for the resulting query.
 	 */
 	private HashMap<String, Object> didyoumean(final String originalQuery, final Query parsedQuery, final IndexAccessor indexAccessor,
-			final QueryParser parser, final Searcher searcher, final String[] sorting, final String[] userPermissions) {
+			final QueryParser parser, final IndexSearcher searcher, final String[] sorting, final String[] userPermissions) {
 		long dymStart = System.currentTimeMillis();
 		HashMap<String, Object> result = new HashMap<String, Object>(3);
 
@@ -585,7 +581,7 @@ public class CRSearcher {
 		return null;
 	}
 
-	private HashMap<String, Object> getResultsForQuery(final String query, final QueryParser parser, final Searcher searcher,
+	private HashMap<String, Object> getResultsForQuery(final String query, final QueryParser parser, final IndexSearcher searcher,
 			final String[] sorting, final String[] userPermissions) {
 		try {
 			return getResultsForQuery(parser.parse(query), searcher, sorting, userPermissions);
@@ -595,7 +591,7 @@ public class CRSearcher {
 		return null;
 	}
 
-	private HashMap<String, Object> getResultsForQuery(final Query query, final Searcher searcher, final String[] sorting,
+	private HashMap<String, Object> getResultsForQuery(final Query query, final IndexSearcher searcher, final String[] sorting,
 			final String[] userPermissions) {
 		HashMap<String, Object> result = new HashMap<String, Object>(3);
 		try {

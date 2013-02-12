@@ -1,6 +1,8 @@
 package com.gentics.cr.lucene.indexer.index;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,9 +11,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.CharArraySet;
-import org.apache.lucene.analysis.PerFieldAnalyzerWrapper;
+import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.util.Version;
 
 import com.gentics.cr.CRConfigFileLoader;
@@ -126,8 +128,7 @@ public final class LuceneAnalyzerFactory {
 						ReverseAnalyzer reverseAnalyzer = new ReverseAnalyzer(analyzerInstance);
 						analyzerWrapper.addAnalyzer(fieldname + REVERSE_ATTRIBUTE_SUFFIX, reverseAnalyzer);
 
-						configuredAnalyzerMap.put(fieldname + REVERSE_ATTRIBUTE_SUFFIX, reverseAnalyzer.getClass()
-								.getCanonicalName());
+						configuredAnalyzerMap.put(fieldname + REVERSE_ATTRIBUTE_SUFFIX, reverseAnalyzer.getClass().getCanonicalName());
 					}
 				}
 			}
@@ -137,8 +138,7 @@ public final class LuceneAnalyzerFactory {
 					if (!addedReverseAttributes.contains(att)) {
 						ReverseAnalyzer reverseAnalyzer = new ReverseAnalyzer(null);
 						analyzerWrapper.addAnalyzer(att + REVERSE_ATTRIBUTE_SUFFIX, reverseAnalyzer);
-						configuredAnalyzerMap.put(att + REVERSE_ATTRIBUTE_SUFFIX, reverseAnalyzer.getClass()
-								.getCanonicalName());
+						configuredAnalyzerMap.put(att + REVERSE_ATTRIBUTE_SUFFIX, reverseAnalyzer.getClass().getCanonicalName());
 					}
 				}
 			}
@@ -179,8 +179,7 @@ public final class LuceneAnalyzerFactory {
 		Analyzer a = null;
 		try {
 			//First try to create an Analyzer that takes a config object
-			a = (Analyzer) Class.forName(analyzerclass).getConstructor(new Class[] { GenericConfiguration.class })
-					.newInstance(config);
+			a = (Analyzer) Class.forName(analyzerclass).getConstructor(new Class[] { GenericConfiguration.class }).newInstance(config);
 		} catch (Exception e1) {
 			try {
 				//IF FIRST FAILS TRY SIMPLE CONSTRUCTOR
@@ -192,8 +191,8 @@ public final class LuceneAnalyzerFactory {
 					a = (Analyzer) Class.forName(analyzerclass).getConstructor(new Class[] { Version.class })
 							.newInstance(LuceneVersion.getVersion());
 				} catch (Exception e3) {
-					LOGGER.error("Could not instantiate Analyzer with class " + analyzerclass
-							+ ". Do you use some special" + " Analyzer? Or do you need to use a Wrapper?", e3);
+					LOGGER.error("Could not instantiate Analyzer with class " + analyzerclass + ". Do you use some special"
+							+ " Analyzer? Or do you need to use a Wrapper?", e3);
 				}
 			}
 		}
@@ -212,7 +211,8 @@ public final class LuceneAnalyzerFactory {
 		if (stopWordFile != null) {
 			//initialize Analyzer with stop words
 			try {
-				analyzer = new StandardAnalyzer(LuceneVersion.getVersion(), stopWordFile);
+				BufferedReader reader = new BufferedReader(new FileReader(stopWordFile));
+				analyzer = new StandardAnalyzer(LuceneVersion.getVersion(), reader);
 				return analyzer;
 			} catch (IOException ex) {
 				LOGGER.error("Could not open stop words file. " + "Will create standard " + "analyzer.", ex);

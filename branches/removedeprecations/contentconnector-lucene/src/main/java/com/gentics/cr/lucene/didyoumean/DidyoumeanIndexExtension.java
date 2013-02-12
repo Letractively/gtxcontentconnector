@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 
 import org.apache.log4j.Logger;
+import org.apache.lucene.index.FieldInfos;
 import org.apache.lucene.search.spell.CustomSpellChecker;
 
 import com.gentics.cr.CRConfig;
@@ -68,7 +68,7 @@ public class DidyoumeanIndexExtension extends AbstractIndexExtension implements 
 
 	private boolean all = false;
 
-	private Collection<String> dym_fields = null;
+	private FieldInfos dym_fields = null;
 
 	private Float minDScore = (float) 0.0;
 
@@ -209,8 +209,7 @@ public class DidyoumeanIndexExtension extends AbstractIndexExtension implements 
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.gentics.cr.util.indexing.AbstractIndexExtension#addJob(java.lang. String,
-	 * com.gentics.cr.util.indexing.IndexLocation)
+	 * @see com.gentics.cr.util.indexing.AbstractIndexExtension#addJob(java.lang. String, com.gentics.cr.util.indexing.IndexLocation)
 	 */
 	@Override
 	public void addJob(String name, IndexLocation indexLocation) throws NoSuchMethodException {
@@ -238,11 +237,11 @@ public class DidyoumeanIndexExtension extends AbstractIndexExtension implements 
 		this.all = all;
 	}
 
-	public Collection<String> getDym_fields() {
+	public FieldInfos getDym_fields() {
 		return dym_fields;
 	}
 
-	public void setDym_fields(Collection<String> dym_fields) {
+	public void setDym_fields(FieldInfos dym_fields) {
 		this.dym_fields = dym_fields;
 	}
 

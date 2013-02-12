@@ -6,10 +6,8 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.search.Query;
 
 import com.gentics.cr.CRRequest;
@@ -39,18 +37,13 @@ public class BooleanQueryRewriterTest extends AbstractLuceneTest {
 		lucene = new SimpleLucene();
 
 		documents = new ArrayList<ComparableDocument>();
-		/* 0 */documents.add(new ComparableDocument(lucene.add(
-			SimpleLucene.CONTENT_ATTRIBUTE + ":word9 word1",
-			"node_id:1")));
-		/* 1 */documents.add(new ComparableDocument(lucene.add(
-			SimpleLucene.CONTENT_ATTRIBUTE + ":word2 word9",
-			"node_id:1")));
+		/* 0 */documents.add(new ComparableDocument(lucene.add(SimpleLucene.CONTENT_ATTRIBUTE + ":word9 word1", "node_id:1")));
+		/* 1 */documents.add(new ComparableDocument(lucene.add(SimpleLucene.CONTENT_ATTRIBUTE + ":word2 word9", "node_id:1")));
 		/* 2 */documents.add(new ComparableDocument(lucene.add(
 			SimpleLucene.CONTENT_ATTRIBUTE + ":word3",
 			"binarycontent:word9",
 			"node_id:2")));
-		/* 3 */documents
-				.add(new ComparableDocument(lucene.add(SimpleLucene.CONTENT_ATTRIBUTE + ":wörd4", "node_id:2")));
+		/* 3 */documents.add(new ComparableDocument(lucene.add(SimpleLucene.CONTENT_ATTRIBUTE + ":wörd4", "node_id:2")));
 		/* 4 */documents.add(new ComparableDocument(lucene.add(
 			SimpleLucene.CONTENT_ATTRIBUTE + ":word5",
 			"updatetimestamp:1311604678",
@@ -71,26 +64,23 @@ public class BooleanQueryRewriterTest extends AbstractLuceneTest {
 			"updatetimestamp:1304510397",
 			"edittimestamp:1304510397",
 			"node_id:3"))); //04.05.2011 13:59:57
-		/* 8 */documents.add(new ComparableDocument(lucene.add(
-			SimpleLucene.CONTENT_ATTRIBUTE + ":newword",
-			"node_id:11")));
+		/* 8 */documents.add(new ComparableDocument(lucene.add(SimpleLucene.CONTENT_ATTRIBUTE + ":newword", "node_id:11")));
 
 	}
 
-	public void testReplaceTerm() throws ParseException, CorruptIndexException, IOException {
+	public void testReplaceTerm() throws org.apache.lucene.queryparser.classic.ParseException, CorruptIndexException, IOException {
 		Query orginalQuery = parser.parse("word1 | word2");
-		Query newQuery = BooleanQueryRewriter.replaceTerm(orginalQuery, new Term(SimpleLucene.CONTENT_ATTRIBUTE,
-				"word1"), new Term(SimpleLucene.CONTENT_ATTRIBUTE, "word3"));
+		Query newQuery = BooleanQueryRewriter.replaceTerm(orginalQuery, new Term(SimpleLucene.CONTENT_ATTRIBUTE, "word1"), new Term(
+				SimpleLucene.CONTENT_ATTRIBUTE, "word3"));
 
 		Collection<ComparableDocument> matchedDocuments = wrapComparable(lucene.find(newQuery));
 		containsAll(matchedDocuments, new ComparableDocument[] { documents.get(1), documents.get(2) });
 	}
 
-	public void testReplaceTerms() throws ParseException, CorruptIndexException, IOException {
+	public void testReplaceTerms() throws org.apache.lucene.queryparser.classic.ParseException, CorruptIndexException, IOException {
 		Query orginalQuery = parser.parse("word1 & word2");
 		HashMap<Term, Term> replacements = new HashMap<Term, Term>();
-		replacements.put(new Term(SimpleLucene.CONTENT_ATTRIBUTE, "word1"), new Term(SimpleLucene.CONTENT_ATTRIBUTE,
-				"word3"));
+		replacements.put(new Term(SimpleLucene.CONTENT_ATTRIBUTE, "word1"), new Term(SimpleLucene.CONTENT_ATTRIBUTE, "word3"));
 		replacements.put(new Term("binarycontent", "word2"), new Term("binarycontent", "word9"));
 
 		Query newQuery = BooleanQueryRewriter.replaceTerms(orginalQuery, replacements);

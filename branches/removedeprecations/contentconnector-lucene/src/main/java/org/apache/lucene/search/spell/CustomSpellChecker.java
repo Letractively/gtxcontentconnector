@@ -19,14 +19,12 @@ package org.apache.lucene.search.spell;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.index.FieldInfos;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexReader.FieldOption;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
@@ -37,6 +35,8 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.store.AlreadyClosedException;
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.util.BytesRef;
+import org.apache.lucene.util.BytesRefIterator;
 
 import com.gentics.cr.lucene.indexaccessor.IndexAccessor;
 import com.gentics.cr.lucene.indexer.index.LuceneIndexLocation;
@@ -292,14 +292,14 @@ public class CustomSpellChecker implements java.io.Closeable {
 			int minfrq = this.minDFreq;
 			final int lengthWord = word.length();
 
-			Collection<String> fieldnames = null;
+			FieldInfos fieldnames = null;
 
 			int intfreq = 0;
 			if (ir != null) {
 				if (field != null) {
 					if ("all".equalsIgnoreCase(field) || (field != null && field.contains(","))) {
 						if ("all".equalsIgnoreCase(field)) {
-							fieldnames = ir.getFieldNames(FieldOption.ALL);
+							fieldnames = ir.getFieldInfos();
 						} else {
 							String[] arr = field.split(",");
 							fieldnames = Arrays.asList(arr);
@@ -532,24 +532,27 @@ public class CustomSpellChecker implements java.io.Closeable {
 			int obj_count = 0;
 
 			try {
-				Iterator<String> iter = dict.getWordsIterator();
-				while (iter.hasNext()) {
-					String word = iter.next();
+				BytesRefIterator iter = dict.getWordsIterator();
 
-					int len = word.length();
+				BytesRef word = iter.next();
+				while (word != null) {
+					int len = word.length;
 					if (len < THREE) {
 						continue; // too short we bail but "too long" is fine...
 					}
 
-					if (indexSearcher.docFreq(F_WORD_TERM.createTerm(word)) > 0) {
+					String wordString = word.utf8ToString();
+					if (indexSearcher.docFreq(F_WORD_TERM.createTerm(wordString)) > 0) {
 						// if the word already exist in the gramindex
 						continue;
 					}
 
 					// ok index the word
-					Document doc = createDocument(word, getMin(len), getMax(len));
+					Document doc = createDocument(wordString, getMin(len), getMax(len));
 					writer.addDocument(doc);
 					obj_count++;
+
+					word = iter.next();
 				}
 
 			} finally {

@@ -2,7 +2,7 @@ package com.gentics.cr.lucene.search.query;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.MultiTermQuery;
 
@@ -50,7 +50,7 @@ public final class CRQueryParserFactory {
 	 * queryparser key.
 	 */
 	private static final String QUERY_PARSER_CONFIG = "queryparser";
-	
+
 	/***
 	 * Generates a prepared and configured QueryParser.
 	 * @param searchedAttributes attributes-
@@ -59,12 +59,11 @@ public final class CRQueryParserFactory {
 	 * @param config config
 	 * @return query parser
 	 */
-	public static QueryParser getConfiguredParser(final String[] searchedAttributes, final Analyzer analyzer,
-			final CRRequest request, final CRConfig config) {
-		
+	public static QueryParser getConfiguredParser(final String[] searchedAttributes, final Analyzer analyzer, final CRRequest request,
+			final CRConfig config) {
 
 		Object subconfig = config.get(QUERY_PARSER_CONFIG);
-		
+
 		return getParser(searchedAttributes, analyzer, request, config, subconfig);
 	}
 
@@ -74,24 +73,22 @@ public final class CRQueryParserFactory {
 
 		return getParser(searchedAttributes, analyzer, request, config, subconfig);
 	}
-	
-	private static QueryParser getParser(final String[] searchedAttributes, final Analyzer analyzer,
-			final CRRequest request, final CRConfig config, final Object subconfig) {
+
+	private static QueryParser getParser(final String[] searchedAttributes, final Analyzer analyzer, final CRRequest request,
+			final CRConfig config, final Object subconfig) {
 		QueryParser parser = null;
-		
+
 		if (subconfig != null && subconfig instanceof GenericConfiguration) {
 			GenericConfiguration pconfig = (GenericConfiguration) subconfig;
 
 			String parserClass = pconfig.getString(QUERY_PARSER_CLASS);
 			if (parserClass != null) {
-				parser = (QueryParser) Instanciator.getInstance(parserClass, new Object[][] {
-						new Object[] {
-						pconfig, LuceneVersion.getVersion(), searchedAttributes, analyzer, request },
-						new Object[] {
-						LuceneVersion.getVersion(), searchedAttributes, analyzer, request },
-						new Object[] {
-								LuceneVersion.getVersion(), searchedAttributes[0], analyzer }});
-				
+				parser = (QueryParser) Instanciator.getInstance(
+					parserClass,
+					new Object[][] { new Object[] { pconfig, LuceneVersion.getVersion(), searchedAttributes, analyzer, request },
+							new Object[] { LuceneVersion.getVersion(), searchedAttributes, analyzer, request },
+							new Object[] { LuceneVersion.getVersion(), searchedAttributes[0], analyzer } });
+
 				if (parser == null) {
 					logger.warn(String.format(
 						"Configured %s '%s' of CRConfig %s was not initialized",
@@ -110,14 +107,10 @@ public final class CRQueryParserFactory {
 		}
 
 		//CONFIGURE MAX CLAUSES
-		BooleanQuery.setMaxClauseCount(config.getInteger(
-			QUERY_PARSER_CONFIG + "." + MAX_CLAUSES_KEY,
-			BooleanQuery.getMaxClauseCount()));
+		BooleanQuery.setMaxClauseCount(config.getInteger(QUERY_PARSER_CONFIG + "." + MAX_CLAUSES_KEY, BooleanQuery.getMaxClauseCount()));
 
 		//CONFIGURE LOWER CASE EXPANDED TERMS (useful for WhitespaceAnalyzer)
-		parser.setLowercaseExpandedTerms(config.getBoolean(
-			QUERY_PARSER_CONFIG + "." + LOWER_CASE_EXPANDED_TERMS_KEY,
-			true));
+		parser.setLowercaseExpandedTerms(config.getBoolean(QUERY_PARSER_CONFIG + "." + LOWER_CASE_EXPANDED_TERMS_KEY, true));
 
 		//ADD SUPPORT FOR LEADING WILDCARDS
 		parser.setAllowLeadingWildcard(true);

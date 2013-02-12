@@ -7,8 +7,8 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.util.Version;
 
@@ -67,8 +67,7 @@ public class CRQueryParser extends QueryParser {
 	 * @param analyzer analyzer for index
 	 * @param crRequest request to get additional parameters from.
 	 */
-	public CRQueryParser(final Version version, final String[] searchedAttributes, final Analyzer analyzer,
-		final CRRequest crRequest) {
+	public CRQueryParser(final Version version, final String[] searchedAttributes, final Analyzer analyzer, final CRRequest crRequest) {
 		this(version, searchedAttributes, analyzer);
 		this.request = crRequest;
 	}
@@ -109,12 +108,11 @@ public class CRQueryParser extends QueryParser {
 			String charsAfterValue = valueMatcher.group(THREE);
 			if (!"AND".equalsIgnoreCase(valueWithAttribute) && !"OR".equalsIgnoreCase(valueWithAttribute)
 					&& !"NOT".equalsIgnoreCase(valueWithAttribute) && attributesToSearchIn.contains(attribute)) {
-				if (!valueWithAttribute.matches("[^:]+:\"[^\"]+\"")
-						&& valueWithAttribute.matches(".*[" + specialCharacters + "].*")) {
+				if (!valueWithAttribute.matches("[^:]+:\"[^\"]+\"") && valueWithAttribute.matches(".*[" + specialCharacters + "].*")) {
 					String replacement = Matcher.quoteReplacement(charsBeforeValue
 							+ "("
-							+ valueWithAttribute.replaceAll("\\\\?[" + specialCharacters + "]([^" + specialCharacters
-									+ "]+)", " +" + attribute + ":$1") + ")" + charsAfterValue);
+							+ valueWithAttribute.replaceAll("\\\\?[" + specialCharacters + "]([^" + specialCharacters + "]+)", " +"
+									+ attribute + ":$1") + ")" + charsAfterValue);
 					valueMatcher.appendReplacement(newQuery, replacement);
 				}
 			}
@@ -194,8 +192,8 @@ public class CRQueryParser extends QueryParser {
 					&& attributesToSearchIn.contains(attribute)) {
 				if (!value.matches("[^:]+:\"[^\"]+\"")) {
 					String replacement = Matcher.quoteReplacement(charsBeforeValue
-							+ value.replaceAll("(.*:\\(?)?([^: \\(\\)]+)", "$1" + appendToWordBegin + "$2"
-									+ appendToWordEnd) + charsAfterValue);
+							+ value.replaceAll("(.*:\\(?)?([^: \\(\\)]+)", "$1" + appendToWordBegin + "$2" + appendToWordEnd)
+							+ charsAfterValue);
 					valueMatcher.appendReplacement(newQuery, replacement);
 				}
 			}
@@ -212,8 +210,8 @@ public class CRQueryParser extends QueryParser {
 	protected Matcher getValueMatcher(final String query) {
 		String seperatorCharacterClass = " \\(\\)";
 		Pattern valuePattern = Pattern.compile("([" + seperatorCharacterClass + "]*)"
-				+ "([^:]+:(?:\\([^\\)]+\\)|\\[[^\\]]+\\]|\"[^\"]+\")|\"[^\"]+\"|[^" + seperatorCharacterClass + "]+)"
-				+ "([" + seperatorCharacterClass + "]*)");
+				+ "([^:]+:(?:\\([^\\)]+\\)|\\[[^\\]]+\\]|\"[^\"]+\")|\"[^\"]+\"|[^" + seperatorCharacterClass + "]+)" + "(["
+				+ seperatorCharacterClass + "]*)");
 		Matcher valueMatcher = valuePattern.matcher(query);
 		return valueMatcher;
 	}
@@ -225,12 +223,11 @@ public class CRQueryParser extends QueryParser {
 	 * @return query with mnoGoSearch syntax replaced for lucene
 	 */
 	protected String replaceBooleanMnoGoSearchQuery(final String mnoGoSearchQuery) {
-		String luceneQuery = mnoGoSearchQuery.replaceAll(" ?\\| ?", " OR ").replaceAll(" ?& ?", " AND ")
-				.replace('\'', '"');
+		String luceneQuery = mnoGoSearchQuery.replaceAll(" ?\\| ?", " OR ").replaceAll(" ?& ?", " AND ").replace('\'', '"');
 		luceneQuery = luceneQuery.replaceAll(" ~([a-zA-Z0-9üöäÜÖÄß]+)", " NOT $1");
 		return luceneQuery;
 	}
-	
+
 	protected static Logger getLogger() {
 		return LOGGER;
 	}

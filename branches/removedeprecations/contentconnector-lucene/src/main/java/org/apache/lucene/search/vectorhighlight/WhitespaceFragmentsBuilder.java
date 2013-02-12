@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.MapFieldSelector;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.search.highlight.Encoder;
 import org.apache.lucene.search.vectorhighlight.FieldFragList.WeightedFragInfo;
 import org.apache.lucene.search.vectorhighlight.FieldFragList.WeightedFragInfo.SubInfo;
@@ -61,12 +61,11 @@ public class WhitespaceFragmentsBuilder implements FragmentsBuilder {
 	 * @return fragment
 	 */
 	/*
-	 * protected final String makeFragment(final StringBuilder buffer, final int[] index, final String[] values, final
-	 * WeightedFragInfo fragInfo) { StringBuilder fragment = new StringBuilder(); String src = getFragmentSource(buffer,
-	 * index, values, fragInfo); final int s = fragInfo.startOffset; int srcIndex = 0; for (SubInfo subInfo :
-	 * fragInfo.subInfos) { for (Toffs to : subInfo.termsOffsets) { fragment.append(src.substring(srcIndex,
-	 * to.startOffset - s)) .append(getPreTag(subInfo.seqnum)) .append(src.substring(to.startOffset - s, to.endOffset -
-	 * s)) .append(getPostTag(subInfo.seqnum)); srcIndex = to.endOffset - s; } }
+	 * protected final String makeFragment(final StringBuilder buffer, final int[] index, final String[] values, final WeightedFragInfo
+	 * fragInfo) { StringBuilder fragment = new StringBuilder(); String src = getFragmentSource(buffer, index, values, fragInfo); final int
+	 * s = fragInfo.startOffset; int srcIndex = 0; for (SubInfo subInfo : fragInfo.subInfos) { for (Toffs to : subInfo.termsOffsets) {
+	 * fragment.append(src.substring(srcIndex, to.startOffset - s)) .append(getPreTag(subInfo.seqnum)) .append(src.substring(to.startOffset
+	 * - s, to.endOffset - s)) .append(getPostTag(subInfo.seqnum)); srcIndex = to.endOffset - s; } }
 	 * fragment.append(src.substring(srcIndex)); return fragment.toString(); }
 	 */
 
@@ -78,21 +77,21 @@ public class WhitespaceFragmentsBuilder implements FragmentsBuilder {
 	 * @param fragInfo fragInfo
 	 * @return fragSource
 	 */
-	protected final String getFragmentSource(final StringBuilder buffer, final int[] index, final Field[] values,
+	protected final String getFragmentSource(final StringBuilder buffer, final int[] index, final IndexableField[] values,
 			final WeightedFragInfo fragInfo) {
-		while (buffer.length() < fragInfo.endOffset && index[0] < values.length) {
+		while (buffer.length() < fragInfo.getEndOffset() && index[0] < values.length) {
 			if (index[0] > 0 && values[index[0]].stringValue().length() > 0) {
 				buffer.append(' ');
 			}
 			buffer.append(values[index[0]++].stringValue());
 		}
-		while (fragInfo.startOffset > 0 && !Character.isWhitespace(buffer.charAt(fragInfo.startOffset))) {
-			fragInfo.startOffset--;
+		while (fragInfo.getStartOffset() > 0 && !Character.isWhitespace(buffer.charAt(fragInfo.getStartOffset()))) {
+			fragInfo.getStartOffset()--;
 		}
-		while (fragInfo.endOffset < buffer.length() && !Character.isWhitespace(buffer.charAt(fragInfo.endOffset - 1))) {
-			fragInfo.endOffset++;
+		while (fragInfo.getEndOffset() < buffer.length() && !Character.isWhitespace(buffer.charAt(fragInfo.getEndOffset() - 1))) {
+			fragInfo.getEndOffset()++;
 		}
-		return buffer.substring(fragInfo.startOffset, Math.min(buffer.length(), fragInfo.endOffset));
+		return buffer.substring(fragInfo.getStartOffset(), Math.min(buffer.length(), fragInfo.getEndOffset()));
 	}
 
 	/**
@@ -124,8 +123,9 @@ public class WhitespaceFragmentsBuilder implements FragmentsBuilder {
 	 * @throws IOException ex
 	 * @return test
 	 */
-	public final String createFragment(final IndexReader reader, final int docId, final String fieldName,
-			final FieldFragList fieldFragList) throws IOException {
+	public final String
+			createFragment(final IndexReader reader, final int docId, final String fieldName, final FieldFragList fieldFragList)
+					throws IOException {
 		String[] fragments = createFragments(reader, docId, fieldName, fieldFragList, 1);
 		if (fragments == null || fragments.length == 0) {
 			return null;
@@ -151,7 +151,7 @@ public class WhitespaceFragmentsBuilder implements FragmentsBuilder {
 		List<WeightedFragInfo> fragInfos = getWeightedFragInfoList(fieldFragList.getFragInfos());
 
 		List<String> fragments = new ArrayList<String>(maxNumFragments);
-		Field[] values = getFields(reader, docId, fieldName);
+		IndexableField[] values = getFields(reader, docId, fieldName);
 		if (values.length == 0) {
 			return null;
 		}
@@ -172,10 +172,10 @@ public class WhitespaceFragmentsBuilder implements FragmentsBuilder {
 	 * @param fragInfo fragInfo
 	 * @return fragment
 	 */
-	protected final String makeFragment(final StringBuilder buffer, final int[] index, final Field[] values,
+	protected final String makeFragment(final StringBuilder buffer, final int[] index, final IndexableField[] values,
 			final WeightedFragInfo fragInfo) {
 		String src = getFragmentSource(buffer, index, values, fragInfo);
-		final int s = fragInfo.startOffset;
+		final int s = fragInfo.getStartOffset();
 		return makeFragment(fragInfo, src, s);
 	}
 
@@ -189,11 +189,11 @@ public class WhitespaceFragmentsBuilder implements FragmentsBuilder {
 	private String makeFragment(final WeightedFragInfo fragInfo, final String src, final int s) {
 		StringBuilder fragment = new StringBuilder();
 		int srcIndex = 0;
-		for (SubInfo subInfo : fragInfo.subInfos) {
-			for (Toffs to : subInfo.termsOffsets) {
-				fragment.append(src.substring(srcIndex, to.startOffset - s)).append(getPreTag(subInfo.seqnum))
-						.append(src.substring(to.startOffset - s, to.endOffset - s)).append(getPostTag(subInfo.seqnum));
-				srcIndex = to.endOffset - s;
+		for (SubInfo subInfo : fragInfo.getSubInfos()) {
+			for (Toffs to : subInfo.getTermsOffsets()) {
+				fragment.append(src.substring(srcIndex, to.getStartOffset() - s)).append(getPreTag(subInfo.getSeqnum()))
+						.append(src.substring(to.getStartOffset() - s, to.getEndOffset() - s)).append(getPostTag(subInfo.getSeqnum()));
+				srcIndex = to.getEndOffset() - s;
 			}
 		}
 		fragment.append(src.substring(srcIndex));
@@ -208,8 +208,7 @@ public class WhitespaceFragmentsBuilder implements FragmentsBuilder {
 	 * @return fields
 	 * @throws IOException err
 	 */
-	protected final Field[] getFields(final IndexReader reader, final int docId, final String fieldName)
-			throws IOException {
+	protected final IndexableField[] getFields(final IndexReader reader, final int docId, final String fieldName) throws IOException {
 		// according to javadoc, doc.getFields(fieldName) 
 		// cannot be used with lazy loaded field???
 		Document doc = reader.document(docId, new MapFieldSelector(new String[] { fieldName }));
@@ -217,14 +216,14 @@ public class WhitespaceFragmentsBuilder implements FragmentsBuilder {
 		// according to Document class javadoc, this never returns null
 	}
 
-	public String createFragment(IndexReader arg0, int arg1, String arg2, FieldFragList arg3, String[] arg4,
-			String[] arg5, Encoder arg6) throws IOException {
+	public String createFragment(IndexReader arg0, int arg1, String arg2, FieldFragList arg3, String[] arg4, String[] arg5, Encoder arg6)
+			throws IOException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String[] createFragments(IndexReader arg0, int arg1, String arg2, FieldFragList arg3, int arg4,
-			String[] arg5, String[] arg6, Encoder arg7) throws IOException {
+	public String[] createFragments(IndexReader arg0, int arg1, String arg2, FieldFragList arg3, int arg4, String[] arg5, String[] arg6,
+			Encoder arg7) throws IOException {
 		// TODO Auto-generated method stub
 		return null;
 	}

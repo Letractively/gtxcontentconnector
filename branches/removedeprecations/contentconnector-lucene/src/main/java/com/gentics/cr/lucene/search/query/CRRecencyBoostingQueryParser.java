@@ -1,7 +1,7 @@
 package com.gentics.cr.lucene.search.query;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.util.Version;
 
@@ -47,8 +47,8 @@ public class CRRecencyBoostingQueryParser extends CRQueryParser {
 	   * @param analyzer Analyzer
 	   * @param crRequest CRRequest
 	   */
-	public CRRecencyBoostingQueryParser(GenericConfiguration pconfig, Version version,
-			String[] searchedAttributes, Analyzer analyzer, CRRequest crRequest) {
+	public CRRecencyBoostingQueryParser(GenericConfiguration pconfig, Version version, String[] searchedAttributes, Analyzer analyzer,
+		CRRequest crRequest) {
 		super(version, searchedAttributes, analyzer, crRequest);
 		this.config = pconfig;
 
@@ -76,23 +76,21 @@ public class CRRecencyBoostingQueryParser extends CRQueryParser {
 		getLogger().debug("parsed query: " + crQuery);
 
 		if (this.multiplicatorBoost <= 0) {
-			getLogger().error("No multiplicator is set! "
-					+ "Please change the search.properties config e.g.: rp.1.queryparser.multiplicatorBoost=XX");
+			getLogger().error(
+				"No multiplicator is set! " + "Please change the search.properties config e.g.: rp.1.queryparser.multiplicatorBoost=XX");
 		}
 		if (this.timerange <= 0) {
-			getLogger().error("No timerange is set! "
-					+ "Please change the search.properties config e.g.: rp.1.queryparser.timerange=XX");
+			getLogger().error("No timerange is set! " + "Please change the search.properties config e.g.: rp.1.queryparser.timerange=XX");
 		}
 		if ("".equals(this.boostAttribute)) {
-			getLogger().error("No boostAttribute is set! "
-					+ "Please change the search.properties config e.g.: rp.1.queryparser.boostAttribute=XX");
+			getLogger().error(
+				"No boostAttribute is set! " + "Please change the search.properties config e.g.: rp.1.queryparser.boostAttribute=XX");
 		}
 
-		Query resultQuery = new CRRecencyBoostingQuery(super.parse(crQuery),
-				this.multiplicatorBoost, this.timerange, this.boostAttribute);
+		Query resultQuery = new CRRecencyBoostingQuery(super.parse(crQuery), this.multiplicatorBoost, this.timerange, this.boostAttribute);
 
 		return resultQuery;
-		
+
 	}
 
 }
