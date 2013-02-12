@@ -8,9 +8,10 @@ import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.AtomicReader;
+import org.apache.lucene.index.DocsEnum;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.index.TermDocs;
 import org.apache.lucene.store.Directory;
 
 import com.gentics.api.lib.resolving.Resolvable;
@@ -51,11 +52,11 @@ public class LuceneIndexUpdateChecker extends IndexUpdateChecker {
 		final String idAttribute) {
 		this.indexLocation = indexLocation;
 		indexAccessor = indexLocation.getAccessor();
-		IndexReader reader = null;
+		AtomicReader reader = null;
 		try {
 			reader = indexAccessor.getReader(true);
 
-			TermDocs termDocs = reader.termDocs(new Term(termKey, termValue));
+			DocsEnum termDocs = reader.termDocsEnum(new Term(termKey, termValue));
 			log.debug("Fetching sorted documents from index...");
 			docs = fetchSortedDocs(termDocs, reader, idAttribute);
 			log.debug("Fetched sorted docs from index");
@@ -169,10 +170,11 @@ public class LuceneIndexUpdateChecker extends IndexUpdateChecker {
 		checkedDocuments.clear();
 	}
 
-	private LinkedHashMap<String, Integer> fetchSortedDocs(TermDocs termDocs, IndexReader reader, String idAttribute) throws IOException {
+	private LinkedHashMap<String, Integer> fetchSortedDocs(DocsEnum termDocs, IndexReader reader, String idAttribute) throws IOException {
 		LinkedHashMap<String, Integer> tmp = new LinkedHashMap<String, Integer>();
 
-		while (termDocs.next()) {
+		int index;
+		while ((index = termDocs.nextDoc()) != DocsEnum.NO_MORE_DOCS) {
 			Document doc = reader.document(termDocs.doc());
 			String docID = doc.get(idAttribute);
 			tmp.put(docID, termDocs.doc());

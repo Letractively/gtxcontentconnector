@@ -11,18 +11,19 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.Searcher;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.spell.LuceneDictionary;
-import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 
 import com.gentics.cr.CRConfig;
 import com.gentics.cr.CRConfigUtil;
@@ -58,6 +59,7 @@ import com.gentics.cr.util.indexing.ReIndexNoSkipStrategy;
 public class Autocompleter implements IEventReceiver, AutocompleteConfigurationKeys {
 
 	protected static final Logger log = Logger.getLogger(Autocompleter.class);
+
 	@Deprecated
 	private LuceneIndexLocation source;
 	private LuceneIndexLocation autocompleteLocation;
@@ -75,7 +77,7 @@ public class Autocompleter implements IEventReceiver, AutocompleteConfigurationK
 
 	/**
 	 * to keep backward compatibility - new implementations must declare in the
-	 * config if they use the new {@link AutocompleteIndexExtension} Class
+	 * config if they use the new {@link AutocompleteIndexExtension} Class.
 	 */
 	@Deprecated
 	private boolean useAutocompleteIndexExtension = false;
@@ -120,7 +122,7 @@ public class Autocompleter implements IEventReceiver, AutocompleteConfigurationK
 	/**
 	 * from version 2.0.0 the {@link AutocompleteIndexExtension} is used for all
 	 * Index related tasks and the {@link Autocompleter} will only handle search
-	 * requests
+	 * requests.
 	 */
 	@Deprecated
 	public void processEvent(Event event) {
@@ -146,11 +148,11 @@ public class Autocompleter implements IEventReceiver, AutocompleteConfigurationK
 		}
 
 		IndexAccessor ia = autocompleteLocation.getAccessor();
-		Searcher autoCompleteSearcher = ia.getPrioritizedSearcher();
+		IndexSearcher autoCompleteSearcher = ia.getPrioritizedSearcher();
 		IndexReader autoCompleteReader = ia.getReader(false);
 		try {
 			Query query = new TermQuery(new Term(GRAMMED_WORDS_FIELD, term));
-			Sort sort = new Sort(new SortField(COUNT_FIELD, SortField.LONG, true));
+			Sort sort = new Sort(new SortField(COUNT_FIELD, SortField.Type.LONG, true));
 			TopDocs docs = autoCompleteSearcher.search(query, null, 5, sort);
 			int id = 1;
 			for (ScoreDoc doc : docs.scoreDocs) {
@@ -176,8 +178,8 @@ public class Autocompleter implements IEventReceiver, AutocompleteConfigurationK
 			IndexAccessor ia = source.getAccessor();
 			boolean reopened = false;
 			try {
-				IndexReader reader = ia.getReader(false);
-				Directory dir = reader.directory();
+				DirectoryReader reader = ia.getReader(false);
+				FSDirectory dir = (FSDirectory) reader.directory();
 				try {
 					if (dir.fileExists("reopen")) {
 						long lastupdate = dir.fileModified("reopen");
@@ -208,7 +210,7 @@ public class Autocompleter implements IEventReceiver, AutocompleteConfigurationK
 	/**
 	 * from version 2.0.0 the {@link AutocompleteIndexExtension} is used for all
 	 * Index related tasks and the {@link Autocompleter} will only handle search
-	 * requests
+	 * requests.
 	 */
 	@Deprecated
 	private synchronized void reIndex() throws IOException {

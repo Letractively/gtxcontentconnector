@@ -27,12 +27,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.CharArraySet;
-import org.apache.lucene.analysis.StopAnalyzer;
-import org.apache.lucene.analysis.StopFilter;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.core.StopAnalyzer;
+import org.apache.lucene.analysis.core.StopFilter;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
+import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.util.Version;
 
 import com.gentics.cr.configuration.GenericConfiguration;
@@ -74,292 +74,292 @@ public final class CustomPatternAnalyzer extends Analyzer {
 
 	/** <code>"\\s+"</code>; Divides text at whitespaces (Character.isWhitespace(c)) */
 	public static final Pattern WHITESPACE_PATTERN = Pattern.compile("\\s+");
-	
+
 	private static final String LOWERCASE_KEY = "lowercase";
 
-	private static final CharArraySet EXTENDED_ENGLISH_STOP_WORDS = CharArraySet.unmodifiableSet(new CharArraySet(
-			LuceneVersion.getVersion(), Arrays.asList(
-				"a",
-				"about",
-				"above",
-				"across",
-				"adj",
-				"after",
-				"afterwards",
-				"again",
-				"against",
-				"albeit",
-				"all",
-				"almost",
-				"alone",
-				"along",
-				"already",
-				"also",
-				"although",
-				"always",
-				"among",
-				"amongst",
-				"an",
-				"and",
-				"another",
-				"any",
-				"anyhow",
-				"anyone",
-				"anything",
-				"anywhere",
-				"are",
-				"around",
-				"as",
-				"at",
-				"be",
-				"became",
-				"because",
-				"become",
-				"becomes",
-				"becoming",
-				"been",
-				"before",
-				"beforehand",
-				"behind",
-				"being",
-				"below",
-				"beside",
-				"besides",
-				"between",
-				"beyond",
-				"both",
-				"but",
-				"by",
-				"can",
-				"cannot",
-				"co",
-				"could",
-				"down",
-				"during",
-				"each",
-				"eg",
-				"either",
-				"else",
-				"elsewhere",
-				"enough",
-				"etc",
-				"even",
-				"ever",
-				"every",
-				"everyone",
-				"everything",
-				"everywhere",
-				"except",
-				"few",
-				"first",
-				"for",
-				"former",
-				"formerly",
-				"from",
-				"further",
-				"had",
-				"has",
-				"have",
-				"he",
-				"hence",
-				"her",
-				"here",
-				"hereafter",
-				"hereby",
-				"herein",
-				"hereupon",
-				"hers",
-				"herself",
-				"him",
-				"himself",
-				"his",
-				"how",
-				"however",
-				"i",
-				"ie",
-				"if",
-				"in",
-				"inc",
-				"indeed",
-				"into",
-				"is",
-				"it",
-				"its",
-				"itself",
-				"last",
-				"latter",
-				"latterly",
-				"least",
-				"less",
-				"ltd",
-				"many",
-				"may",
-				"me",
-				"meanwhile",
-				"might",
-				"more",
-				"moreover",
-				"most",
-				"mostly",
-				"much",
-				"must",
-				"my",
-				"myself",
-				"namely",
-				"neither",
-				"never",
-				"nevertheless",
-				"next",
-				"no",
-				"nobody",
-				"none",
-				"noone",
-				"nor",
-				"not",
-				"nothing",
-				"now",
-				"nowhere",
-				"of",
-				"off",
-				"often",
-				"on",
-				"once one",
-				"only",
-				"onto",
-				"or",
-				"other",
-				"others",
-				"otherwise",
-				"our",
-				"ours",
-				"ourselves",
-				"out",
-				"over",
-				"own",
-				"per",
-				"perhaps",
-				"rather",
-				"s",
-				"same",
-				"seem",
-				"seemed",
-				"seeming",
-				"seems",
-				"several",
-				"she",
-				"should",
-				"since",
-				"so",
-				"some",
-				"somehow",
-				"someone",
-				"something",
-				"sometime",
-				"sometimes",
-				"somewhere",
-				"still",
-				"such",
-				"t",
-				"than",
-				"that",
-				"the",
-				"their",
-				"them",
-				"themselves",
-				"then",
-				"thence",
-				"there",
-				"thereafter",
-				"thereby",
-				"therefor",
-				"therein",
-				"thereupon",
-				"these",
-				"they",
-				"this",
-				"those",
-				"though",
-				"through",
-				"throughout",
-				"thru",
-				"thus",
-				"to",
-				"together",
-				"too",
-				"toward",
-				"towards",
-				"under",
-				"until",
-				"up",
-				"upon",
-				"us",
-				"very",
-				"via",
-				"was",
-				"we",
-				"well",
-				"were",
-				"what",
-				"whatever",
-				"whatsoever",
-				"when",
-				"whence",
-				"whenever",
-				"whensoever",
-				"where",
-				"whereafter",
-				"whereas",
-				"whereat",
-				"whereby",
-				"wherefrom",
-				"wherein",
-				"whereinto",
-				"whereof",
-				"whereon",
-				"whereto",
-				"whereunto",
-				"whereupon",
-				"wherever",
-				"wherewith",
-				"whether",
-				"which",
-				"whichever",
-				"whichsoever",
-				"while",
-				"whilst",
-				"whither",
-				"who",
-				"whoever",
-				"whole",
-				"whom",
-				"whomever",
-				"whomsoever",
-				"whose",
-				"whosoever",
-				"why",
-				"will",
-				"with",
-				"within",
-				"without",
-				"would",
-				"xsubj",
-				"xcal",
-				"xauthor",
-				"xother ",
-				"xnote",
-				"yet",
-				"you",
-				"your",
-				"yours",
-				"yourself",
-				"yourselves"), true));
+	private static final CharArraySet EXTENDED_ENGLISH_STOP_WORDS = CharArraySet.unmodifiableSet(new CharArraySet(LuceneVersion
+			.getVersion(), Arrays.asList(
+		"a",
+		"about",
+		"above",
+		"across",
+		"adj",
+		"after",
+		"afterwards",
+		"again",
+		"against",
+		"albeit",
+		"all",
+		"almost",
+		"alone",
+		"along",
+		"already",
+		"also",
+		"although",
+		"always",
+		"among",
+		"amongst",
+		"an",
+		"and",
+		"another",
+		"any",
+		"anyhow",
+		"anyone",
+		"anything",
+		"anywhere",
+		"are",
+		"around",
+		"as",
+		"at",
+		"be",
+		"became",
+		"because",
+		"become",
+		"becomes",
+		"becoming",
+		"been",
+		"before",
+		"beforehand",
+		"behind",
+		"being",
+		"below",
+		"beside",
+		"besides",
+		"between",
+		"beyond",
+		"both",
+		"but",
+		"by",
+		"can",
+		"cannot",
+		"co",
+		"could",
+		"down",
+		"during",
+		"each",
+		"eg",
+		"either",
+		"else",
+		"elsewhere",
+		"enough",
+		"etc",
+		"even",
+		"ever",
+		"every",
+		"everyone",
+		"everything",
+		"everywhere",
+		"except",
+		"few",
+		"first",
+		"for",
+		"former",
+		"formerly",
+		"from",
+		"further",
+		"had",
+		"has",
+		"have",
+		"he",
+		"hence",
+		"her",
+		"here",
+		"hereafter",
+		"hereby",
+		"herein",
+		"hereupon",
+		"hers",
+		"herself",
+		"him",
+		"himself",
+		"his",
+		"how",
+		"however",
+		"i",
+		"ie",
+		"if",
+		"in",
+		"inc",
+		"indeed",
+		"into",
+		"is",
+		"it",
+		"its",
+		"itself",
+		"last",
+		"latter",
+		"latterly",
+		"least",
+		"less",
+		"ltd",
+		"many",
+		"may",
+		"me",
+		"meanwhile",
+		"might",
+		"more",
+		"moreover",
+		"most",
+		"mostly",
+		"much",
+		"must",
+		"my",
+		"myself",
+		"namely",
+		"neither",
+		"never",
+		"nevertheless",
+		"next",
+		"no",
+		"nobody",
+		"none",
+		"noone",
+		"nor",
+		"not",
+		"nothing",
+		"now",
+		"nowhere",
+		"of",
+		"off",
+		"often",
+		"on",
+		"once one",
+		"only",
+		"onto",
+		"or",
+		"other",
+		"others",
+		"otherwise",
+		"our",
+		"ours",
+		"ourselves",
+		"out",
+		"over",
+		"own",
+		"per",
+		"perhaps",
+		"rather",
+		"s",
+		"same",
+		"seem",
+		"seemed",
+		"seeming",
+		"seems",
+		"several",
+		"she",
+		"should",
+		"since",
+		"so",
+		"some",
+		"somehow",
+		"someone",
+		"something",
+		"sometime",
+		"sometimes",
+		"somewhere",
+		"still",
+		"such",
+		"t",
+		"than",
+		"that",
+		"the",
+		"their",
+		"them",
+		"themselves",
+		"then",
+		"thence",
+		"there",
+		"thereafter",
+		"thereby",
+		"therefor",
+		"therein",
+		"thereupon",
+		"these",
+		"they",
+		"this",
+		"those",
+		"though",
+		"through",
+		"throughout",
+		"thru",
+		"thus",
+		"to",
+		"together",
+		"too",
+		"toward",
+		"towards",
+		"under",
+		"until",
+		"up",
+		"upon",
+		"us",
+		"very",
+		"via",
+		"was",
+		"we",
+		"well",
+		"were",
+		"what",
+		"whatever",
+		"whatsoever",
+		"when",
+		"whence",
+		"whenever",
+		"whensoever",
+		"where",
+		"whereafter",
+		"whereas",
+		"whereat",
+		"whereby",
+		"wherefrom",
+		"wherein",
+		"whereinto",
+		"whereof",
+		"whereon",
+		"whereto",
+		"whereunto",
+		"whereupon",
+		"wherever",
+		"wherewith",
+		"whether",
+		"which",
+		"whichever",
+		"whichsoever",
+		"while",
+		"whilst",
+		"whither",
+		"who",
+		"whoever",
+		"whole",
+		"whom",
+		"whomever",
+		"whomsoever",
+		"whose",
+		"whosoever",
+		"why",
+		"will",
+		"with",
+		"within",
+		"without",
+		"would",
+		"xsubj",
+		"xcal",
+		"xauthor",
+		"xother ",
+		"xnote",
+		"yet",
+		"you",
+		"your",
+		"yours",
+		"yourself",
+		"yourselves"), true));
 
 	/**
 	 * A lower-casing word analyzer with English stop words (can be shared
 	 * freely across threads without harm); global per class loader.
 	 */
-	public static final CustomPatternAnalyzer DEFAULT_ANALYZER = new CustomPatternAnalyzer(LuceneVersion.getVersion(),
-			NON_WORD_PATTERN, true, StopAnalyzer.ENGLISH_STOP_WORDS_SET);
+	public static final CustomPatternAnalyzer DEFAULT_ANALYZER = new CustomPatternAnalyzer(LuceneVersion.getVersion(), NON_WORD_PATTERN,
+			true, StopAnalyzer.ENGLISH_STOP_WORDS_SET);
 
 	/**
 	 * A lower-casing word analyzer with <b>extended </b> English stop words
@@ -368,19 +368,19 @@ public final class CustomPatternAnalyzer extends Analyzer {
 	 * http://thomas.loc.gov/home/stopwords.html, see
 	 * http://thomas.loc.gov/home/all.about.inquery.html
 	 */
-	public static final CustomPatternAnalyzer EXTENDED_ANALYZER = new CustomPatternAnalyzer(LuceneVersion.getVersion(),
-			NON_WORD_PATTERN, true, EXTENDED_ENGLISH_STOP_WORDS);
+	public static final CustomPatternAnalyzer EXTENDED_ANALYZER = new CustomPatternAnalyzer(LuceneVersion.getVersion(), NON_WORD_PATTERN,
+			true, EXTENDED_ENGLISH_STOP_WORDS);
 
 	private final Pattern pattern;
 	private final boolean toLowerCase;
-	private final Set<?> stopWords;
+	private final CharArraySet stopWords;
 
 	private final Version matchVersion;
 
 	private final static String PATTERN_CONFIG_KEY = "pattern";
 
 	public CustomPatternAnalyzer(GenericConfiguration config) {
-		this(Version.LUCENE_31, getPattern(config), config.getBoolean(LOWERCASE_KEY, true), EXTENDED_ENGLISH_STOP_WORDS);
+		this(LuceneVersion.getVersion(), getPattern(config), config.getBoolean(LOWERCASE_KEY, true), EXTENDED_ENGLISH_STOP_WORDS);
 	}
 
 	private static Pattern getPattern(GenericConfiguration config) {
@@ -410,17 +410,19 @@ public final class CustomPatternAnalyzer extends Analyzer {
 	 *            or <a href="http://www.unine.ch/info/clef/">other stop words
 	 *            lists </a>.
 	 */
-	public CustomPatternAnalyzer(Version matchVersion, Pattern pattern, boolean toLowerCase, Set<?> stopWords) {
-		if (pattern == null)
+	public CustomPatternAnalyzer(Version matchVersion, Pattern pattern, boolean toLowerCase, CharArraySet stopWords) {
+		if (pattern == null) {
 			throw new IllegalArgumentException("pattern must not be null");
+		}
 
-		if (eqPattern(NON_WORD_PATTERN, pattern))
+		if (eqPattern(NON_WORD_PATTERN, pattern)) {
 			pattern = NON_WORD_PATTERN;
-		else if (eqPattern(WHITESPACE_PATTERN, pattern))
+		} else if (eqPattern(WHITESPACE_PATTERN, pattern)) {
 			pattern = WHITESPACE_PATTERN;
-
-		if (stopWords != null && stopWords.size() == 0)
+		}
+		if (stopWords != null && stopWords.size() == 0) {
 			stopWords = null;
+		}
 
 		this.pattern = pattern;
 		this.toLowerCase = toLowerCase;
@@ -456,31 +458,6 @@ public final class CustomPatternAnalyzer extends Analyzer {
 		}
 
 		return stream;
-	}
-
-	/**
-	 * Creates a token stream that tokenizes all the text in the given Reader;
-	 * This implementation forwards to <code>tokenStream(String, String)</code> and is
-	 * less efficient than <code>tokenStream(String, String)</code>.
-	 * 
-	 * @param fieldName
-	 *            the name of the field to tokenize (currently ignored).
-	 * @param reader
-	 *            the reader delivering the text
-	 * @return a new token stream
-	 */
-	@Override
-	public TokenStream tokenStream(String fieldName, Reader reader) {
-		if (reader instanceof FastStringReader) { // fast path
-			return tokenStream(fieldName, ((FastStringReader) reader).getString());
-		}
-
-		try {
-			String text = toString(reader);
-			return tokenStream(fieldName, text);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 	/**
@@ -740,6 +717,36 @@ public final class CustomPatternAnalyzer extends Analyzer {
 		String getString() {
 			return s;
 		}
+	}
+
+	/**
+	 * Creates a token stream that tokenizes all the text in the given Reader;
+	 * This implementation forwards to <code>tokenStream(String, String)</code> and is
+	 * less efficient than <code>tokenStream(String, String)</code>.
+	 * 
+	 * @param fieldName
+	 *            the name of the field to tokenize (currently ignored).
+	 * @param reader
+	 *            the reader delivering the text
+	 * @return a new token stream
+	 */
+	@Override
+	protected TokenStreamComponents createComponents(String fieldName, Reader reader) {
+		if (reader instanceof FastStringReader) { // fast path
+			return tokenStream(fieldName, ((FastStringReader) reader).getString());
+		}
+
+		try {
+			String text = toString(reader);
+			return tokenStream(fieldName, text);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private void tokenStream() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

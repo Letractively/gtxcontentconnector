@@ -25,10 +25,8 @@ import org.apache.log4j.Logger;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.MultiReader;
-import org.apache.lucene.search.MultiSearcher;
-import org.apache.lucene.search.Searchable;
-import org.apache.lucene.search.Searcher;
-import org.apache.lucene.search.Similarity;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.Directory;
 
 /**
@@ -44,7 +42,7 @@ public class DefaultMultiIndexAccessor implements IndexAccessor {
 	 * Log4j logger for error and debug messages.
 	 */
 	private static final Logger LOGGER = Logger.getLogger(DefaultMultiIndexAccessor.class);
-	private final Map<Searcher, IndexAccessor> multiSearcherAccessors = new HashMap<Searcher, IndexAccessor>();
+	private final Map<IndexSearcher, IndexAccessor> multiSearcherAccessors = new HashMap<IndexSearcher, IndexAccessor>();
 	private final Map<IndexReader, IndexAccessor> multiReaderAccessors = new HashMap<IndexReader, IndexAccessor>();
 
 	private Similarity similarity;
@@ -74,10 +72,10 @@ public class DefaultMultiIndexAccessor implements IndexAccessor {
 	 * (non-Javadoc)
 	 * @see com.mhs.indexaccessor.MultiIndexAccessor#release(org.apache.lucene.search.Searcher)
 	 */
-	public synchronized void release(Searcher multiSearcher) {
-		Searchable[] searchers = ((MultiSearcher) multiSearcher).getSearchables();
+	public synchronized void release(IndexSearcher multiSearcher) {
+		Searchable[] searchers = ((MultiReader) multiSearcher).getSearchables();
 		for (Searchable searchable : searchers) {
-			multiSearcherAccessors.remove(searchable).release((Searcher) searchable);
+			multiSearcherAccessors.remove(searchable).release((IndexSearcher) searchable);
 		}
 	}
 
@@ -85,7 +83,7 @@ public class DefaultMultiIndexAccessor implements IndexAccessor {
 	 * Closes all index accessors contained in the multi accessor.
 	 */
 	public void close() {
-		for (Entry<Searcher, IndexAccessor> iae : this.multiSearcherAccessors.entrySet()) {
+		for (Entry<IndexSearcher, IndexAccessor> iae : this.multiSearcherAccessors.entrySet()) {
 			IndexAccessor ia = iae.getValue();
 			if (ia.isOpen()) {
 				ia.close();
@@ -99,9 +97,9 @@ public class DefaultMultiIndexAccessor implements IndexAccessor {
 		}
 	}
 
-	public Searcher getPrioritizedSearcher() throws IOException {
+	public IndexSearcher getPrioritizedSearcher() throws IOException {
 
-		Searcher[] searchers = new Searcher[this.dirs.length];
+		IndexSearcher[] searchers = new IndexSearcher[this.dirs.length];
 
 		IndexAccessorFactory factory = IndexAccessorFactory.getInstance();
 		int i = 0;
@@ -138,8 +136,8 @@ public class DefaultMultiIndexAccessor implements IndexAccessor {
 		return multiReader;
 	}
 
-	public Searcher getSearcher() throws IOException {
-		Searcher[] searchers = new Searcher[this.dirs.length];
+	public IndexSearcher getSearcher() throws IOException {
+		IndexSearcher[] searchers = new IndexSearcher[this.dirs.length];
 
 		IndexAccessorFactory factory = IndexAccessorFactory.getInstance();
 		int i = 0;
@@ -155,8 +153,8 @@ public class DefaultMultiIndexAccessor implements IndexAccessor {
 		return multiSearcher;
 	}
 
-	public Searcher getSearcher(IndexReader indexReader) throws IOException {
-		Searcher[] searchers = new Searcher[this.dirs.length];
+	public IndexSearcher getSearcher(IndexReader indexReader) throws IOException {
+		IndexSearcher[] searchers = new IndexSearcher[this.dirs.length];
 
 		IndexAccessorFactory factory = IndexAccessorFactory.getInstance();
 		int i = 0;
@@ -172,8 +170,8 @@ public class DefaultMultiIndexAccessor implements IndexAccessor {
 		return multiSearcher;
 	}
 
-	public Searcher getSearcher(Similarity similarity, IndexReader indexReader) throws IOException {
-		Searcher[] searchers = new Searcher[this.dirs.length];
+	public IndexSearcher getSearcher(Similarity similarity, IndexReader indexReader) throws IOException {
+		IndexSearcher[] searchers = new IndexSearcher[this.dirs.length];
 
 		IndexAccessorFactory factory = IndexAccessorFactory.getInstance();
 		int i = 0;

@@ -8,8 +8,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.analysis.KeywordAnalyzer;
-import org.apache.lucene.facet.taxonomy.InconsistentTaxonomyException;
 import org.apache.lucene.facet.taxonomy.TaxonomyReader;
 import org.apache.lucene.facet.taxonomy.TaxonomyWriter;
 import org.apache.lucene.facet.taxonomy.directory.DirectoryTaxonomyReader;
@@ -18,13 +16,13 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.LogByteSizeMergePolicy;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.util.Version;
 
+import com.gentics.cr.lucene.LuceneVersion;
 import com.gentics.cr.lucene.facets.taxonomy.DefaultDirectoryTaxonomyWriter;
 import com.gentics.cr.lucene.facets.taxonomy.TaxonomyMapping;
 
 /**
- * provides the default implementation for the {@link TaxonomyAccessor}
+ * provides the default implementation for the {@link TaxonomyAccessor}.
  * 
  * $Date$
  * 
@@ -39,8 +37,7 @@ public class DefaultTaxonomyAccessor implements TaxonomyAccessor {
 	/**
 	 * Log4j logger for error and debug messages.
 	 */
-	private static final Logger LOGGER = Logger
-			.getLogger(DefaultTaxonomyAccessor.class);
+	private static final Logger LOGGER = Logger.getLogger(DefaultTaxonomyAccessor.class);
 
 	// TODO: needed?
 	private static final int POOL_SIZE = 10;
@@ -83,10 +80,7 @@ public class DefaultTaxonomyAccessor implements TaxonomyAccessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#getTaxonomyReader
-	 * ()
+	 * @see com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#getTaxonomyReader ()
 	 */
 	public synchronized TaxonomyReader getTaxonomyReader() throws IOException {
 		checkClosed();
@@ -106,10 +100,7 @@ public class DefaultTaxonomyAccessor implements TaxonomyAccessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#getTaxonomyWriter
-	 * ()
+	 * @see com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#getTaxonomyWriter ()
 	 */
 	public synchronized TaxonomyWriter getTaxonomyWriter() throws IOException {
 		OpenMode openMode = writerOpenMode;
@@ -128,13 +119,11 @@ public class DefaultTaxonomyAccessor implements TaxonomyAccessor {
 		}
 
 		if (taxoWriter != null) {
-			LOGGER.debug("returning cached writer:"
-					+ Thread.currentThread().getId());
+			LOGGER.debug("returning cached writer:" + Thread.currentThread().getId());
 
 			writerUseCount++;
 		} else {
-			LOGGER.debug("opening new writer and caching it:"
-					+ Thread.currentThread().getId());
+			LOGGER.debug("opening new writer and caching it:" + Thread.currentThread().getId());
 
 			taxoWriter = new DefaultDirectoryTaxonomyWriter(directory, openMode);
 			writerUseCount = 1;
@@ -146,10 +135,7 @@ public class DefaultTaxonomyAccessor implements TaxonomyAccessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#release(org.apache
-	 * .lucene.facet.taxonomy.TaxonomyReader)
+	 * @see com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#release(org.apache .lucene.facet.taxonomy.TaxonomyReader)
 	 */
 	public synchronized void release(TaxonomyReader reader) {
 		if (reader == null) {
@@ -157,8 +143,7 @@ public class DefaultTaxonomyAccessor implements TaxonomyAccessor {
 		}
 
 		if (reader != taxoReader) {
-			throw new IllegalArgumentException(
-					"reading reader not opened by this index accessor");
+			throw new IllegalArgumentException("reading reader not opened by this index accessor");
 		}
 
 		readerUseCount--;
@@ -167,29 +152,23 @@ public class DefaultTaxonomyAccessor implements TaxonomyAccessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#release(org.apache
-	 * .lucene.facet.taxonomy.TaxonomyWriter)
+	 * @see com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#release(org.apache .lucene.facet.taxonomy.TaxonomyWriter)
 	 */
 	public synchronized void release(TaxonomyWriter writer) {
 
 		try {
 			if (writer != taxoWriter) {
-				throw new IllegalArgumentException(
-						"writer not opened by this index accessor");
+				throw new IllegalArgumentException("writer not opened by this index accessor");
 			}
 			writerUseCount--;
 
 			if (writerUseCount == 0) {
-				LOGGER.debug("closing cached writer:"
-						+ Thread.currentThread().getId());
+				LOGGER.debug("closing cached writer:" + Thread.currentThread().getId());
 
 				try {
 					taxoWriter.close();
 				} catch (IOException e) {
-					LOGGER.error("error closing cached Writer:"
-							+ Thread.currentThread().getId(), e);
+					LOGGER.error("error closing cached Writer:" + Thread.currentThread().getId(), e);
 				} finally {
 					taxoWriter = null;
 				}
@@ -252,16 +231,14 @@ public class DefaultTaxonomyAccessor implements TaxonomyAccessor {
 		} catch (InconsistentTaxonomyException e) {
 			LOGGER.info("inconsistent taxononmy found when trying to refresh it", e);
 			closeTaxonomyReader();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			LOGGER.info("Could not refresh TaxonomyReader - closing it", e);
 			closeTaxonomyReader();
 		}
-
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#close()
 	 */
 	public synchronized void close() {
@@ -270,8 +247,7 @@ public class DefaultTaxonomyAccessor implements TaxonomyAccessor {
 			return;
 		}
 		closed = true;
-		while ((readerUseCount > 0) || (writerUseCount > 0)
-				|| (numReopening > 0)) {
+		while ((readerUseCount > 0) || (writerUseCount > 0) || (numReopening > 0)) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -351,9 +327,7 @@ public class DefaultTaxonomyAccessor implements TaxonomyAccessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#writerUseCount()
+	 * @see com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#writerUseCount()
 	 */
 	public int writerUseCount() {
 		return writerUseCount;
@@ -361,7 +335,6 @@ public class DefaultTaxonomyAccessor implements TaxonomyAccessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#isOpen()
 	 */
 	public boolean isOpen() {
@@ -370,7 +343,6 @@ public class DefaultTaxonomyAccessor implements TaxonomyAccessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#isLocked()
 	 */
 	public boolean isLocked() {
@@ -385,7 +357,6 @@ public class DefaultTaxonomyAccessor implements TaxonomyAccessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#open()
 	 */
 	public synchronized void open() {
@@ -394,9 +365,7 @@ public class DefaultTaxonomyAccessor implements TaxonomyAccessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#addTaxonomyMapping
+	 * @see com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#addTaxonomyMapping
 	 * (com.gentics.cr.lucene.taxonomyaccessor.TaxonomyMapping)
 	 */
 	public void addTaxonomyMapping(TaxonomyMapping mapping) {
@@ -405,10 +374,7 @@ public class DefaultTaxonomyAccessor implements TaxonomyAccessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#getTaxonomyMappings
-	 * ()
+	 * @see com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#getTaxonomyMappings ()
 	 */
 	public Collection<TaxonomyMapping> getTaxonomyMappings() {
 		return taxonomyMappings;
@@ -416,13 +382,9 @@ public class DefaultTaxonomyAccessor implements TaxonomyAccessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#addTaxonomyMappings
-	 * (java.util.Collection)
+	 * @see com.gentics.cr.lucene.taxonomyaccessor.TaxonomyAccessor#addTaxonomyMappings (java.util.Collection)
 	 */
-	public void addTaxonomyMappings(
-			Collection<? extends TaxonomyMapping> mappings) {
+	public void addTaxonomyMappings(Collection<? extends TaxonomyMapping> mappings) {
 		taxonomyMappings.addAll(mappings);
 	}
 
@@ -446,12 +408,11 @@ public class DefaultTaxonomyAccessor implements TaxonomyAccessor {
 			}
 		}
 		closeTaxonomyWriter();
-		
+
 		// Workaround for missing delete all method in the TaxonomyWriter
-		IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_30,
-			        new KeywordAnalyzer()).setOpenMode(this.writerOpenMode).setMergePolicy(
-			        new LogByteSizeMergePolicy());		 
-		try {			
+		IndexWriterConfig config = new IndexWriterConfig(LuceneVersion.getVersion(), new org.apache.lucene.analysis.core.KeywordAnalyzer())
+				.setOpenMode(this.writerOpenMode).setMergePolicy(new LogByteSizeMergePolicy());
+		try {
 			IndexWriter indexWriter = new IndexWriter(directory, config);
 			indexWriter.deleteAll();
 			indexWriter.close();
@@ -460,6 +421,5 @@ public class DefaultTaxonomyAccessor implements TaxonomyAccessor {
 			LOGGER.error("Could not clear the Taxonomy", e);
 		}
 		notifyAll();
-
 	}
 }

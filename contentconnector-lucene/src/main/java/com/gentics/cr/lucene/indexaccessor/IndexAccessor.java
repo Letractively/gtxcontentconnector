@@ -20,10 +20,11 @@ package com.gentics.cr.lucene.indexaccessor;
  */
 import java.io.IOException;
 
+import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.search.Searcher;
-import org.apache.lucene.search.Similarity;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.similarities.Similarity;
 
 /**
  * An IndexAccessor coordinates access to Writers, Readers, and Searchers in a
@@ -62,14 +63,14 @@ public interface IndexAccessor {
 	 * @param write
 	 * @throws IOException
 	 */
-	IndexReader getReader(boolean write) throws IOException;
+	DirectoryReader getReader(boolean write) throws IOException;
 
 	/**
 	 * Fetches a double checked Searcher that has been checked for the presence of a reopen file
 	 * Note that it may occure that a prioritized Searcher may be reopened twice.
 	 * @throws IOException
 	 */
-	Searcher getPrioritizedSearcher() throws IOException;
+	IndexSearcher getPrioritizedSearcher() throws IOException;
 
 	/**
 	 * Returns a Searcher.
@@ -77,7 +78,7 @@ public interface IndexAccessor {
 	 * @return new or cached Searcher
 	 * @throws IOException
 	 */
-	Searcher getSearcher() throws IOException;
+	IndexSearcher getSearcher() throws IOException;
 
 	/**
 	 * Returns a Searcher that uses a supplied IndexReader.
@@ -86,7 +87,7 @@ public interface IndexAccessor {
 	 * @return new or cached Searcher
 	 * @throws IOException
 	 */
-	Searcher getSearcher(IndexReader indexReader) throws IOException;
+	IndexSearcher getSearcher(IndexReader indexReader) throws IOException;
 
 	/**
 	 * Returns a Searcher that uses a supplied IndexReader and Similarity.
@@ -96,7 +97,7 @@ public interface IndexAccessor {
 	 * @return new or cached Searcher
 	 * @throws IOException
 	 */
-	Searcher getSearcher(Similarity similarity, IndexReader indexReader) throws IOException;
+	IndexSearcher getSearcher(Similarity similarity, IndexReader indexReader) throws IOException;
 
 	/**
 	 * @throws IOException
@@ -130,7 +131,7 @@ public interface IndexAccessor {
 	/**
 	 * @param searcher
 	 */
-	void release(Searcher searcher);
+	void release(IndexSearcher searcher);
 
 	int writerUseCount();
 

@@ -32,12 +32,16 @@ import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Searcher;
-import org.apache.lucene.search.Similarity;
+import org.apache.lucene.search.similarities.BM25Similarity;
+import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.Directory;
+
+import com.gentics.cr.lucene.LuceneVersion;
 
 /**
  * Provides a default implementation for {@link IndexAccessor}.
@@ -45,26 +49,25 @@ import org.apache.lucene.store.Directory;
 class DefaultIndexAccessor implements IndexAccessor {
 
 	/**
-	 * Creates Threads starting with a certain name
+	 * Creates Threads starting with a certain name.
 	 * @author bigbear3001
-	 *
 	 */
 	private static final class NamedThreadFactory implements ThreadFactory {
 		/**
-		 * Counter for naming the threads
+		 * Counter for naming the threads.
 		 */
 		private int i = 0;
-		
+
 		/**
-		 * Base pool name
+		 * Base pool name.
 		 */
 		private String poolName;
 
 		/**
-		 * Created a new thread factory that creates a named thread pool
+		 * Created a new thread factory that creates a named thread pool.
 		 * @param name
 		 */
-		public NamedThreadFactory(String name) {
+		public NamedThreadFactory(final String name) {
 			poolName = name + ".pool-";
 		}
 
@@ -89,13 +92,13 @@ class DefaultIndexAccessor implements IndexAccessor {
 	private static final Logger LOGGER = Logger.getLogger(DefaultIndexAccessor.class);
 
 	/**
-	 * Pool size for handling threads
+	 * Pool size for handling threads.
 	 */
 	private static final int POOL_SIZE = 2;
 
 	private Analyzer analyzer;
 
-	private IndexReader cachedReadingReader = null;
+	private DirectoryReader cachedReadingReader = null;
 
 	/**
 	 * cache for searchers.
@@ -104,7 +107,7 @@ class DefaultIndexAccessor implements IndexAccessor {
 
 	private IndexWriter cachedWriter = null;
 
-	private IndexReader cachedWritingReader = null;
+	private DirectoryReader cachedWritingReader = null;
 
 	protected boolean closed = true;
 
@@ -112,7 +115,9 @@ class DefaultIndexAccessor implements IndexAccessor {
 
 	protected int readingReaderUseCount = 0;
 
-	protected ExecutorService pool = Executors.newFixedThreadPool(POOL_SIZE, new NamedThreadFactory(DefaultIndexAccessor.class.getSimpleName()));
+	protected ExecutorService pool = Executors.newFixedThreadPool(
+		POOL_SIZE,
+		new NamedThreadFactory(DefaultIndexAccessor.class.getSimpleName()));
 
 	protected int numReopening = 0;
 
@@ -265,7 +270,7 @@ class DefaultIndexAccessor implements IndexAccessor {
 	 * (non-Javadoc)
 	 * @see com.mhs.indexaccessor.IndexAccessor#getReader(boolean)
 	 */
-	public IndexReader getReader(boolean write) throws IOException {
+	public DirectoryReader getReader(boolean write) throws IOException {
 		return write ? getWritingReader() : getReadingReader();
 	}
 
@@ -273,7 +278,7 @@ class DefaultIndexAccessor implements IndexAccessor {
 	 * Return the reader that was opened for read-only operations, or a new one if
 	 * it hasn't been opened already.
 	 */
-	private synchronized IndexReader getReadingReader() throws IOException {
+	private synchronized DirectoryReader getReadingReader() throws IOException {
 
 		checkClosed();
 
@@ -294,20 +299,19 @@ class DefaultIndexAccessor implements IndexAccessor {
 	/**
 	 * Fetches a double checked Searcher that has been checked for the presence of a reopen file
 	 * Note that it may occure that a prioritized Searcher may be reopened twice.
-	 * @param indexLocation 
 	 * @return
 	 * @throws IOException
 	 */
-	public Searcher getPrioritizedSearcher() throws IOException {
+	public IndexSearcher getPrioritizedSearcher() throws IOException {
 		boolean reopened = this.numReopening > 0;
 		IndexSearcher searcher = (IndexSearcher) getSearcher();
 
 		if (reopened) {
 			//REOPEN SEARCHER AS IT WAS PRIORITIZED
 			synchronized (DefaultIndexAccessor.this) {
-				IndexReader reader = searcher.getIndexReader();
+				DirectoryReader reader = (DirectoryReader) searcher.getIndexReader();
 				IndexSearcher oldSearcher = searcher;
-				IndexReader newReader = reader.reopen();
+				DirectoryReader newReader = DirectoryReader.openIfChanged(reader);
 				if (newReader != reader) {
 					searcher = new IndexSearcher(newReader);
 					searcher.setSimilarity(oldSearcher.getSimilarity());
@@ -328,23 +332,23 @@ class DefaultIndexAccessor implements IndexAccessor {
 	 * (non-Javadoc)
 	 * @see com.mhs.indexaccessor.IndexAccessor#getSearcher()
 	 */
-	public Searcher getSearcher() throws IOException {
-		return getSearcher(Similarity.getDefault(), null);
+	public IndexSearcher getSearcher() throws IOException {
+		return getSearcher(new BM25Similarity(), null);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see com.mhs.indexaccessor.IndexAccessor#getSearcher(org.apache.lucene.index.IndexReader)
 	 */
-	public Searcher getSearcher(IndexReader indexReader) throws IOException {
-		return getSearcher(Similarity.getDefault(), indexReader);
+	public IndexSearcher getSearcher(IndexReader indexReader) throws IOException {
+		return getSearcher(new BM25Similarity(), indexReader);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see com.mhs.indexaccessor.IndexAccessor#getSearcher(org.apache.lucene.search.Similarity, org.apache.lucene.index.IndexReader)
 	 */
-	public synchronized Searcher getSearcher(Similarity similarity, IndexReader indexReader) throws IOException {
+	public synchronized IndexSearcher getSearcher(Similarity similarity, IndexReader indexReader) throws IOException {
 
 		checkClosed();
 
@@ -353,10 +357,12 @@ class DefaultIndexAccessor implements IndexAccessor {
 			LOGGER.debug("returning cached searcher");
 		} else {
 			LOGGER.debug("opening new searcher and caching it");
-			searcher = indexReader != null ? new IndexSearcher(indexReader) : new IndexSearcher(directory);
-			createdSearchers.add(searcher);
-			searcher.setSimilarity(similarity);
-			cachedSearchers.put(similarity, searcher);
+			if (indexReader != null) {
+				searcher = new IndexSearcher(indexReader);
+				createdSearchers.add(searcher);
+				searcher.setSimilarity(similarity);
+				cachedSearchers.put(similarity, searcher);
+			}
 		}
 		searcherUseCount++;
 		notifyAll();
@@ -395,7 +401,8 @@ class DefaultIndexAccessor implements IndexAccessor {
 		} else {
 			LOGGER.debug("opening new writer and caching it:" + Thread.currentThread().getId());
 
-			cachedWriter = new IndexWriter(directory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED);
+			IndexWriterConfig indexConfig = new IndexWriterConfig(LuceneVersion.getVersion(), analyzer);
+			cachedWriter = new IndexWriter(directory, indexConfig);
 			writerUseCount = 1;
 		}
 
@@ -407,7 +414,7 @@ class DefaultIndexAccessor implements IndexAccessor {
 	 * Return the reader that was opened for read-write operations, or a new one
 	 * if it hasn't been opened already.
 	 */
-	private synchronized IndexReader getWritingReader() throws CorruptIndexException, IOException {
+	private synchronized DirectoryReader getWritingReader() throws CorruptIndexException, IOException {
 		checkClosed();
 
 		while (writerUseCount > 0) {
@@ -422,7 +429,7 @@ class DefaultIndexAccessor implements IndexAccessor {
 			writingReaderUseCount++;
 		} else {
 			LOGGER.debug("opening new writing reader");
-			cachedWritingReader = IndexReader.open(directory, false);
+			cachedWritingReader = DirectoryReader.open(directory);
 			writingReaderUseCount = 1;
 		}
 
@@ -531,7 +538,7 @@ class DefaultIndexAccessor implements IndexAccessor {
 	 * (non-Javadoc)
 	 * @see com.mhs.indexaccessor.IndexAccessor#release(org.apache.lucene.search.Searcher)
 	 */
-	public synchronized void release(Searcher searcher) {
+	public synchronized void release(IndexSearcher searcher) {
 		searcherUseCount--;
 		if (searcherUseCount == 0 && closeAllReleasedSearchers) {
 			closeCachedSearchers();
@@ -609,9 +616,9 @@ class DefaultIndexAccessor implements IndexAccessor {
 		for (Similarity key : keys) {
 			IndexSearcher searcher = cachedSearchers.get(key);
 			try {
-				IndexReader oldReader = searcher.getIndexReader();
+				DirectoryReader oldReader = (DirectoryReader) searcher.getIndexReader();
 				IndexSearcher oldSearcher = searcher;
-				IndexReader newReader = oldReader.reopen();
+				DirectoryReader newReader = DirectoryReader.openIfChanged(oldReader);
 
 				if (newReader != oldReader) {
 
@@ -641,7 +648,7 @@ class DefaultIndexAccessor implements IndexAccessor {
 		LOGGER.debug("reopening cached reading reader");
 		IndexReader oldReader = cachedReadingReader;
 		try {
-			cachedReadingReader = cachedReadingReader.reopen();
+			cachedReadingReader = DirectoryReader.openIfChanged(cachedReadingReader);
 			if (oldReader != cachedReadingReader) {
 				oldReader.close();
 			}

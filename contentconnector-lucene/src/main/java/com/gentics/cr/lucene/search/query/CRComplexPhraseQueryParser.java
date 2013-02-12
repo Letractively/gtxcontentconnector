@@ -1,7 +1,6 @@
 package com.gentics.cr.lucene.search.query;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.queryParser.complexPhrase.ComplexPhraseQueryParser;
 import org.apache.lucene.util.Version;
 
 import com.gentics.cr.CRRequest;
@@ -10,7 +9,7 @@ import com.gentics.cr.CRRequest;
  * Wrapper for ComplexPhraseQueryParser.
  * @author Christopher
  */
-public class CRComplexPhraseQueryParser extends ComplexPhraseQueryParser {
+public class CRComplexPhraseQueryParser extends org.apache.lucene.queryparser.complexPhrase.ComplexPhraseQueryParser {
 
 	/**
 	   * initialize a CRQeryParser with multiple search attributes.
@@ -29,8 +28,8 @@ public class CRComplexPhraseQueryParser extends ComplexPhraseQueryParser {
 	 * @param analyzer analyzer for index
 	 * @param crRequest request to get additional parameters from.
 	 */
-	public CRComplexPhraseQueryParser(final Version version, final String[] searchedAttributes,
-		final Analyzer analyzer, final CRRequest crRequest) {
+	public CRComplexPhraseQueryParser(final Version version, final String[] searchedAttributes, final Analyzer analyzer,
+		final CRRequest crRequest) {
 		this(version, searchedAttributes, analyzer);
 	}
 

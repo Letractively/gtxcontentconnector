@@ -10,8 +10,11 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.Field.TermVector;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.store.Directory;
@@ -23,6 +26,8 @@ import org.junit.Before;
 import com.gentics.cr.CRResolvableBean;
 import com.gentics.cr.configuration.GenericConfiguration;
 import com.gentics.cr.lucene.LuceneVersion;
+import com.gentics.cr.lucene.indexaccessor.IndexAccessor;
+import com.gentics.cr.lucene.indexaccessor.IndexAccessorFactory;
 import com.gentics.cr.lucene.indexer.transformer.ContentTransformer;
 import com.gentics.cr.lucene.indexer.transformer.pdf.PDFContentTransformer;
 import com.gentics.cr.lucene.search.highlight.ContentHighlighter;
@@ -56,7 +61,15 @@ public class PDFHighlighterTest extends TestCase {
 		dir = new RAMDirectory();
 		prepareIndex();
 
-		searcher = new IndexSearcher(dir);
+		IndexAccessorFactory factory = IndexAccessorFactory.getInstance();
+		analyzer = (Analyzer) Class.forName("org.apache.lucene.analysis.WhitespaceAnalyzer").getConstructor().newInstance();
+		query = new BooleanQuery();
+		factory.createAccessor(dir, analyzer);
+		IndexAccessor accessor = factory.getAccessor(dir);
+		assertNotNull(accessor);
+
+		IndexReader reader = accessor.getReader(true);
+		searcher = new IndexSearcher(reader);
 
 		QueryParser parser = new QueryParser(LuceneVersion.getVersion(), "binarycontent", analyzer);
 
@@ -73,15 +86,15 @@ public class PDFHighlighterTest extends TestCase {
 		//CREATE DOCUMENT
 		Document doc = new Document();
 		Object value = bean.get("binarycontent");
-		Field f = new Field("binarycontent", value.toString(), Store.YES, Field.Index.ANALYZED,
-				TermVector.WITH_POSITIONS_OFFSETS);
+		Field f = new Field("binarycontent", value.toString(), Store.YES, Field.Index.ANALYZED, TermVector.WITH_POSITIONS_OFFSETS);
 		doc.add(f);
 		doc.add(new Field("testid", "pdftest", Field.Store.YES, Field.Index.NOT_ANALYZED));
 		return doc;
 	}
 
 	private void prepareIndex() throws Exception {
-		IndexWriter writer = new IndexWriter(dir, analyzer, IndexWriter.MaxFieldLength.UNLIMITED);
+		IndexWriterConfig config = new IndexWriterConfig(LuceneVersion.getVersion(), analyzer);
+		IndexWriter writer = new IndexWriter(dir, config);
 		writer.addDocument(getDocument(bean));
 		writer.close();
 

@@ -4,20 +4,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Vector;
 import java.util.Map.Entry;
+import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.Fieldable;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.Query;
 
 import com.gentics.cr.CRConfig;
@@ -32,7 +31,6 @@ import com.gentics.cr.lucene.indexer.index.LuceneAnalyzerFactory;
 import com.gentics.cr.lucene.indexer.index.LuceneIndexLocation;
 import com.gentics.cr.lucene.search.highlight.AdvancedContentHighlighter;
 import com.gentics.cr.lucene.search.highlight.ContentHighlighter;
-import com.gentics.cr.lucene.search.highlight.WhitespaceVectorBolder;
 import com.gentics.cr.lucene.search.query.CRQueryParserFactory;
 import com.gentics.cr.monitoring.MonitorFactory;
 import com.gentics.cr.monitoring.UseCase;
@@ -61,7 +59,6 @@ public class LuceneRequestProcessor extends RequestProcessor {
 	 * Name of the provided config. Initialized on constructor initialization.
 	 */
 	private String name = null;
-
 
 	/**
 	 * init CRMetaResolvableBean with or without parsed_query.
@@ -202,8 +199,7 @@ public class LuceneRequestProcessor extends RequestProcessor {
 	 * @throws CRException
 	 */
 	@Override
-	public final Collection<CRResolvableBean> getObjects(final CRRequest request, final boolean doNavigation)
-			throws CRException {
+	public final Collection<CRResolvableBean> getObjects(final CRRequest request, final boolean doNavigation) throws CRException {
 		UseCase ucGetObjects = startUseCase("LuceneRequestProcessor." + "getObjects(" + name + ")");
 
 		/**
@@ -282,8 +278,7 @@ public class LuceneRequestProcessor extends RequestProcessor {
 			}
 		}
 		if (count <= 0) {
-			String message = "Default count is lower or equal to 0! This will "
-					+ "result in an error. Overthink your config (insert rp."
+			String message = "Default count is lower or equal to 0! This will " + "result in an error. Overthink your config (insert rp."
 					+ "<number>.searchcount=<value> in your properties file)!";
 			LOGGER.error(message);
 			throw new CRException(new CRError("Error", message));
@@ -318,10 +313,8 @@ public class LuceneRequestProcessor extends RequestProcessor {
 	 * @return list of results with added metadata bean
 	 */
 	private ArrayList<CRResolvableBean> processMetaData(final ArrayList<CRResolvableBean> result,
-		final HashMap<String, Object> searchResult, final Query parsedQuery, final CRRequest request,
-		final int start, final int count) {
-		UseCase ucProcessSearchMeta = startUseCase("LuceneRequestProcessor.getObjects(" + name
-			+ ")#processSearch.Metaresolvables");
+			final HashMap<String, Object> searchResult, final Query parsedQuery, final CRRequest request, final int start, final int count) {
+		UseCase ucProcessSearchMeta = startUseCase("LuceneRequestProcessor.getObjects(" + name + ")#processSearch.Metaresolvables");
 
 		Object metaKey = request.get(META_RESOLVABLE_KEY);
 		if (metaKey != null && (Boolean) metaKey) {
@@ -347,12 +340,10 @@ public class LuceneRequestProcessor extends RequestProcessor {
 	 * @return list of results containing all documents
 	 */
 	private ArrayList<CRResolvableBean> processSearchResolvables(final ArrayList<CRResolvableBean> result,
-		final HashMap<String, Object> searchResult, Query parsedQuery, final CRRequest request) {
-		UseCase ucProcessSearchResolvables = startUseCase("LuceneRequestProcessor.getObjects(" + name
-			+ ")#processSearch.Resolvables");
+			final HashMap<String, Object> searchResult, Query parsedQuery, final CRRequest request) {
+		UseCase ucProcessSearchResolvables = startUseCase("LuceneRequestProcessor.getObjects(" + name + ")#processSearch.Resolvables");
 
-		LinkedHashMap<Document, Float> docs = objectToLinkedHashMapDocuments(searchResult
-			.get(CRSearcher.RESULT_RESULT_KEY));
+		LinkedHashMap<Document, Float> docs = objectToLinkedHashMapDocuments(searchResult.get(CRSearcher.RESULT_RESULT_KEY));
 
 		LuceneIndexLocation idsLocation = LuceneIndexLocation.getIndexLocation(config);
 		IndexAccessor indexAccessor = idsLocation.getAccessor();
@@ -382,32 +373,29 @@ public class LuceneRequestProcessor extends RequestProcessor {
 	 * @return highlighted query
 	 * @throws IOException if rewriting the query goes wrong this exception is thrown
 	 */
-	private Query parseHighlightQuery(final CRRequest request, final IndexReader reader, Query parsedQuery)
-			throws IOException {
+	private Query parseHighlightQuery(final CRRequest request, final IndexReader reader, Query parsedQuery) throws IOException {
 		//PARSE HIGHLIGHT QUERY
 		Object highlightQuery = request.get(HIGHLIGHT_QUERY_KEY);
-		
+
 		/*
-		 * testing with a whitespace-vector 
+		 * testing with a whitespace-vector
 		 */
-		 
-		
+
 		Object subconfig = config.get(QUERY_HIGHTLIGHT_PARSER_CONFIG);
 
 		String logging = "LRP parseHighlightQuery ";
-		
+
 		if (highlightQuery != null) {
 			logging += " HighlightQuery is set and overwrite parsedQuery ";
 			logging += "toString: " + highlightQuery.toString();
 
 			Analyzer analyzer = LuceneAnalyzerFactory.createAnalyzer(config);
-			QueryParser parser = CRQueryParserFactory.getConfiguredParser(
-				getSearchedAttributes(), analyzer, request, config);
+			QueryParser parser = CRQueryParserFactory.getConfiguredParser(getSearchedAttributes(), analyzer, request, config);
 			try {
-				
+
 				parsedQuery = parser.parse((String) highlightQuery);
 				parsedQuery = parsedQuery.rewrite(reader);
-				
+
 			} catch (ParseException e) {
 				LOGGER.error("Error while parsing hightlight query", e);
 			}
@@ -417,7 +405,11 @@ public class LuceneRequestProcessor extends RequestProcessor {
 			logging += "subconfig is not null! ";
 			Analyzer analyzer = LuceneAnalyzerFactory.createAnalyzer(config);
 			QueryParser highlightParser = CRQueryParserFactory.getConfiguredHighlightParser(
-				getSearchedAttributes(), analyzer, request, config, subconfig);
+				getSearchedAttributes(),
+				analyzer,
+				request,
+				config,
+				subconfig);
 			try {
 				parsedQuery = highlightParser.parse(request.getRequestFilter());
 				parsedQuery = parsedQuery.rewrite(reader);
@@ -426,9 +418,9 @@ public class LuceneRequestProcessor extends RequestProcessor {
 				LOGGER.error("Error while parsing hightlight query", e);
 			}
 		}
-		
+
 		LOGGER.debug(logging);
-		
+
 		return parsedQuery;
 	}
 
@@ -439,13 +431,12 @@ public class LuceneRequestProcessor extends RequestProcessor {
 	 * @param parsedQuery rewritten Query
 	 * @param reader prepared index Reader
 	 */
-	private void doHighlighting(final CRResolvableBean crBean, final Document doc, final Query parsedQuery,
-			final IndexReader reader) {
+	private void doHighlighting(final CRResolvableBean crBean, final Document doc, final Query parsedQuery, final IndexReader reader) {
 
 		//IF HIGHLIGHTERS ARE CONFIGURED => DO HIGHLIGHTNING
 		if (highlighters != null) {
-			UseCase ucProcessSearchHighlight = MonitorFactory.startUseCase("LuceneRequestProcessor." + "getObjects("
-					+ name + ")#processSearch.Highlight");
+			UseCase ucProcessSearchHighlight = MonitorFactory.startUseCase("LuceneRequestProcessor." + "getObjects(" + name
+					+ ")#processSearch.Highlight");
 			long s2 = System.currentTimeMillis();
 			for (Entry<String, ContentHighlighter> contentHighlighter : highlighters.entrySet()) {
 				ContentHighlighter highligther = contentHighlighter.getValue();

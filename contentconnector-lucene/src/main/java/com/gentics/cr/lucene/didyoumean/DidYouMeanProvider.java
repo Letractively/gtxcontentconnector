@@ -2,14 +2,15 @@ package com.gentics.cr.lucene.didyoumean;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.apache.lucene.index.FieldInfo;
+import org.apache.lucene.index.FieldInfos;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.spell.CustomSpellChecker;
@@ -82,7 +83,7 @@ public class DidYouMeanProvider implements IEventReceiver {
 	 */
 	private boolean checkForExistingTerms = false;
 
-	private Collection<String> dym_fields = null;
+	private FieldInfos dym_fields = null;
 
 	private boolean dymreopenupdate = false;
 
@@ -127,9 +128,10 @@ public class DidYouMeanProvider implements IEventReceiver {
 			all = true;
 		} else if (this.didyoumeanfield.contains(",")) {
 			String[] arr = this.didyoumeanfield.split(",");
-			dym_fields = new ArrayList<String>(Arrays.asList(arr));
+			dym_fields = arrayToFieldInfos(arr);
 		} else {
-			dym_fields = new ArrayList<String>(1);
+
+			FieldInfo field = new FieldInfo(didyoumeanfield, all, minDFreq, all, all, all, null);
 			dym_fields.add(this.didyoumeanfield);
 		}
 
@@ -265,15 +267,17 @@ public class DidYouMeanProvider implements IEventReceiver {
 		// build a dictionary (from the spell package)
 		log.debug("Starting to reindex didyoumean index.");
 		IndexReader sourceReader = IndexReader.open(source);
-		Collection<String> fields = null;
+		FieldInfos fields = null;
 		if (all) {
-			fields = sourceReader.getFieldNames(IndexReader.FieldOption.ALL);
+			fields = sourceReader.getFieldInfos();
 		} else {
 			fields = dym_fields;
 		}
 		try {
-			for (String fieldname : fields) {
-				LuceneDictionary dict = new LuceneDictionary(sourceReader, fieldname);
+			Iterator<FieldInfo> fieldIterator = fields.iterator();
+			while (fieldIterator.hasNext()) {
+				FieldInfo field = fieldIterator.next();
+				LuceneDictionary dict = new LuceneDictionary(sourceReader, field.name);
 				spellchecker.indexDictionary(dict);
 			}
 		} finally {

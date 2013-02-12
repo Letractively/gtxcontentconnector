@@ -8,11 +8,10 @@ import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.Searcher;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.Version;
 
@@ -21,7 +20,6 @@ import com.gentics.cr.CRRequest;
 import com.gentics.cr.configuration.GenericConfiguration;
 import com.gentics.cr.lucene.indexaccessor.IndexAccessor;
 import com.gentics.cr.lucene.indexer.index.LuceneIndexLocation;
-
 
 /**
  * The SynonymQueryParser change the users Query,
@@ -46,16 +44,16 @@ public class SynonymQueryParser extends CRQueryParser {
 	 * attributes which are searched in query.
 	 */
 	private String[] searchedAttributes;
-	
+
 	/**
 	 * static log4j {@link Logger} to log errors and debug.
-	 */	
+	 */
 	private static Logger log = Logger.getLogger(SynonymQueryParser.class);
-	
+
 	/**
 	 * sub Query Parser, which is used as "super QueryParser".
 	 */
-	private QueryParser childQueryParser;
+	private org.apache.lucene.queryparser.classic.QueryParser childQueryParser;
 
 	/**
 	 * Constructor.
@@ -66,13 +64,14 @@ public class SynonymQueryParser extends CRQueryParser {
 	 * @param analyzer Analyzer
 	 * @param crRequest CRRequest
 	 */
-	public SynonymQueryParser(final GenericConfiguration pconfig, Version version,
-			final String[] searchedAttributes, Analyzer analyzer, CRRequest crRequest) {
+	public SynonymQueryParser(final GenericConfiguration pconfig, Version version, final String[] searchedAttributes, Analyzer analyzer,
+		CRRequest crRequest) {
 		super(version, searchedAttributes, analyzer, crRequest);
 		this.config = pconfig;
 		this.searchedAttributes = searchedAttributes;
 		//get SubqueryParser if available
-		this.childQueryParser = CRQueryParserFactory.getConfiguredParser(searchedAttributes, analyzer, crRequest, new CRConfigUtil(pconfig, "Subconfig"));
+		this.childQueryParser = CRQueryParserFactory.getConfiguredParser(searchedAttributes, analyzer, crRequest, new CRConfigUtil(pconfig,
+				"Subconfig"));
 	}
 
 	/**
@@ -93,17 +92,17 @@ public class SynonymQueryParser extends CRQueryParser {
 		crQuery = replaceSpecialCharactersFromQuery(crQuery);
 
 		Query resultQuery = childQueryParser.parse(crQuery);
-		
+
 		try {
 			resultQuery = childQueryParser.parse(includeSynonyms(crQuery));
 		} catch (IOException e) {
 			log.debug("Error while adding synonyms to query.", e);
 		}
-		
+
 		return resultQuery;
-		
+
 	}
-	
+
 	/**
 	 * look for synonyms in specified Synonymlocation.
 	 * add the synonyms to search query
@@ -113,20 +112,17 @@ public class SynonymQueryParser extends CRQueryParser {
 	 * @throws IOException when theres a problem with accessing the Index
 	 */
 	public final String includeSynonyms(String query) throws IOException {
-		
+
 		GenericConfiguration autoConf = (GenericConfiguration) config.get("synonymlocation");
-		LuceneIndexLocation synonymLocation = LuceneIndexLocation
-				.getIndexLocation(new CRConfigUtil(autoConf, "synonymlocation"));
-		
-		
+		LuceneIndexLocation synonymLocation = LuceneIndexLocation.getIndexLocation(new CRConfigUtil(autoConf, "synonymlocation"));
+
 		IndexAccessor ia = synonymLocation.getAccessor();
-		Searcher synonymSearcher = ia.getPrioritizedSearcher();
+		IndexSearcher synonymSearcher = ia.getPrioritizedSearcher();
 		IndexReader synonymReader = ia.getReader(false);
-		
-		
+
 		try {
 			HashSet<String> searchedTerms = new HashSet<String>();
-			
+
 			//get all searched Terms out of query
 			for (int i = 0; i < searchedAttributes.length; i++) {
 				String subquery = query;
@@ -143,22 +139,22 @@ public class SynonymQueryParser extends CRQueryParser {
 					}
 					if (pos1 != -1 && pos2 != -1) {
 						if (pos1 <= pos2) {
-							substringUntil = pos1; 
-						}
-						else {
+							substringUntil = pos1;
+						} else {
 							substringUntil = pos2;
 						}
 					}
 					if (substringUntil == -1) {
 						substringUntil = subquery.length();
 					}
-					String addtoSet = subquery.substring(0, substringUntil).replaceAll("\\*", "").replaceAll("\\(", "").replaceAll("\\)", "");
+					String addtoSet = subquery.substring(0, substringUntil).replaceAll("\\*", "").replaceAll("\\(", "")
+							.replaceAll("\\)", "");
 					searchedTerms.add(addtoSet);
 					subquery = subquery.substring(substringUntil);
 				}
-				
+
 			}
-			
+
 			//create the query-String for synonym-Index with all searchedTerms
 			Iterator<String> it = searchedTerms.iterator();
 			String queryString = "";
@@ -173,11 +169,11 @@ public class SynonymQueryParser extends CRQueryParser {
 				log.debug("Error while parsing query for accessing the synonym Index.", e);
 				return query;
 			}
-			
+
 			//get all Synonyms from SynonymIndex and add them to searchQuery
 			log.debug("Synonym Query String: " + querySynonym.toString());
 			TopDocs docs = synonymSearcher.search(querySynonym, MAX_SYNONYMS);
-			log.debug("total found synonyms: " + docs.totalHits);	
+			log.debug("total found synonyms: " + docs.totalHits);
 			for (ScoreDoc doc : docs.scoreDocs) {
 				Document d = synonymReader.document(doc.doc);
 				for (int i = 0; i < searchedAttributes.length; i++) {
