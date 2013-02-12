@@ -1,6 +1,7 @@
 #summary This Page describes the major changes from Version 1.10.0 to 1.11.x
 
 = Important Changes = 
+ * Have a look at Changelog_1111 
  * 1.11.3 Transformers where moved from contentconnector-lucene to contentconnector-core
  * 1.11.24 Removed deprecated method CRResolvableBean#getMother, method used a non API return type
 
