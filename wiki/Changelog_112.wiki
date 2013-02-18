@@ -8,6 +8,7 @@
 = Features =
  
 = Bugfixes =
+ * 1.12.2 - We now send proper response codes in case of errors / files not found.
 
 = Other =
 
